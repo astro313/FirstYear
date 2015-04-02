@@ -73,7 +73,8 @@ Radio_Hz, Radio_Jy, Radio_error = (np.asarray(Radio_Hz),
 # Our point: 104.2106 GHz: peak = 5.56 mJy
 Core_3c220dot3_Jy = np.array([0.8e-3, 0.17e-3])     # Jy
 Core_3c220dot3_Hz = np.array([9.e9, 4.86e9])    # Hz
-# Jy: peak, integrated, difference
+
+# Our Data: [peak, integrated, difference]
 Point_Continuum_Jy = np.array([5.56e-3, 7.18e-3, 1.62e-3])
 Point_Cont_Hz = np.array([1.042e11, 1.042e11, 1.02e11])     # Hz
 Point_error_Jy = np.array([5.0647e-4, 5.0647e-4, 5.0647e-4])    # Jy
@@ -131,7 +132,8 @@ def lobeSyn(freq, dummyA, beta, freq_t, freq_lobe):
     """
 
     logFluxDensity = (-beta) * (np.log10(freq) - np.log10(freq_t)) ** 2 + \
-        np.log10(np.exp(-freq / freq_lobe))       # Table 5 equation from CLEARY 2007
+        np.log10(
+            np.exp(-freq / freq_lobe))       # Table 5 equation from CLEARY 2007
     return dummyA * 10. ** logFluxDensity
 
 
@@ -151,13 +153,16 @@ def chi2func(theta, freq, flux, err):
 
     model = lobeSyn(freq, *theta)
     chisq = np.sum(((flux - model) / err) ** 2)
-    print "chisq: {:.2f} ".format(chisq)
+    print "chisq: {:.2f} \n".format(chisq)
     return chisq
 
 
 def B_nu(freq, freq_0, C, beta=1.5):
     """
     Simple MBB fit using Haas parameters
+    Fixed z to z_spec
+
+
     """
     z = 2.221
     T = 36 / (1 + z)
@@ -194,8 +199,8 @@ def b_nuAndpower(freq, dummyB):
     boltz = k * T
     b_nu = 2. * h / c ** 2 * freq ** 3. / (np.exp(h * freq / boltz) - 1)
     tau = (freq / freq_crit) ** (beta)
-    Planck = (1 - np.exp(-tau)) * b_nu #* dummyB
-    power = (freq ** alpha) #* dummyP
+    Planck = (1 - np.exp(-tau)) * b_nu  # * dummyB
+    power = (freq ** alpha)  # * dummyP
     f_com = (Planck + power) * dummyB
     return f_com
 
@@ -215,17 +220,73 @@ def chi2CompositeFunc(theta, freq, flux, err):
     print"chisq: {:.2f}".format(chisq)
     return chisq
 
+
+def Covar2Sig(Covar):
+    """
+    Purpose:
+    ----------
+    Take in a covariance matrix (from curve fit in this script) and return sigma, an array containing the diagonal elements in the order of the parameters
+
+    Input:
+    -------
+    Covariance matrix
+
+    Returns:
+    ---------
+    sigma: a list, error associated with each parameters
+    None if covariance matrix contains inf or nan
+    """
+
+    for i in range(len(Covar)):
+        diag = Covar[i][i]
+        checkInvalid = (
+            np.isinf(diag).any() == True or np.isnan(diag).any() == True)
+        print i, checkInvalid
+        if checkInvalid != True:
+            try:
+                sigma
+            except NameError:
+                sigma = []
+            sigma.append(np.abs(diag) ** 0.5)
+            return sigma
+        else:
+            return None
+
+
+def plot_fit_err(x, y, function, **kwargs):
+    """
+    Purpose:
+    ----------
+    A function to plot fitted line with the propagated errors associated along the x array..
+
+    Status:
+    --------
+    Not ready
+
+    Todo:
+    -------
+    implement fill error with alpha
+    """
+    # plt.plot(t, fitFunc(t, fitParams[0], fitParams[1], fitParams[2]),\
+    #       t, fitFunc(t, fitParams[0] + sigma[0], fitParams[1] - sigma[1], fitParams[2] + sigma[2]),\
+    #       t, fitFunc(t, fitParams[0] - sigma[0], fitParams[1] + sigma[1], fitParams[2] - sigma[2])\
+    #       )
+    return None
+
+
 Jy2mJy = 1000.
 Hz2GHz = 1.e-9
 SI2Jy = 1.e26
 
 
 # dummy, (CLEARY 2007 0.19, 3.e6, 3.e12)
-theta_guess = [4321., 0.19, 3.e6, 3.e12]
+theta_guess = [1., 0.19, 3.e6, 3.e12]
 theta_best = opt.fmin(chi2func, theta_guess,
-                      maxiter=1.e6, maxfun=1.e6,
                       args=(Radio_Hz[7:], Radio_Jy[7:] * Jy2mJy, Radio_error[7:] * Jy2mJy))
-print"scaling = {:.2f}, beta = {:.2f}, freq_t = {:.4f} Hz, freq_lobe = {:.2f} Hz".format(*theta_best)
+lobe_fitrestr = "scaling = {:.2f}, beta = {:.2f}, freq_t = {:.4f} Hz, freq_lobe = {:.2f} Hz"
+print lobe_fitrestr.format(*theta_best)
+import sys
+sys.exit()
 
 # plot data and fit and error:
 plt.errorbar(Radio_Hz * Hz2GHz,
@@ -236,9 +297,18 @@ plt.errorbar(Point_Cont_Hz * Hz2GHz,
              Point_Continuum_Jy * Jy2mJy, Point_error_Jy * Jy2mJy,
              fmt='.r', ecolor='darkgrey', label='Our continuum', ms=10)
 
-yfit = lobeSyn(Radio_Hz[7:], *theta_best)
+
+# Testing:
+
+
+# _lobe_fit_params, lobe_cov = \
+#     curve_fit(lobeSyn, Radio_Hz[7:], (Radio_Jy[
+#               7:] * Jy2mJy), theta_best)   # to get covariance matrix from the best chi2 params
+# print Covar2Sig(lobe_cov)
+yfit = lobeSyn(Radio_Hz[7:], *theta_best)       # just fitting a curve
 plt.plot(Radio_Hz[7:] * Hz2GHz, yfit,
          label='Lobe fit to NED data')
+
 
 x_syn_extend = np.linspace(10.e9, 104.21e9)
 # extrapolate the fit to 104 GHz
@@ -249,10 +319,14 @@ plt.plot(x_syn_extend * Hz2GHz, extrapolate_mJy, ':',
 core_fit_3c220dot3, core_fit_3c220dot3_covar = \
     curve_fit(powerlaw, Core_3c220dot3_Hz, Core_3c220dot3_Jy,
               [7.728e-29, 2.5135477602042937])
+import pdb
+pdb.set_trace()
+
 # extrapolate to 104.21Ghz using average spectral index
 extra104GHz3c220dot3_Jy = powerlaw(104.21e9, 1., -0.415)
 
-core_fit_3c6dot1, core_fit_3c6dot1_covar = curve_fit(powerlaw, Core_3c6dot1_freq, Core_3c6dot1_Jy, [0.53746, -0.18853])
+core_fit_3c6dot1, core_fit_3c6dot1_covar = curve_fit(
+    powerlaw, Core_3c6dot1_freq, Core_3c6dot1_Jy, [0.53746, -0.18853])
 
 core_fit_3c263, core_fit_3c263_covar = curve_fit(powerlaw,
                                                  Core_3c263_freq,
@@ -292,7 +366,7 @@ plt.plot(Core_3c6dot1_freq * Hz2GHz,
 ###########
 # SMG
 ###########
-ComposTheta_guess = [4.6264e-7]#, 1.e-9]
+ComposTheta_guess = [4.6264e-7]  # , 1.e-9]
 ComposTheta_best = opt.fmin(chi2CompositeFunc,
                             ComposTheta_guess,
                             args=(freq_Hz[:], SMGflux_SI[:], SMGerr_SI[:]))  # MBB and power
