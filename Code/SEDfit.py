@@ -4,11 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import k, h, c
 import matplotlib
-import astropy.io.ascii
+import astropy.io.ascii     # for .txt format
 
 matplotlib.rc('xtick', labelsize=18)
 matplotlib.rc('ytick', labelsize=18)
-font = {'family': 'normal',
+font = {'family': 'sans-serif',
         'weight': 'bold',
         'size': 12}
 matplotlib.rc('font', **font)
@@ -51,6 +51,7 @@ SMGwavelg_micron, SMG_mJy, SMG_error_mJy = ([dat[0] for dat in SMG_data],
                                             [dat[1] for dat in SMG_data],
                                             [dat[2] for dat in SMG_data])
 
+# np.asarray converts input to array
 freq_Hz, SMGflux_SI, SMGerr_SI = \
     data_readin_unit_conversion(np.asarray(SMGwavelg_micron),
                                 np.asarray(SMG_mJy),
@@ -130,8 +131,7 @@ def lobeSyn(freq, dummyA, beta, freq_t, freq_lobe):
     """
 
     logFluxDensity = (-beta) * (np.log10(freq) - np.log10(freq_t)) ** 2 + \
-        np.log10(
-            np.exp(-freq / freq_lobe))       # Table 5 equation from CLEARY 2007
+        np.log10(np.exp(-freq / freq_lobe))       # Table 5 equation from CLEARY 2007
     return dummyA * 10. ** logFluxDensity
 
 
@@ -167,7 +167,7 @@ def B_nu(freq, freq_0, C, beta=1.5):
     return (1 - np.exp(-tau)) * b_nu * C
 
 
-def b_nuAndpower(freq, dummyB, dummyP):
+def b_nuAndpower(freq, dummyB):
     """
     MBB + powerlaw
 
@@ -194,9 +194,9 @@ def b_nuAndpower(freq, dummyB, dummyP):
     boltz = k * T
     b_nu = 2. * h / c ** 2 * freq ** 3. / (np.exp(h * freq / boltz) - 1)
     tau = (freq / freq_crit) ** (beta)
-    Planck = (1 - np.exp(-tau)) * b_nu * dummyB
-    power = (freq ** alpha) * dummyP
-    f_com = Planck + power
+    Planck = (1 - np.exp(-tau)) * b_nu #* dummyB
+    power = (freq ** alpha) #* dummyP
+    f_com = (Planck + power) * dummyB
     return f_com
 
 
@@ -204,7 +204,7 @@ def chi2CompositeFunc(theta, freq, flux, err):
     """
     Input:
     ---------
-    theta = [dummyB, dummyP]        # model parameters
+    theta = [dummyB]        # model parameters
     freq: Hz
     flux: SI
 
@@ -292,7 +292,7 @@ plt.plot(Core_3c6dot1_freq * Hz2GHz,
 ###########
 # SMG
 ###########
-ComposTheta_guess = [4.6264e-7, 1.e-9]
+ComposTheta_guess = [4.6264e-7]#, 1.e-9]
 ComposTheta_best = opt.fmin(chi2CompositeFunc,
                             ComposTheta_guess,
                             args=(freq_Hz[:], SMGflux_SI[:], SMGerr_SI[:]))  # MBB and power
@@ -302,25 +302,32 @@ SMG_SED_fit = b_nuAndpower(freq_Hz[:], *ComposTheta_best)
 plt.plot(freq_Hz[:] * Hz2GHz, SMG_SED_fit * SI2Jy * Jy2mJy, '-c',
          label='MBB and power fit')
 
-fitParams, fitCovariances = \
-    curve_fit(B_nu, freq_Hz[-4:], SMGflux_SI[-4:],
-              [1.0e12, 1])       # simple MBB fit using known params
+fitParams, fitCovariances = curve_fit(B_nu, freq_Hz[-4:],
+                                      SMGflux_SI[-4:],
+                                      [1.0e12, 1])       # simple MBB fit using known params
 y_SMG = B_nu(freq_Hz[-4:], *fitParams)
 x_extend = np.linspace(70.e9, 300.e9)
 # extrapolate to longer wavelengths
 y_SMG_extend = B_nu(x_extend, *fitParams)
 plt.errorbar(freq_Hz * Hz2GHz, SMG_mJy, SMG_error_mJy, fmt='ko')
-plt.plot(freq_Hz[-4:] * Hz2GHz, y_SMG * SI2Jy * Jy2mJy, 'k-',
-         linewidth=2, label='simple MBB fit using Haas Params')
+plt.plot(freq_Hz[-4:] * Hz2GHz,
+         y_SMG * SI2Jy * Jy2mJy,
+         'k-',
+         linewidth=2,
+         label='simple MBB fit using Haas Params')
 
 plt.plot(x_extend * Hz2GHz, y_SMG_extend * SI2Jy * Jy2mJy, 'b--', alpha=0.5,
          linewidth=2, label='extrapolate simple MBB')
-plt.xlabel('freq [GHz]', fontsize=20,  fontweight='bold')
+
+
+plt.xlabel('Freq [GHz]', fontsize=20,  fontweight='bold')
 plt.title('SMM J0939+8315', fontsize=20,  fontweight='bold')
 plt.ylabel('Flux Density [mJy]', fontsize=20,  fontweight='bold')
 plt.loglog()
-# plt.legend(loc='best')
+plt.legend(loc='best')
 plt.grid()
 plt.show()
 
 # Question is why chi2 not similar to mbb-emcee?
+# Still giving me chi2  ~ 60...
+# won't integrate to get FIR using this for now, since normalization seems weird
