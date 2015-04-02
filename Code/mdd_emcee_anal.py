@@ -1,6 +1,7 @@
 import mbb_emcee
 """
 Look at resulting fit from mbb_emcee
+Currently in broken mode.. must run interactively by User
 """
 
 
