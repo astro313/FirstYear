@@ -121,7 +121,7 @@ def lobeSyn(freq, dummyA, beta, freq_t, freq_lobe):
     Input:
     --------
     freq: Hz
-    dummyA is scaling factor
+    dummyA is scaling factor that is calculating flux in [mJy]
     beta = a parameter to the fit (beta_Cleary3C220dot3 = 0.19)
     freq_t = freq @ optical depth equals unity
     freq_lobe = cutoff freq for plasma energy (= 3e12 for 3C220.3)
@@ -131,13 +131,21 @@ def lobeSyn(freq, dummyA, beta, freq_t, freq_lobe):
     Flux density: mJy
     """
 
-    logFluxDensity = (-beta) * (np.log10(freq) - np.log10(freq_t)) ** 2 + \
-        np.log10(
-            np.exp(-freq / freq_lobe))       # Table 5 equation from CLEARY 2007
-    return dummyA * 10. ** logFluxDensity
+    # logFluxDensity = (-beta) * (np.log10(freq / freq_t)) ** 2 + \
+    # np.log10(
+    # np.exp(-freq / freq_lobe))  # Table 5 equation from CLEARY 2007
+
+    # the above function has overflow problems, think I found the fix....
+    # testing....
+    FluxDensity = dummyA * \
+        ((10 ** (-beta)) ** (np.log10(freq / freq_t)) ** 2) * \
+        np.exp(-freq / freq_lobe)
+
+#    return dummyA * 10. ** logFluxDensity
+    return dummyA * FluxDensity
 
 
-def chi2func(theta, freq, flux, err):
+def chi2func(theta, freq, flux, err, verbose=False):
     """
     Input:
     ---------
@@ -153,7 +161,8 @@ def chi2func(theta, freq, flux, err):
 
     model = lobeSyn(freq, *theta)
     chisq = np.sum(((flux - model) / err) ** 2)
-    print "chisq: {:.2f} \n".format(chisq)
+    if verbose == 'True':
+        print "chisq: {:.2f} \n".format(chisq)
     return chisq
 
 
@@ -237,20 +246,21 @@ def Covar2Sig(Covar):
     None if covariance matrix contains inf or nan
     """
 
+    try:
+        sigma
+    except NameError:
+        sigma = []
+
     for i in range(len(Covar)):
         diag = Covar[i][i]
         checkInvalid = (
             np.isinf(diag).any() == True or np.isnan(diag).any() == True)
-        print i, checkInvalid
-        if checkInvalid != True:
-            try:
-                sigma
-            except NameError:
-                sigma = []
+#        print i, checkInvalid
+        if checkInvalid != True:        # non Invalid values
             sigma.append(np.abs(diag) ** 0.5)
-            return sigma
         else:
-            return None
+            pass
+    return sigma
 
 
 def plot_fit_err(x, y, function, **kwargs):
@@ -258,6 +268,7 @@ def plot_fit_err(x, y, function, **kwargs):
     Purpose:
     ----------
     A function to plot fitted line with the propagated errors associated along the x array..
+
 
     Status:
     --------
@@ -280,13 +291,11 @@ SI2Jy = 1.e26
 
 
 # dummy, (CLEARY 2007 0.19, 3.e6, 3.e12)
-theta_guess = [1., 0.19, 3.e6, 3.e12]
+theta_guess = [1e5, 0.19, 3.e6, 3.e12]
 theta_best = opt.fmin(chi2func, theta_guess,
                       args=(Radio_Hz[7:], Radio_Jy[7:] * Jy2mJy, Radio_error[7:] * Jy2mJy))
 lobe_fitrestr = "scaling = {:.2f}, beta = {:.2f}, freq_t = {:.4f} Hz, freq_lobe = {:.2f} Hz"
-print lobe_fitrestr.format(*theta_best)
-import sys
-sys.exit()
+print lobe_fitrestr.format(*theta_best)     # Numbers are making sense now
 
 # plot data and fit and error:
 plt.errorbar(Radio_Hz * Hz2GHz,
@@ -300,15 +309,22 @@ plt.errorbar(Point_Cont_Hz * Hz2GHz,
 
 # Testing:
 
+# Still not giving what I want
+# _lobe_fit_params, lobe_cov = curve_fit(lobeSyn, Radio_Hz[7:],
+# (Radio_Jy[7:] * Jy2mJy), theta_best)   # to get covaariance matrix from
+# the best chi2 params
 
-# _lobe_fit_params, lobe_cov = \
-#     curve_fit(lobeSyn, Radio_Hz[7:], (Radio_Jy[
-#               7:] * Jy2mJy), theta_best)   # to get covariance matrix from the best chi2 params
+# ok... compute using matrix
+# lobe_cov = (Radio_Jy[7:] * Jy2mJy) ** 2 * \
+#    np.linalg.inv(np.dot(Radio_Hz[7:].T, Radio_Hz[7:]))
+
+# print("y = ({0:.2f} +/- {1:.2f})x + ({2:.2f} +/- {3:.2f})"
+#      "".format(theta_best[1], np.sqrt(covariance[1, 1]),
+#                theta_best[0], np.sqrt(covariance[0, 0])))
 # print Covar2Sig(lobe_cov)
 yfit = lobeSyn(Radio_Hz[7:], *theta_best)       # just fitting a curve
 plt.plot(Radio_Hz[7:] * Hz2GHz, yfit,
          label='Lobe fit to NED data')
-
 
 x_syn_extend = np.linspace(10.e9, 104.21e9)
 # extrapolate the fit to 104 GHz
@@ -316,11 +332,9 @@ extrapolate_mJy = lobeSyn(x_syn_extend, *theta_best)
 plt.plot(x_syn_extend * Hz2GHz, extrapolate_mJy, ':',
          label='Extrapolate to 104.21GHz')
 
-core_fit_3c220dot3, core_fit_3c220dot3_covar = \
-    curve_fit(powerlaw, Core_3c220dot3_Hz, Core_3c220dot3_Jy,
-              [7.728e-29, 2.5135477602042937])
-import pdb
-pdb.set_trace()
+core_fit_3c220dot3, core_fit_3c220dot3_covar = curve_fit(
+    powerlaw, Core_3c220dot3_Hz, Core_3c220dot3_Jy,
+    [7.728e-29, 2.5135477602042937])
 
 # extrapolate to 104.21Ghz using average spectral index
 extra104GHz3c220dot3_Jy = powerlaw(104.21e9, 1., -0.415)
@@ -346,6 +360,7 @@ plt.errorbar(Core_3c220dot3_Hz[1] * Hz2GHz,
              Core_3c220dot3_Jy[1] * Jy2mJy,
              Core_3c220dot3_Jy[1] * Jy2mJy,
              uplims=True,
+             fmt='kv',
              label='upper limit no core')
 
 plt.plot(104.213e9 * Hz2GHz,
@@ -376,29 +391,31 @@ SMG_SED_fit = b_nuAndpower(freq_Hz[:], *ComposTheta_best)
 plt.plot(freq_Hz[:] * Hz2GHz, SMG_SED_fit * SI2Jy * Jy2mJy, '-c',
          label='MBB and power fit')
 
-fitParams, fitCovariances = curve_fit(B_nu, freq_Hz[-4:],
+
+
+plt.errorbar(freq_Hz * Hz2GHz, SMG_mJy, SMG_error_mJy, fmt='ko', label='Haas SMG submm data')
+
+def SimpleFitPlot(??):
+    fitParams, fitCovariances = curve_fit(B_nu, freq_Hz[-4:],
                                       SMGflux_SI[-4:],
                                       [1.0e12, 1])       # simple MBB fit using known params
-y_SMG = B_nu(freq_Hz[-4:], *fitParams)
-x_extend = np.linspace(70.e9, 300.e9)
-# extrapolate to longer wavelengths
-y_SMG_extend = B_nu(x_extend, *fitParams)
-plt.errorbar(freq_Hz * Hz2GHz, SMG_mJy, SMG_error_mJy, fmt='ko')
-plt.plot(freq_Hz[-4:] * Hz2GHz,
-         y_SMG * SI2Jy * Jy2mJy,
-         'k-',
-         linewidth=2,
-         label='simple MBB fit using Haas Params')
-
-plt.plot(x_extend * Hz2GHz, y_SMG_extend * SI2Jy * Jy2mJy, 'b--', alpha=0.5,
-         linewidth=2, label='extrapolate simple MBB')
+    y_SMG = B_nu(freq_Hz[-4:], *fitParams)
+    plt.plot(freq_Hz[-4:] * Hz2GHz,
+            y_SMG * SI2Jy * Jy2mJy,
+            'k-',
+            linewidth=2,
+            label='simple MBB fit using Haas Params')
+    x_extend = np.linspace(70.e9, 300.e9)
+    y_SMG_extend = B_nu(x_extend, *fitParams)
+    plt.plot(x_extend * Hz2GHz, y_SMG_extend * SI2Jy * Jy2mJy, 'b--', alpha=0.5, linewidth=2, label='extrapolate simple MBB')
+    ??
 
 
 plt.xlabel('Freq [GHz]', fontsize=20,  fontweight='bold')
 plt.title('SMM J0939+8315', fontsize=20,  fontweight='bold')
 plt.ylabel('Flux Density [mJy]', fontsize=20,  fontweight='bold')
 plt.loglog()
-plt.legend(loc='best')
+# plt.legend(loc='best')
 plt.grid()
 plt.show()
 
