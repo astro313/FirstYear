@@ -1,0 +1,12 @@
+# Contains PACS and SPIRE and SMA data
+# Use this file with mbb_emcee, filter <=> instrument dependent
+# Instrument  flux density[mJy]  Flux err [mJy]
+PACS_70um 29.5 5
+PACS_100um 102 7
+PACS_160um 289 9
+SPIRE_250um 440 15
+SPIRE_350um 403 20
+SPIRE_500um 268 30
+SMA_dsb_294.96_3.936_12 51 12
+
+

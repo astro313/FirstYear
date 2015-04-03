@@ -1,3 +1,7 @@
+# Contains PACS and SPIRE and SMA data
+# using this file with mbb_emcee, instrument response will be delta function
+# SEDfit.py depends on this file
+# wavelg[micron]  flux density[mJy]  Flux err [mJy]
 70 29.5 5
 100 102 7
 160 289 9
