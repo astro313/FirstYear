@@ -1,7 +1,0 @@
-# using this file with mbb_emcee
-# filters  Flux [mJy]  error [mjY]
-PACS_160um 289 9
-SPIRE_250um 440 15
-SPIRE_350um 403 20
-SPIRE_500um 268 30
-SMA_dsb_294.96_3.936_12 51 12
