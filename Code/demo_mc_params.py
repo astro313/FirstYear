@@ -1,8 +1,10 @@
 import mbb_emcee
 import matplotlib.pyplot as plt
+import matplotlib
 import sys
 from pylab import savefig
 import numpy as np
+import scipy.ndimage.filters as filter
 
 """
 Purpose:
@@ -28,6 +30,31 @@ def convergence(plotTitle='ln prob', saveFig=False):
     plt.semilogy()
     if saveFig == True:
         outfile = 'convergence__'
+        savefig('../Figure/' + outfile + filename.replace('.h5', '.png'))
+    else:
+        plt.show()
+
+
+def chain_iter(nburn=50), saveFig=False:
+    """
+    plot the chains to visually assess convergence
+    nburn default = 50.. as in mbb_emcee; modify as needed
+    """
+    par = ('T', 'beta', 'alpha', 'fnorm', 'lambda0')
+    nwalkers = res._nwalkers
+    plt.figure(figsize=[20, 10])
+    for i, p in enumerate(par):
+        ncols = (len(par)/2 + 1) if len(par)%2 != 0 else len(par)/2
+        plt.subplot(len(par) / 2, ncols, i + 1)
+        for w in range(nwalkers):
+            plt.plot(
+                np.arange(res.chain.shape[1]), res.chain[w, :, i], 'b-', alpha=0.1)
+        plt.ylabel(p)
+        aymin, aymax = plt.ylim()
+        plt.vlines(nburn, aymin, aymax, linestyle=':')
+        plt.ylim(aymin, aymax)
+    if saveFig == True:
+        outfile = 'steps_convergence_'
         savefig('../Figure/' + outfile + filename.replace('.h5', '.png'))
     else:
         plt.show()
@@ -74,7 +101,8 @@ def get_Paramvalues(percentile=68.3):
         print(
             "{0:s}: Mean {2:0.2f}+{3:0.2f}-{4:0.2f} [{1:s}]".format(param, unit, *param_val))
     # Do I want to save this?, also accessible from .log output from
-    # mbb_emcee, probably useful if I want a different percentile, this is not the bestFit value anyway...
+    # mbb_emcee, probably useful if I want a different percentile, this is not
+    # the bestFit value anyway...
 
 
 def get_computation_value(FIR=False, percentile=68.3):
@@ -107,7 +135,8 @@ def get_computation_value(FIR=False, percentile=68.3):
 
     p_val = res.peaklambda_cen(percentile=percentile)
     print("Peak Obs wavelength: {:0.1f}+{:0.1f}-{:0.1f} [um]".format(*p_val))
-    lir = res.lir_cen(percentile=percentile)     # fetch from computed, integrated
+    # fetch from computed, integrated
+    lir = res.lir_cen(percentile=percentile)
     args = (res._lir_min, res._lir_max) + tuple(lir)
     lirstr = "L_IR({:0.1f} to {:0.1f}um): {:0.2f} "\
         "+{:0.2f} -{:0.2f} [10^12 L_sun]\n"
@@ -149,22 +178,26 @@ def Plot_Standard(saveFig=False):
     p_fit = ax1.plot(p_wave, res.best_fit_sed(p_wave), color='blue')
     ax1.set_xlabel('Wavelength [um]')
     ax1.set_ylabel('Flux Density [mJy]')
+    ax1.set_yticks([])
     ax1.set_title('Best-fitted SED Unnormalized')
 
     ax2 = axs[0, 1]
     h1 = ax2.hist(res.parameter_chain('T/(1+z)') * (1 + redshiftZ))
     ax2.set_xlabel(r'$T_{d, rest}$')
     ax2.set_ylabel(r'$\cal L$')
+    ax2.set_yticks([])
 
     ax3 = axs[1, 0]
     h2 = ax3.hist(res.parameter_chain('beta'))
     ax3.set_xlabel(r'$\beta$')
     ax3.set_ylabel(r'$\cal L$')
+    ax3.set_yticks([])
 
     ax4 = axs[1, 1]
     h4 = ax4.hist(res.dustmass_chain)
     ax4.set_xlabel('Dust Mass  ' + r'$[10^8 M_{\odot}]$')
     ax4.set_ylabel(r'$\cal L$')
+    ax4.set_yticks([])
 
     if saveFig == True:
         outfile = 'SED_ParamProb__'
@@ -181,22 +214,26 @@ def Plot_Chain(IR_chain, saveFig=False, FIR=False):
     h1 = ax1.hist(res.peaklambda_chain)
     ax1.set_xlabel('Peak Obs Wavelength [um]')
     ax1.set_ylabel(r'$\cal L$')
+    ax1.set_yticks([])
 
     ax2 = axs[0, 1]
     h2 = ax2.hist(IR_chain['lirChain'])
     ax2.set_xlabel(r'$L_{IR} [10^{12}L_{\odot}]$')
     ax2.set_ylabel(r'$\cal L$')
+    ax2.set_yticks([])
 
     # ax3 = axs[1, 0]
     # h3 = ax3.hist(IR_chain['lirChain'])
     # ax3.set_xlabel(r'$L_{IR}\ \ [10^{12}L_{\odot}]$')
     # ax3.set_ylabel(r'$\cal L$')
+    # ax3.set_yticks([])
 
     if FIR == True:
         ax4 = axs[1, 1]
         h3 = ax4.hist(IR_chain['FIRchain'])
         ax4.set_xlabel(r'$L_{FIR} [10^{12}L_{\odot}]$')
         ax4.set_ylabel(r'$\cal L$')
+        ax4.set_yticks([])
 
     if saveFig == True:
         outfile = 'ParamCHAINProb__'
@@ -246,7 +283,270 @@ def MCMC_scatterDots(Xparam='T', Yparam='beta', saveFig=False):
         plt.show()
 
 
-def PanelPlot(Xparam='beta', Yparam='T/(1+z)', maxLev=False, saveFig=False):
+def getsigmalevels(hist2d):
+    """
+    get sigma for samples contour plot
+
+    Input:
+    ------
+    hist2d formed by the 2 parameters
+    """
+    sigma1 = 0.68268949
+    level1 = 0
+    sigma2 = 0.95449974
+    level2 = 0
+    sigma3 = 0.99730024
+    level3 = 0
+
+    lik = hist2d.reshape(hist2d.size)
+    sortlik = np.sort(lik)
+
+    # 1sigma level
+    dTotal = np.sum(sortlik)
+    nIndex = sortlik.size
+    dSum = 0
+    while (dSum < dTotal * sigma1):
+        nIndex -= 1
+        dSum += sortlik[nIndex]
+    level1 = sortlik[nIndex]
+
+    # 2 sigma level
+    nIndex = sortlik.size
+    dSum = 0
+    while (dSum < dTotal * sigma2):
+        nIndex -= 1
+        dSum += sortlik[nIndex]
+    level2 = sortlik[nIndex]
+
+    # 3 sigma level
+    nIndex = sortlik.size
+    dSum = 0
+    while (dSum < dTotal * sigma3):
+        nIndex -= 1
+        dSum += sortlik[nIndex]
+    level3 = sortlik[nIndex]
+    return level1, level2, level3
+
+
+def makesubplot1d(ax, samples, weights=None, interpolate=False, smooth=True,
+                  label=None, bins=30, range=None, color='k'):
+    """
+    Make histogram of samples
+    """
+    import scipy.interpolate as interp
+
+    if range is None:
+        hist, xedges = np.histogram(samples, bins, normed=True, weights=weights)
+    else:
+        hist, xedges = np.histogram(
+            samples, bins, normed=True, range=range, weights=weights)
+
+    xedges = np.delete(xedges, -1) + 0.5 * (xedges[1] - xedges[0])
+
+    # gaussian smoothing
+    if smooth:
+        hist = filter.gaussian_filter(hist, sigma=0.75)
+        if interpolate:
+            f = interp.interp1d(xedges, hist, kind='cubic')
+            xedges = np.linspace(xedges.min(), xedges.max(), 10000)
+            hist = f(xedges)
+
+    # make plot
+    if label is not None:
+        ax.plot(xedges, hist, color=color, lw=1.5, label=label)
+    else:
+        ax.plot(xedges, hist, color=color, lw=1.5)
+
+
+def makesubplot2d(ax, samples1, samples2, color=True, weights=None, smooth=True,
+                  bins=[40, 40], contours=True, x_range=None, y_range=None,
+                  logx=False, logy=False, logz=False):
+
+    if x_range is None:
+        xmin = np.min(samples1)
+        xmax = np.max(samples1)
+    else:
+        xmin = x_range[0]
+        xmax = x_range[1]
+
+    if y_range is None:
+        ymin = np.min(samples2)
+        ymax = np.max(samples2)
+    else:
+        ymin = y_range[0]
+        ymax = y_range[1]
+
+    if logx:
+        bins[0] = np.logspace(np.log10(xmin), np.log10(xmax), bins[0])
+
+    if logy:
+        bins[1] = np.logspace(np.log10(ymin), np.log10(ymax), bins[1])
+
+    hist2d, xedges, yedges = np.histogram2d(samples1, samples2, weights=weights,
+                                            bins=bins, range=[[xmin, xmax], [ymin, ymax]])
+    extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+
+    if logz:
+        for ii in range(hist2d.shape[0]):
+            for jj in range(hist2d.shape[1]):
+                if hist2d[ii, jj] <= 0:
+                    hist2d[ii, jj] = 1
+
+    xedges = np.delete(xedges, -1) + 0.5 * (xedges[1] - xedges[0])
+    yedges = np.delete(yedges, -1) + 0.5 * (yedges[1] - yedges[0])
+
+    # gaussian smoothing
+    if smooth:
+        hist2d = filter.gaussian_filter(hist2d, sigma=0.75)
+
+    if contours:
+
+        level1, level2, level3 = getsigmalevels(hist2d)
+        contourlevels = (level1, level2, level3)
+
+        #contourcolors = ('darkblue', 'darkblue', 'darkblue')
+        contourcolors = ('black', 'black', 'black')
+        contourlinestyles = ('-', '--', ':')
+        contourlinewidths = (1.5, 1.5, 1.5)
+        contourlabels = [r'1 $\sigma$', r'2 $\sigma$', r'3 $\sigma$']
+
+        contlabels = (contourlabels[0], contourlabels[1], contourlabels[2])
+
+        c1 = ax.contour(xedges, yedges, hist2d.T, contourlevels,
+                        colors=contourcolors, linestyles=contourlinestyles,
+                        linewidths=contourlinewidths, zorder=2)
+    if color:
+        if logz:
+            c2 = ax.imshow(np.flipud(hist2d.T), extent=extent, aspect=ax.get_aspect(),
+                           interpolation='gaussian', norm=matplotlib.colors.LogNorm())
+        else:
+            c2 = ax.imshow(np.flipud(hist2d.T), extent=extent, aspect=ax.get_aspect(),
+                           interpolation='gaussian')
+
+    if logx:
+        ax.set_xscale('log')
+    if logy:
+        ax.set_yscale('log')
+
+
+def makeChainTriPlot():
+    """
+    take chain of each parameter and convert into N length array
+    Combing all parameters chains into an array (N,dim); dim = # of params
+    The ouput is then use for the input to plot triplot
+    """
+    _T = res.parameter_chain('T').flatten()
+    _B = res.parameter_chain('beta').flatten()
+    _alpha = res.parameter_chain('alpha').flatten()
+    _f = res.parameter_chain('fnorm').flatten()
+    _l = res.parameter_chain('lambda0').flatten()
+    stack = np.vstack((_T, _B, _alpha, _f, _l))
+    print"Correlation Matrix between T, Beta: \n{0} \n".format(np.corrcoef(_T, _B))
+    return stack.T
+
+
+def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
+            labels=None, figsize=(11, 8.5), title=None, inj=None, saveFig=False):
+    """
+    Make Triangle plot of marginalized posterior distribution
+    will dependent on
+    - makesubplot2d()
+    - makesubplot1d()
+    - getsigmalevels()
+
+    """
+    from matplotlib.ticker import FormatStrFormatter, NullFormatter, NullLocator, MaxNLocator
+
+    # rcParams settings
+    plt.rcParams['ytick.labelsize'] = 10.0
+    plt.rcParams['xtick.labelsize'] = 10.0
+    plt.rcParams['text.usetex'] = True
+    plt.rcParams['figure.figsize'] = figsize
+
+    # get number of parameters
+    ndim = chain.shape[1]
+    parameters = np.linspace(0, ndim - 1, ndim)
+
+    f, axarr = plt.subplots(
+        nrows=len(parameters), ncols=len(parameters), figsize=figsize)
+
+    for i in range(len(parameters)):
+        # for j in len(parameters[np.where(i <= parameters)]:
+        for j in range(len(parameters)):
+            ii = i
+            jj = len(parameters) - j - 1
+
+            xmajorLocator = MaxNLocator(nbins=4, prune='both')
+            ymajorLocator = MaxNLocator(nbins=4, prune='both')
+
+            if j <= len(parameters) - i - 1:
+                axarr[jj][ii].xaxis.set_minor_locator(NullLocator())
+                axarr[jj][ii].yaxis.set_minor_locator(NullLocator())
+                axarr[jj][ii].xaxis.set_major_locator(NullLocator())
+                axarr[jj][ii].yaxis.set_major_locator(NullLocator())
+
+                axarr[jj][ii].xaxis.set_minor_formatter(NullFormatter())
+                axarr[jj][ii].yaxis.set_minor_formatter(NullFormatter())
+                axarr[jj][ii].xaxis.set_major_formatter(NullFormatter())
+                axarr[jj][ii].yaxis.set_major_formatter(NullFormatter())
+                xmajorFormatter = FormatStrFormatter('%g')
+                ymajorFormatter = FormatStrFormatter('%g')
+
+                if ii == jj:
+                    # Make a 1D plot
+                    makesubplot1d(axarr[ii][ii], chain[:, parameters[ii]],
+                                  weights=weights, interpolate=interpolate,
+                                  smooth=smooth)
+                    axarr[ii][jj].set_ylim(ymin=0)
+
+                    if inj is not None:
+                        axarr[ii][ii].axvline(inj[ii], lw=2, color='k')
+                else:
+                    # Make a 2D plot
+                    makesubplot2d(axarr[jj][ii], chain[:, parameters[ii]],
+                                  chain[
+                                      :, parameters[jj]], color=color, weights=weights,
+                                  smooth=smooth)
+
+                    if inj is not None:
+                        axarr[jj][ii].plot(inj[ii], inj[jj], 'x', color='k', markersize=12,
+                                           mew=2, mec='k')
+
+                axarr[jj][ii].xaxis.set_major_locator(xmajorLocator)
+                axarr[jj][ii].yaxis.set_major_locator(ymajorLocator)
+            else:
+                axarr[jj][ii].set_visible(False)
+                # axarr[jj][ii].axis('off')
+
+            if jj == len(parameters) - 1:
+                axarr[jj][ii].xaxis.set_major_formatter(xmajorFormatter)
+                if labels:
+                    axarr[jj][ii].set_xlabel(labels[ii])
+
+            if ii == 0:
+                if jj == 0:
+                    axarr[jj][ii].yaxis.set_major_locator(NullLocator())
+                    # axarr[jj][ii].set_ylabel('Post.')
+                else:
+                    axarr[jj][ii].yaxis.set_major_formatter(ymajorFormatter)
+                    if labels:
+                        axarr[jj][ii].set_ylabel(labels[jj])
+
+    # overall plot title
+    if title:
+        f.suptitle(title, fontsize=14, y=0.90)
+
+    # make plots closer together
+    f.subplots_adjust(hspace=0.1)
+    f.subplots_adjust(wspace=0.1)
+    if saveFig == True:
+        outfile = 'CorrelationPlot__'
+        savefig('../Figure/' + outfile + filename.replace('.h5', '.png'))
+    else:
+        plt.show()
+
+
+def PanelPlot(Xparam='beta', Yparam='T/(1+z)', maxLev=False, confid=False, saveFig=False):
     """
     Take MCMC samples parameters
     and make plots with sides panels = projected distribution of params
@@ -257,8 +557,12 @@ def PanelPlot(Xparam='beta', Yparam='T/(1+z)', maxLev=False, saveFig=False):
 
     Input:
     ------
+    Xparam: beta    (default, can be others)
+    Yparam: T/(1+z)     the obs frame Temp (default, can be others)
         keyword:
         - maxLev = using percentage of the maximum value instead of confidence interval
+        - confid = using percentile 68.3, 95.4, 99.7
+        - else: use sigma levels
 
     """
     from matplotlib.gridspec import GridSpec
@@ -270,55 +574,57 @@ def PanelPlot(Xparam='beta', Yparam='T/(1+z)', maxLev=False, saveFig=False):
     Xrange = [min(X), max(X)]
     Yrange = [min(Y), max(Y)]
 
-    fig = plt.figure(figsize=(7, 7))           # window 2
+    fig = plt.figure(figsize=(7, 7))
     fig.subplots_adjust(
         hspace=0.001, wspace=0.001, left=0.10, bottom=0.095, right=0.98)
-    # gridspec allows you to assign different formats to panels in one plot
+
     # getting plot grid  2 X 2
     gs = GridSpec(2, 2, width_ratios=[1, 4], height_ratios=[4, 1])
 
-    # Main panel top tight contains full 2d histogram
     plt.subplot(gs[1])
-    Bins = 24
+    Bins = 20
     hist2D, xedges, yedges = np.histogram2d(
         X, Y, bins=[Bins, Bins], range=[Xrange, Yrange], normed=False)
-    # Be Aware: numpy switches axes, so switch back
+    # x in histogram2d on the abscissa, y on the ordinate axis
     hist2D = np.transpose(hist2D)
+    # Use bin edges to restore extent
+    extent = [xedges.min(), xedges.max(), yedges.min(), yedges.max()]
 
-    # smoothed distribution instead of signal points
-    plt.pcolormesh(xedges, yedges, hist2D, cmap=plt.cm.rainbow)
+    # color hist2d
+    # plt.pcolormesh(xedges, yedges, hist2D, cmap=plt.cm.rainbow)
+    # samples
+    plt.plot(X, Y, 'bo', markersize=3, alpha=.05)
 
-    # Overplot with error contours
+    # Oplot with error contours
     if maxLev == True:
+        # Use a percentage of the maximum
         maximum = np.max(hist2D)
-        # maximum
         [L1, L2, L3] = [0.5 * maximum, 0.25 * maximum, 0.125 * maximum]
         fmtdict = {L1: '0.5Max', L2: '0.25Max', L3: '0.125Max'}
-
-    else:   # using sigma as levels
+    elif confid == True:
+        # using confidence interval as levels
         conf = np.percentile(hist2D, 68.3)
         conf2 = np.percentile(hist2D, 95.4)
         conf3 = np.percentile(hist2D, 99.7)
         [L1, L2, L3] = [conf, conf2, conf3]
-        fmtdict = {L1: r'$\sigma$', L2: r'$2\ \sigma$', L3: r'$3\ \sigma$'}
+        fmtdict = {L1: r'$68.3$', L2: r'$95.4 $', L3: r'$99.7$'}
+    else:
+        # use sigma
+        sig1, sig2, sig3 = getsigmalevels(hist2D)
+        [L1, L2, L3] = [sig1, sig2, sig3]
+        fmtdict = {L1: r'$\sigma$', L2: r'$2\ \sigma $', L3: r'$3\ \sigma$'}
 
-    # Use bin edges to restore extent
-    extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
     cs = plt.contour(hist2D, extent=extent, levels=[L1, L2, L3], linestyles=[
         '--', '--', '--'], colors=['orange', 'orange', 'orange'], linewidths=3)
 
     # colour label for contour levels
     plt.clabel(cs, fmt=fmtdict, inline=True, fontsize=20)
-
-    # Plot the sameple points on top, gets really messy...
-    # plt.plot(X, Y ,'bo', markersize=5)
-
     plt.xlim(Xrange)
     plt.ylim(Yrange)
 
     # Add side panels showing the projected distributions of X and Y:
     # Bin X, Y separately. In 1D bin, can use more bins now...
-    S = 101
+    S = 120
     LX = np.histogram(X, bins=S, range=Xrange, normed=True)[0]
     LY = np.histogram(Y, bins=S, range=Yrange, normed=True)[0]
 
@@ -331,13 +637,10 @@ def PanelPlot(Xparam='beta', Yparam='T/(1+z)', maxLev=False, saveFig=False):
     # bottom right panel: projected density of x.
     plt.subplot(gs[3])
     plt.plot(X, LX, '-', lw=3, color='black')
-
-    # Adjust tick mark size and take out yticks
     plt.xticks(fontsize=16)
-    # take out tick marks, replace with simply curly L symbol for likelihood
     plt.yticks([])
     plt.xlabel(Xparam, fontsize=24)
-    plt.ylabel(r'$\cal L$', fontsize=24)          # likelihood
+    plt.ylabel(r'$\cal L$', fontsize=24)
     plt.xlim(Xrange)
     plt.ylim(0.0, 1.1 * np.max(LX))
 
@@ -358,6 +661,7 @@ def PanelPlot(Xparam='beta', Yparam='T/(1+z)', maxLev=False, saveFig=False):
     else:
         plt.show()
 
+
 def BestFit(verbose=True):
     """
     Grab best fit parameters, e.g. chi_square, best_set of param values
@@ -366,19 +670,23 @@ def BestFit(verbose=True):
     best_fit_chisq = -2.0 * res._best_fit[1]
     if verbose == True:
         print "BestFitParams {:s}".format(res._best_fit[0])
-        print "BestFitLogLike %.2f" %(res._best_fit[1])
-        print "Best Chi Square: %.2f" %best_fit_chisq
+        print "BestFitLogLike %.2f" % (res._best_fit[1])
+        print "Best Chi Square: %.2f" % best_fit_chisq
     return best_fit_chisq
 
 
 if __name__ == '__main__':
     """
-    run script.py filename True
+    run script.py filename True False
     sys.argv[2] determines whether or not to get values and plots for FIR
+    sys.argv[3] determines whether to save all the plots or not
     """
-    if len(sys.argv) < 3:
-        errmsg = "Invalid number of arguments: {0:d}\n  run script.py filename True"
+    if len(sys.argv) < 4:
+        errmsg = "Invalid number of arguments: {0:d}\n  run script.py filename FIR_True Save_True"
         raise IndexError(errmsg.format(len(sys.argv)))
+
+    global filename
+    fir_op = True if sys.argv[2].lower() == 'true' else False
 
     try:
         filename = sys.argv[1]
@@ -388,44 +696,86 @@ if __name__ == '__main__':
         print"'{0:s}' is not a valid file".format(filename)
 
     print "... Retriving data from {0:s} ...".format(filename)
-    global filename
     global res
     res = mbb_emcee.mbb_results(h5file=filename)
     print "... Done reading file ..."
-    fir_op = True if sys.argv[2].lower() == 'true' else False
-    # convergence()
-    get_Paramvalues()
-    IR = get_computation_value(FIR=fir_op)
-    Plot_Standard(saveFig=True)
-    Plot_Chain(IR, FIR=fir_op, saveFig=True)
-#    MCMC_scatterDots()
-    PanelPlot(saveFig=True)
+
+    if sys.argv[3].lower() == 'true':
+        save_op = True
+        import os
+        dirStr = '../Figure'
+        if not os.path.isdir(dirStr):
+            print "... Making directory {:s}...".format(dirStr)
+            os.mkdir(dirStr)
+        else:
+            print "... Directory {:s} exists...".format(dirStr)
+    else:
+        save_op = False
+
+    # convergence(saveFig=save_op)
+    chain_iter(nburn=100)
+#    Ramdon()
+#    get_Paramvalues()
+#    IR = get_computation_value(FIR=fir_op)
+#    Plot_Standard(saveFig=save_op)
+#    Plot_Chain(IR, FIR=fir_op, saveFig=save_op)
+#    MCMC_scatterDots(saveFig=save_op)
+#    PanelPlot(maxLev=False, confid=False, saveFig=save_op)
     chi2 = BestFit()
+    chainPlot = makeChainTriPlot()
+    triplot(chainPlot, title=filename.replace('.h5', ' ') + 'Parameters',
+            labels=['T', 'beta', 'alpha', 'fnorm', 'lambda0'], inj=res._best_fit[0], save_op=save_op)
 
 
 
 
-
-
-def PlotSED_twoXAxes():
+def PlotSED_twoXAxes(noalpha=False, opthin=False):
     """
     Plot SED with top showing wavelength in observed frame, bottom x axis showing observed freqeucny.
+    Kappa?
+    Take one h5 file from optically thick fit and another from optically thin fit, plot together.
 
-    Need to fix a bunch of stuff in here
     """
-    # look into res.parameter_chain('fnorm') for normalization
-    #Normalization factor
-    if self._xnorm > self._xmerge:
-        self._normfac = self._fnorm * self._xnorm**self._alpha / \
-            self._kappa
+    if bool(noalpha):
+        _hasalpha = False
+        _alpha = None
     else:
-        expmfac = math.expm1(-(self._xnorm / self._x0)**self._beta)
-        self._normfac = -self._fnorm * math.expm1(self._xnorm) / \
-            (self._xnorm**3 * expmfac)
+        _hasalpha = True    # Power
+        _alpha = float(alpha)
+
+#     if bool(opthin):
+#         _opthin = True
+#         _lambda0 = None
+#     else:
+#         _opthin = False
+#         _lambda0 = float(lambda0)
+
+#     _hokt = h * c / (k * T_obs)
+#     if not _opthin:
+# _x0 = _hokt / _lambda0      # for thick only
+#     _xnorm = _hokt / res._wavenorm
+
+#     if _opthin:
+#         if not _hasalpha:
+# thin and no power
+#             _normfac = _fnorm * math.expm1(_xnorm) / _xnorm**(3.0 + beta)
+#         else:
+# thin and power
 
 
+# _fnorm = res.parameter_chain('fnorm')
+#     _fnorm should  be a number....
+# _normfac = _fnorm * math.expm1(_xnorm) / _xnorm ** 3
+# _normfacOpThick = - _fnorm * math.expm1(_xnorm) / (math.expm1(- (_xnorm/_x0)**beta)*_xnorm ** 3)
 
 
+#     if self._xnorm > self._xmerge:
+#         self._normfac = self._fnorm * self._xnorm**self._alpha / \
+#             self._kappa
+#     else:
+#         expmfac = math.expm1(-(self._xnorm / self._x0)**self._beta)
+#         self._normfac = -self._fnorm * math.expm1(self._xnorm) / \
+#             (self._xnorm**3 * expmfac)
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
