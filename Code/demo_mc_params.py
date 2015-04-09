@@ -35,7 +35,7 @@ def convergence(plotTitle='ln prob', saveFig=False):
         plt.show()
 
 
-def chain_iter(nburn=50), saveFig=False:
+def chain_iter(nburn=50, saveFig=False):
     """
     plot the chains to visually assess convergence
     nburn default = 50.. as in mbb_emcee; modify as needed
@@ -50,11 +50,13 @@ def chain_iter(nburn=50), saveFig=False:
             plt.plot(
                 np.arange(res.chain.shape[1]), res.chain[w, :, i], 'b-', alpha=0.1)
         plt.ylabel(p)
+        plt.xlabel('Iter')
         aymin, aymax = plt.ylim()
         plt.vlines(nburn, aymin, aymax, linestyle=':')
         plt.ylim(aymin, aymax)
+    plt.suptitle('performance of each paramater as a function of iter', fontsize=14, y=0.90)
     if saveFig == True:
-        outfile = 'steps_convergence_'
+        outfile = 'steps_convergence__'
         savefig('../Figure/' + outfile + filename.replace('.h5', '.png'))
     else:
         plt.show()
@@ -442,7 +444,8 @@ def makeChainTriPlot():
     _l = res.parameter_chain('lambda0').flatten()
     stack = np.vstack((_T, _B, _alpha, _f, _l))
     print"Correlation Matrix between T, Beta: \n{0} \n".format(np.corrcoef(_T, _B))
-    return stack.T
+    mark_BestTriPlot = [res._best_fit[0][0], res._best_fit[0][1], res._best_fit[0][3], res._best_fit[0][-1], res._best_fit[0][2]]
+    return stack.T, mark_BestTriPlot
 
 
 def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
@@ -460,7 +463,7 @@ def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
     # rcParams settings
     plt.rcParams['ytick.labelsize'] = 10.0
     plt.rcParams['xtick.labelsize'] = 10.0
-    plt.rcParams['text.usetex'] = True
+#    plt.rcParams['text.usetex'] = True
     plt.rcParams['figure.figsize'] = figsize
 
     # get number of parameters
@@ -713,7 +716,7 @@ if __name__ == '__main__':
         save_op = False
 
     # convergence(saveFig=save_op)
-    chain_iter(nburn=100)
+#    chain_iter(nburn=100, saveFig=save_op)
 #    Ramdon()
 #    get_Paramvalues()
 #    IR = get_computation_value(FIR=fir_op)
@@ -722,9 +725,9 @@ if __name__ == '__main__':
 #    MCMC_scatterDots(saveFig=save_op)
 #    PanelPlot(maxLev=False, confid=False, saveFig=save_op)
     chi2 = BestFit()
-    chainPlot = makeChainTriPlot()
+    chainPlot, inj_best = makeChainTriPlot()
     triplot(chainPlot, title=filename.replace('.h5', ' ') + 'Parameters',
-            labels=['T', 'beta', 'alpha', 'fnorm', 'lambda0'], inj=res._best_fit[0], save_op=save_op)
+            labels=['T', 'beta', 'alpha', 'fnorm', 'lambda0'], inj=inj_best, saveFig=save_op)
 
 
 
