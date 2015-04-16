@@ -267,6 +267,20 @@ def errorfill(x, y, yerr, color=None, alpha_fill=0.3, ax=None):
     ax.plot(x, y, color=color)
     ax.fill_between(x, ymax, ymin, color=color, alpha=alpha_fill)
 
+def GHz2um(GHz):
+    """
+    Convert GHz x-array to um for plotting
+
+    Inputs:
+    GHz: array
+        frequency array in GHz
+    Returns:
+    um: array
+        wavelength array in um
+    """
+    m2um = 1.e6
+    um = c / (GHz / Hz2GHz) * m2um
+    return um
 
 Jy2mJy = 1000.
 Hz2GHz = 1.e-9
@@ -284,28 +298,28 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 
 # plot data and fit and error:
-ax.errorbar(Radio_Hz[7:] * Hz2GHz,
+ax.errorbar(GHz2um(Radio_Hz[7:] * Hz2GHz),
              Radio_Jy[7:] * Jy2mJy,
              Radio_error[7:] * Jy2mJy,
              fmt='.k', ecolor='lightgray', label='NED')      # mJy
 
-ax.errorbar(Point_Cont_Hz * Hz2GHz,
+ax.errorbar(GHz2um(Point_Cont_Hz * Hz2GHz),
              Point_Continuum_Jy * Jy2mJy, Point_error_Jy * Jy2mJy,
              fmt='.r', ecolor='darkgrey', label='Our continuum', ms=10)
-ax.plot(Core_3c263_freq * Hz2GHz,
+ax.plot(GHz2um(Core_3c263_freq * Hz2GHz),
          Core_3c263_Jy * Jy2mJy,
          'sc',
          label='3c263 core data')
-ax.plot(Core_3c6dot1_freq * Hz2GHz,
+ax.plot(GHz2um(Core_3c6dot1_freq * Hz2GHz),
          Core_3c6dot1_Jy * Jy2mJy,
          'bx',
          label='3c6.1 core data points')
-ax.plot(Core_3c220dot3_Hz[0] * Hz2GHz,
+ax.plot(GHz2um(Core_3c220dot3_Hz[0] * Hz2GHz),
          Core_3c220dot3_Jy[0] * Jy2mJy,
          'or',
          label='3c220.3 core data')
 
-ax.errorbar(Core_3c220dot3_Hz[1] * Hz2GHz,
+ax.errorbar(GHz2um(Core_3c220dot3_Hz[1] * Hz2GHz),
              Core_3c220dot3_Jy[1] * Jy2mJy,
              Core_3c220dot3_Jy[1] * Jy2mJy,
              uplims=True,
@@ -315,13 +329,14 @@ ax.errorbar(Core_3c220dot3_Hz[1] * Hz2GHz,
 
 # ---- Extrpolate lobe 3C220.3 ---------
 yfit = lobeSyn(Radio_Hz[7:], *theta_best)
-ax.plot(Radio_Hz[7:] * Hz2GHz, yfit,
+ax.plot(GHz2um(Radio_Hz[7:] * Hz2GHz), yfit,
          label='Lobe fit to NED data')
 
-x_syn_extend = np.linspace(10.e9, Avg_cont_freq+10.e9)
+epsilon = 10.e9     # extra buffer
+x_syn_extend = np.linspace(10.e9, Avg_cont_freq + epsilon)
 extrapolate_mJy = lobeSyn(x_syn_extend, *theta_best)
-ax.plot(x_syn_extend * Hz2GHz, extrapolate_mJy, ':',
-         label='Extrapolate Lobe fit to 104.21GHz')
+ax.plot(GHz2um(x_syn_extend * Hz2GHz), extrapolate_mJy, ':',
+         label='Extrapolate Lobe fit')
 
 
 # ----- -Core extrapolate? -----------
@@ -351,14 +366,18 @@ ax.plot(x_syn_extend * Hz2GHz, extrapolate_mJy, ':',
 # SMG
 ###########
 
-filename = 'thick_500_500.h5'
+filename_thick = 'thick_500_500.h5'
 import mbb_emcee
-res = mbb_emcee.mbb_results(h5file=filename)
-wave, flux, flux_unc = res.data
-redshiftZ = res.redshift
+res_thick = mbb_emcee.mbb_results(h5file=filename_thick)
+wave, flux, flux_unc = res_thick.data
 p_data = plt.errorbar(wave, flux, yerr=flux_unc, fmt='ko')
 p_wave = np.linspace(wave.min() * 0.5, wave.max() * 1.5, 200)
-p_fit = plt.plot(p_wave, res.best_fit_sed(p_wave), color='blue')
+p_fit_thick = plt.plot(p_wave, res_thick.best_fit_sed(p_wave), color='blue', lw=3)
+
+filename_thin = 'thin_500_500.h5'
+res_thin = mbb_emcee.mbb_results(h5file=filename_thin)
+p_fit_thin = plt.plot(p_wave, res_thin.best_fit_sed(p_wave), color='orange', lw=3)
+
 plt.xlabel('Wavelength [um]')
 plt.title('SMM J0939+8315', fontsize=20,  fontweight='bold')
 plt.ylabel('Flux Density [mJy]', fontsize=20,  fontweight='bold')
