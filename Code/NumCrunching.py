@@ -3,32 +3,39 @@ Return scientific values using derived values + extra Parmas (e.g. Line )
 
 Under development
 """
-
-
 import numpy as np
 import scipy.constants as scConst
 
 """
-optionparser
-r31 = CO (3-2) (1-0)= 0.7 or 1?
 L_CO = ?
 L_FIR =
 L_IR =
-D_L =
-M_dust =
-alpha_conversion = 0.8 = "mass-to-light ratio" or "CO-to-H2 conversion factor"
 beta =
+S_1.4 = extrapolated 1.4 Ghz fluxin obs frame
 """
 
 
 class prettyGalaxies():
-    def __init__(self):
-        self._lir = blah
-        self._D_L = blah
+    def __init__(self, file):
+        self.Lir = blah
+        self.Lfir = blah
+        se.lf.beta = blah
+        self.R_ul = blah         # Riechers 2013 QSO host
+        self.z = blah
+        self.mu = blah
+        self.alphaCO = 0.8
+        self.alpha_radio = -0.80
 
     def __str__(self):
         print '\n', '=' * 40
         print "All the results..."
+
+    def D_L(self):
+        """
+        calculate luminosity distance based on redshift
+        """
+        import astropy.cosmology
+        self.lum_dist = cosmology.luminosity_distance(self.z)
 
     def I2T(self):
         """
@@ -47,12 +54,11 @@ class prettyGalaxies():
         """
         I_nu = I_nu * 1.e-26
         T_b = I_nu * c**2 / (2 * scConst.k * freq_obs ** 2)
-
         return T_b
 
     def LineRatioCO(self):
         """
-        Calcaulate CO line ratio in the RJ limit
+        Calcaulate CO transition lines ratio in the RJ limit
         e.g. R_31 = T_32 / T_10
         If R = 1, corresponds to LTE
         If R < 1, gas is sub-thermally excited to the high J
@@ -134,7 +140,6 @@ class prettyGalaxies():
             L of line [L_sun]
         """
         L = 3.e-11 * freq_rest ** 3 * Lprime
-
         return L
 
     def X2alpha(self):
@@ -181,7 +186,7 @@ class prettyGalaxies():
 
     def SFR(self, IMF='Chabrier'):
         """
-        Calculate the SFR using L_IR (8-1000) or (42.5-122.5) avoid AGN
+        Calculate the SFR using L_IR (8-1000) or (42.5-122.5) avoid AGN dust heating
         ref: Kennicutt 1998 conversion using 1-100 M_sun IMF of some sort
 
         Inputs:
@@ -199,7 +204,6 @@ class prettyGalaxies():
         if IMF == 'Salpeter':
             SFR = 1.71e-10 * L_IR
         return SFR
-
 
     def M_dust(self, kappa=2.64):
         """
@@ -253,7 +257,6 @@ class prettyGalaxies():
         SFE = L_IR / L_prime
         return SFE
 
-
     def depleTime_Gas(self):
         """
         Compute depletion time scale assuming some value for alpha in computing M_gas = alpha * L_CO
@@ -288,52 +291,104 @@ class prettyGalaxies():
 
         """
 
-        M_ISM = 1.2e4 * D_L ** 2 * (350./ freq_obs) ** beta * (1 + z)**(-(1+beta)) * I_obs / mu
-        tau = M_ISM / SFR
+        self._M_ISM = 1.2e4 * D_L ** 2 * (350. / freq_obs) ** beta * (1 + z)**(-(1 + beta)) * I_obs / mu
+        tau = self._M_ISM / SFR
         return tau
 
-    def f_mol_total():
+    def f_molGas_dyn(self):
         """
-        compute the ratio of molecular gas to total gas
+        Compute gas mass fraction = M_gas / M_dyn, M_dyn includes stellar mass (see notes)
+
+        Inputs:
+        -------
+        M_gas: float
+            molecular gas mass
+        M_dyn: float
+            Dynamical gas mass
+
+        Returns:
+        --------
+        molecular gas mass fraction
         """
+        return M_gas/M_dyn
+
+    def f_mol_total(self):
+        """
+        compute the ratio of molecular gas mass to total gas mass, different from ratio of gas mass to dynamical gas mass
+
+        Inputs:
+        -------
+        M_ISM: float
+            ISM that includes mass of HI and H2
+        M_gas: float
+            H2 molecular gas mass
+        Returns:
+        --------
+        f: float
+        """
+        M_ISM = self._M_ISM
         f = M_gas / M_ISM
         return f
-
 
     def M_SF(self):
         """
         ref: Scoville 2004
         Compute lower limit for M_sf using the Eddington-limited star foramtion efficiency
 
-        SFE_max = L_IR / M_SF < 500 [L_sun/M_sun] in units of L_sun [K km/s pc^2]^{-1}
-        L_IR = lensing-corrected IR luminosity
-        """
-        SFE_Max = 500       # [L_sun / M_sun]
-        M_SF = L_IR / SFE_max
+        Inputs:
+        -------
+        Default -- SFE_max = L_IR / M_SF < 500 [L_sun/M_sun] in units of L_sun [K km/s pc^2]^{-1}
+        L_IR: float
+            lensing-corrected IR luminosity
 
+        Returns:
+        --------
+        M_SF: float
+            lower limit of star forming mass
+        """
+        SFE_Max = 500.       # [L_sun / M_sun]
+        M_SF = L_IR / SFE_max
         return M_SF
 
-
-    def qFactor(self, FIR, S1dot4GHz, unit='flux'):
+    def qFactor_Helou(self, FIR, S_radio):
         """
         Compute the FIR-radio correlation q to distinguish star forming from AGN dominated regions
 
-        ref: Bell (2003)
+        q = log (S_FIR / 3.75 e 12 [W m^-2]) - log (S_{1.4 GHz} / 1 [W m^-2 Hz^-1] )
+        where S_{1.4GHz} is the monochromatic rest-frame 1.4 GHz luminosity (Helou et al. 1985; Condon 1992) and S_FIR is luminosity which was originally computed from the rest-frame 60- and 100- micron IRAS fluxes (Helou et al. 1985) under the assumption of a typical dust temperature of ~ 30 K.
+
+            However, these definitions are not practical for ULIRGs that have higher dust temperatures, and therefore use the integrated S_FIR of the warm dust component.
 
         Input:
         -------
-        flux_FIR = luminosity in the fa infared
-        Flux: radio 1.4GHz
+        S_radio: float
+            observed frame
 
-        either in luminosity [L_sun] or flux units SI
+        """
+        q = np.log10(S_FIR / 3.75e12) - np.log10(S_radio)
+        return q
+
+    def qFactor_calibrated(self):
+        """
+        Compute the q factor using integrated FIR luminosity, rest-frame 1.4 GHz
+
+        ref: Riecher et al. 2013
+
+        q = log10(L_FIR / 9.8e-15 [L_sun]) - log10(L_1.4 /[W Hz^-1])
+        Input:
+        -------
+        L_FIR: float [L_sun]
+            luminosity in the far infared (integrated L), some use 8-1000 micron, most use 40-1000micron for cold dust, star formation
+        L_radio:
+            luminosity at 1.4GHz, k-corrected (rest frame)
+
+
         """
 
-        a = np.log10()
-
-
-        Lradio = 4*pi*D_L**2 * flux
-        q = blah if unit =='flux' else (np.log10(FIR/9.8e15) - np.log10(S1dot4GHz))
+        L_radio = 4 * np.pi * self.lum_dist ** 2 * (1+z) ** (-(1 + self.alpha_radio)) * S_radio
+        q = np.log10(L_FIR / 9.8e-15) - np.log10(L_radio)
         return q
+
 
 
 def mat2LaTex(arr):
