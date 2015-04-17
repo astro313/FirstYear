@@ -98,6 +98,8 @@ def get_Paramvalues(percentile=68.3):
                   'lambda0': 'um'}
     if res._opthin:
         paramsDict.pop('lambda0')
+    if res._noalpha:
+        paramsDict.pop('alpha')
 
     for k, v in paramsDict.iteritems():
         param = k
@@ -175,11 +177,11 @@ def Plot_Standard(saveFig=False):
     ax1 = axs[0, 0]
     p_data = ax1.errorbar(wave, flux, yerr=flux_unc, fmt='ro')
     p_wave = np.linspace(wave.min() * 0.5, wave.max() * 1.5, 200)   # range of x
-    # plot  best fit using the params in res
+    # plot best fit using the params in res
     p_fit = ax1.plot(p_wave, res.best_fit_sed(p_wave), color='blue')
     ax1.set_xlabel('Wavelength [um]')
-    ax1.set_yticks([])
-    ax1.set_title('Best-fitted SED Unnormalized')
+    ax1.set_ylabel('Flux Density [mJy]')
+    ax1.set_title('Best-fitted SED')
 
     ax2 = axs[0, 1]
     h1 = ax2.hist(res.parameter_chain('T/(1+z)') * (1 + redshiftZ))
@@ -441,11 +443,19 @@ def makeChainTriPlot():
     _f = res.parameter_chain('fnorm').flatten()
     if res._opthin != True:
         _l = res.parameter_chain('lambda0').flatten()
-        stack = np.vstack((_T, _B, _alpha, _f, _l))
-        mark_BestTriPlot = [res._best_fit[0][0], res._best_fit[0][1], res._best_fit[0][3], res._best_fit[0][-1], res._best_fit[0][2]]
+        if res._noalpha != True:
+            stack = np.vstack((_T, _B, _alpha, _f, _l))
+            mark_BestTriPlot = [res._best_fit[0][0], res._best_fit[0][1], res._best_fit[0][3], res._best_fit[0][-1], res._best_fit[0][2]]
+        else:
+            stack = np.vstack((_T, _B, _f, _l))
+            mark_BestTriPlot = [res._best_fit[0][0], res._best_fit[0][1], res._best_fit[0][-1], res._best_fit[0][2]]
     else:
-        stack = np.vstack((_T, _B, _alpha, _f))
-        mark_BestTriPlot = [res._best_fit[0][0], res._best_fit[0][1], res._best_fit[0][3], res._best_fit[0][-1]]
+        if res._noalpha != True:
+            stack = np.vstack((_T, _B, _alpha, _f))
+            mark_BestTriPlot = [res._best_fit[0][0], res._best_fit[0][1], res._best_fit[0][3], res._best_fit[0][-1]]
+        else:
+            stack = np.vstack((_T, _B, _f))
+            mark_BestTriPlot = [res._best_fit[0][0], res._best_fit[0][1], res._best_fit[0][-1]]
 
     print"Correlation Matrix between T, Beta: \n{0} \n".format(np.corrcoef(_T, _B))
 
@@ -682,6 +692,28 @@ def BestFit(verbose=True):
     return best_fit_chisq
 
 
+def S_100Rest(alpha=0.80):
+    """
+    Compute flux density at rest frame 100 GHz
+
+    Inputs:
+    -------
+    z: float
+        redshift
+    alpha: float
+        spectral index in radio
+
+    """
+    z = res.redshift
+    freq_obs100_Hz = 100.e9 / (1 + z)
+    from scipy.constants import c
+    wavelg_obs100_um = (c / freq_obs100_Hz) * 1.e6
+    S100_obs_mJy = res.best_fit_sed(wavelg_obs100_um)
+    S_1dot4_obs_mJy = S100_obs_mJy * (1.4e9 / 100.e9) ** (- np.abs(alpha))
+    print "flux density of 1.4Ghz at observed frame: ", S_1dot4_obs_mJy
+    return S_1dot4_obs_mJy
+
+
 if __name__ == '__main__':
     """
     run script.py filename True False
@@ -722,59 +754,20 @@ if __name__ == '__main__':
 #    convergence(saveFig=save_op)
 #    chain_iter(nburn=100, saveFig=save_op)
 #    Ramdon()
-    get_Paramvalues()
+    get_Paramvalues(percentile=68.3)
+    S_100Rest(alpha=0.8)
     IR = get_computation_value(FIR=fir_op)
     Plot_Standard(saveFig=save_op)
     Plot_Chain(IR, FIR=fir_op, saveFig=save_op)
     MCMC_scatterDots(saveFig=save_op)
     PanelPlot(maxLev=False, confid=False, saveFig=save_op)
     chi2 = BestFit()
+
     chainPlot, inj_best = makeChainTriPlot()
     triplotLabel = ['T', 'beta', 'alpha', 'fnorm', 'lambda0']
     if res._opthin == True:
-        triplotLabel.pop(-1)
+        triplotLabel.remove('lambda0')
+    if res._noalpha == True:
+        triplotLabel.remove('alpha')
     triplot(chainPlot, title=(filename.replace('.h5', ' ') + 'Parameters'),
             labels=triplotLabel, inj=inj_best, saveFig=save_op)
-
-
-
-
-def PlotSED_twoXAxes(noalpha=False, opthin=False):
-    """
-    Plot SED with top showing wavelength in observed frame, bottom x axis showing observed freqeucny.
-    Kappa?
-    Take one h5 file from optically thick fit and another from optically thin fit, plot together.
-
-    """
-
-
-
-#     _fnorm = res.parameter_chain('fnorm')
-
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    plt.xlabel('Frequency')      # bottom
-
-    # Make a second axis to plot the Top axis = wavelength
-    ax1 = plt.twiny(ax)
-
-    # Convert Freq to wavelength
-    frequecny_arr = np.linspace(100.e9, 1.e14, 1000)
-    c = 3.e8        # replace with accurate speed of light
-    # is a function of frequency_arr; use to intepolate the desire
-    # wavelength_arr to plot
-    _wavelength = [c / f for f in frequecny_arr]
-    wavelength_arr = np.arange(0, 4000, 500)    # range of wavelength to show
-
-    # Then interpolate to the (freq) values at which we want ticks.
-    WavelgTicks = np.interp(wavelength_arr, _wavelength, frequecny_arr)
-    ax1.set_xticks(WavelgTicks)
-    ax1.set_xticklabels([str(v) for v in WavelgTicks])
-
-    # Make both axes have the same start and end point.
-    x0, x1 = ax.get_xlim()
-    ax1.set_xlim(x0, x1)
-    ax1.set_xlabel('Observed wavelength')
-
-    plt.show()
