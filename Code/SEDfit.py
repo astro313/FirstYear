@@ -267,6 +267,7 @@ def errorfill(x, y, yerr, color=None, alpha_fill=0.3, ax=None):
     ax.plot(x, y, color=color)
     ax.fill_between(x, ymax, ymin, color=color, alpha=alpha_fill)
 
+
 def GHz2um(GHz):
     """
     Convert GHz x-array to um for plotting
@@ -294,8 +295,39 @@ theta_best = opt.fmin(chi2func, theta_guess, args=(Radio_Hz[7:], Radio_Jy[7:] * 
 lobe_fitrestr = "scaling = {:.2f}, beta = {:.2f}, freq_t = {:.4f} Hz, freq_lobe = {:.2f} Hz"
 print lobe_fitrestr.format(*theta_best)
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
+
+ax = plt.subplot(1, 1, 1)
+ax.set_xscale('log')
+ax.set_yscale('log')
+
+# ----- TO get twin x working ------------
+#from matplotlib.ticker import FuncFormatter
+axlocs = ax.get_xticks()
+wave_um = ax.get_xticks()
+
+# def conv(wave_um, pos):
+#     """
+#     return log freq_GHz
+#     """
+#     logGHz = np.log10(c) - np.log10(wave_um/1.e6) - np.log10(1.e9)
+#     f = c / (wave_um /1.e6) / 1.e9
+#     logGHz = np.log10(f)
+#     return logGHz
+
+ax_top = ax.twiny()
+# frmt = FuncFormatter(conv)
+# ax_top.xaxis.set_major_formatter(frmt)
+ax_top.set_xscale('log')
+ax_top.set_xlim(ax.get_xlim())
+ax_top.set_xticks(axlocs)
+
+ax_top.set_xlabel('freq GHz')
+
+f = c / (wave_um /1.e6) / 1.e9
+logGHz = np.log10(f)
+frmt = ["%.3f" % z for z in logGHz]
+ax_top.set_xticklabels(frmt)
+# ------------------------------------------
 
 # plot data and fit and error:
 ax.errorbar(GHz2um(Radio_Hz[7:] * Hz2GHz),
@@ -370,18 +402,19 @@ filename_thick = 'thick_500_500.h5'
 import mbb_emcee
 res_thick = mbb_emcee.mbb_results(h5file=filename_thick)
 wave, flux, flux_unc = res_thick.data
-p_data = plt.errorbar(wave, flux, yerr=flux_unc, fmt='ko')
+p_data = ax.errorbar(wave, flux, yerr=flux_unc, fmt='ko')
 p_wave = np.linspace(wave.min() * 0.5, wave.max() * 1.5, 200)
-p_fit_thick = plt.plot(p_wave, res_thick.best_fit_sed(p_wave), color='blue', lw=3)
+p_fit_thick = ax.plot(p_wave, res_thick.best_fit_sed(p_wave), color='blue', lw=3)
 
 filename_thin = 'thin_500_500.h5'
 res_thin = mbb_emcee.mbb_results(h5file=filename_thin)
-p_fit_thin = plt.plot(p_wave, res_thin.best_fit_sed(p_wave), color='orange', lw=3)
+p_fit_thin = ax.plot(p_wave, res_thin.best_fit_sed(p_wave), color='orange', lw=3)
 
-plt.xlabel('Wavelength [um]')
-plt.title('SMM J0939+8315', fontsize=20,  fontweight='bold')
-plt.ylabel('Flux Density [mJy]', fontsize=20,  fontweight='bold')
-plt.loglog()
+ax.set_xlabel('Wavelength [um]')
+# ax.set_title('SMM J0939+8315', fontsize=20,  fontweight='bold')
+ax.set_ylabel('Flux Density [mJy]', fontsize=20,  fontweight='bold')
+
+
 # plt.legend(loc='best')
 plt.show()
 
