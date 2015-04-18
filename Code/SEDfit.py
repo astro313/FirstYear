@@ -1,23 +1,56 @@
-from scipy.optimize import curve_fit
 import scipy.optimize as opt
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import k, h, c
 import matplotlib
-import astropy.io.ascii     # for .txt format
 
-matplotlib.rc('xtick', labelsize=18)
-matplotlib.rc('ytick', labelsize=18)
+
+matplotlib.rc('text', usetex=True)
+matplotlib.rc('xtick', labelsize=15)
+matplotlib.rc('ytick', labelsize=15)
 font = {'family': 'sans-serif',
         'weight': 'bold',
-        'size': 12}
+        'size': 20}
 matplotlib.rc('font', **font)
+# monospace sans-serif
 
 
-SMGfilename = 'SMGdata.txt'
-RadioFilename = 'Radiodata.txt'
+def savefigure(f, verbose=True, dirStr='../Figure/'):
+    """
+    Save figure in designatied directory and make directory if it doesn't alraedy exist
+
+    Inputs:
+    -------
+    f: str
+        filename without extension
+    dirStr: str
+        default to the ../Figure
+    """
+    import os
+    if verbose is True:
+        if not os.path.isdir(dirStr):
+            print "... Making directory {:s}...".format(dirStr)
+            os.mkdir(dirStr)
+        else:
+            print "... Directory {:s} exists...".format(dirStr)
+    plt.savefig(dirStr + f + '.png')
+
 
 def read_data_fromtxt(filename):
+    """
+    Read in rows .txt that are not commented out
+
+    Input:
+    ------
+    filename: str
+        filename with extension '.txt'
+
+    Returns:
+    --------
+    data: astropy.table.table.Table
+        content inside .txt
+    """
+    import astropy.io.ascii     # for .txt format
     data = astropy.io.ascii.read(filename, comment='^#')
     if len(filename) == 0:
         errstr = "No data read from %s" % filename
@@ -45,25 +78,16 @@ def data_readin_unit_conversion(micron, flux_mJy, err_mJy):
     error_SI = err_mJy / mJy2SIfac
     return freq_Hz, flux_SI, error_SI
 
-SMG_data = read_data_fromtxt(SMGfilename)
-SMGwavelg_micron, SMG_mJy, SMG_error_mJy = ([dat[0] for dat in SMG_data],
-                                            [dat[1] for dat in SMG_data],
-                                            [dat[2] for dat in SMG_data])
 
-# np.asarray converts input to array
-freq_Hz, SMGflux_SI, SMGerr_SI = \
-    data_readin_unit_conversion(np.asarray(SMGwavelg_micron),
-                                np.asarray(SMG_mJy),
-                                np.asarray(SMG_error_mJy))
-
-Radio_data = read_data_fromtxt(RadioFilename)
-Radio_Hz, Radio_Jy, Radio_error = \
-    ([dat[0] for dat in Radio_data],
-     [dat[2] for dat in Radio_data],
-     [dat[3] for dat in Radio_data])   # Jy
-Radio_Hz, Radio_Jy, Radio_error = (np.asarray(Radio_Hz),
-                                   np.asarray(Radio_Jy),
-                                   np.asarray(Radio_error))  # Jy
+########################################
+# user define area
+########################################
+SMGfilename = 'SMGdata.txt'
+RadioFilename = 'Radiodata.txt'
+Jy2mJy = 1000.
+Hz2GHz = 1.e-9
+SI2Jy = 1.e26
+Avg_cont_freq = 104.21e9
 
 # =======================================================
 # 3C220.3 Core
@@ -87,6 +111,30 @@ Core_3c6dot1_freq = np.array([8e9, 1.4e9])  # Hz
 Core_3c263_Jy = np.array([161.1e-3, 0.119])
 Core_3c263_freq = np.array([5e9, 8e9])      # Hz
 # =======================================================
+
+
+########################################
+# Read in Data
+########################################
+SMG_data = read_data_fromtxt(SMGfilename)
+SMGwavelg_micron, SMG_mJy, SMG_error_mJy = ([dat[0] for dat in SMG_data],
+                                            [dat[1] for dat in SMG_data],
+                                            [dat[2] for dat in SMG_data])
+
+# np.asarray converts input to array
+freq_Hz, SMGflux_SI, SMGerr_SI = \
+    data_readin_unit_conversion(np.asarray(SMGwavelg_micron),
+                                np.asarray(SMG_mJy),
+                                np.asarray(SMG_error_mJy))
+
+Radio_data = read_data_fromtxt(RadioFilename)
+Radio_Hz, Radio_Jy, Radio_error = ([dat[0] for dat in Radio_data],
+                                   [dat[2] for dat in Radio_data],
+                                   [dat[3] for dat in Radio_data])   # Jy
+
+Radio_Hz, Radio_Jy, Radio_error = (np.asarray(Radio_Hz),
+                                   np.asarray(Radio_Jy),
+                                   np.asarray(Radio_error))  # Jy
 
 
 def powerlaw(freq, dummyC, alpha):
@@ -124,6 +172,7 @@ def lobeSyn(freq, dummyA, beta, freq_t, freq_lobe):
     beta = a parameter to the fit (beta_Cleary3C220dot3 = 0.19)
     freq_t = freq @ optical depth equals unity
     freq_lobe = cutoff freq for plasma energy (= 3e12 for 3C220.3)
+    empirical fit
 
     Returns:
     ----------
@@ -283,95 +332,111 @@ def GHz2um(GHz):
     um = c / (GHz / Hz2GHz) * m2um
     return um
 
-Jy2mJy = 1000.
-Hz2GHz = 1.e-9
-SI2Jy = 1.e26
-Avg_cont_freq = 104.21e9
+
+############################################
+# Initialize Twin x axes Plot
+############################################
+from matplotlib import transforms as mtransforms
+import astropy.units as un
+import numpy as np
+from mpl_toolkits.axes_grid.parasite_axes import SubplotHost
 
 
-# dummy, (CLEARY 2007 0.19, 3.e6, 3.e12)
-theta_guess = [1e3, 0.19, 3.e6, 3.e12]
+class Freq2WavelengthTransform(mtransforms.Transform):
+    input_dims = 1
+    output_dims = 1
+    is_separable = False
+    has_inverse = True
+
+    def __init__(self):
+        mtransforms.Transform.__init__(self)
+
+    def transform_non_affine(self, fr):
+        return (fr*un.GHz).to(un.mm, equivalencies=un.spectral()).value
+
+    def inverted(self):
+        return Wavelength2FreqTransform()
+
+
+class Wavelength2FreqTransform(Freq2WavelengthTransform):
+    input_dims = 1
+    output_dims = 1
+    is_separable = False
+    has_inverse = True
+
+    def __init__(self):
+        mtransforms.Transform.__init__(self)
+
+    def transform_non_affine(self, wl):
+        """
+        z: float
+            redshift
+        """
+        x = (wl*un.um).to(un.GHz, equivalencies=un.spectral()).value
+        z = 2.221
+        x *= (1. + z)
+        return x
+
+    def inverted(self):
+        return Freq2WavelengthTransform()
+
+fig = plt.figure(1, figsize=(10, 8))
+ax = SubplotHost(fig, 1, 1, 1)
+fig.add_subplot(ax)
+print "*** !! Redshifting axis for z = 2.221, if undesired, change in function"
+
+aux_trans = mtransforms.BlendedGenericTransform(Wavelength2FreqTransform(), mtransforms.IdentityTransform())
+ax_top = ax.twin(aux_trans)
+ax_top.set_xlabel(r'$\nu_{Rest} [GHz]$', size=15)
+ax_top.set_viewlim_mode("transform")
+ax_top.axis["right"].toggle(ticklabels=False)
+
+
+############################################
+# Plot foreground galaxy data and fit
+############################################
+theta_guess = [1e3, 0.19, 3.e6, 3.e12]      # dummy, (CLEARY 2007: 0.19, 3.e6, 3.e12)
 theta_best = opt.fmin(chi2func, theta_guess, args=(Radio_Hz[7:], Radio_Jy[7:] * Jy2mJy, Radio_error[7:] * Jy2mJy))
-lobe_fitrestr = "scaling = {:.2f}, beta = {:.2f}, freq_t = {:.4f} Hz, freq_lobe = {:.2f} Hz"
-print lobe_fitrestr.format(*theta_best)
 
+if False:
+    lobe_fitrestr = "scaling = {:.2f}, beta = {:.2f}, freq_t = {:.4f} Hz, freq_lobe = {:.2f} Hz"
+    print lobe_fitrestr.format(*theta_best)
 
-ax = plt.subplot(1, 1, 1)
-ax.set_xscale('log')
-ax.set_yscale('log')
-
-# ----- TO get twin x working ------------
-#from matplotlib.ticker import FuncFormatter
-axlocs = ax.get_xticks()
-wave_um = ax.get_xticks()
-
-# def conv(wave_um, pos):
-#     """
-#     return log freq_GHz
-#     """
-#     logGHz = np.log10(c) - np.log10(wave_um/1.e6) - np.log10(1.e9)
-#     f = c / (wave_um /1.e6) / 1.e9
-#     logGHz = np.log10(f)
-#     return logGHz
-
-ax_top = ax.twiny()
-# frmt = FuncFormatter(conv)
-# ax_top.xaxis.set_major_formatter(frmt)
-ax_top.set_xscale('log')
-ax_top.set_xlim(ax.get_xlim())
-ax_top.set_xticks(axlocs)
-
-ax_top.set_xlabel('freq GHz')
-
-f = c / (wave_um /1.e6) / 1.e9
-logGHz = np.log10(f)
-frmt = ["%.3f" % z for z in logGHz]
-ax_top.set_xticklabels(frmt)
-# ------------------------------------------
-
-# plot data and fit and error:
 ax.errorbar(GHz2um(Radio_Hz[7:] * Hz2GHz),
-             Radio_Jy[7:] * Jy2mJy,
-             Radio_error[7:] * Jy2mJy,
-             fmt='.k', ecolor='lightgray', label='NED')      # mJy
+            Radio_Jy[7:] * Jy2mJy,
+            Radio_error[7:] * Jy2mJy,
+            fmt='.k', ecolor='darkgray', label='3C220.3 NED Data')      # mJy
 
 ax.errorbar(GHz2um(Point_Cont_Hz * Hz2GHz),
-             Point_Continuum_Jy * Jy2mJy, Point_error_Jy * Jy2mJy,
-             fmt='.r', ecolor='darkgrey', label='Our continuum', ms=10)
-ax.plot(GHz2um(Core_3c263_freq * Hz2GHz),
-         Core_3c263_Jy * Jy2mJy,
-         'sc',
-         label='3c263 core data')
-ax.plot(GHz2um(Core_3c6dot1_freq * Hz2GHz),
-         Core_3c6dot1_Jy * Jy2mJy,
-         'bx',
-         label='3c6.1 core data points')
-ax.plot(GHz2um(Core_3c220dot3_Hz[0] * Hz2GHz),
-         Core_3c220dot3_Jy[0] * Jy2mJy,
-         'or',
-         label='3c220.3 core data')
+            Point_Continuum_Jy * Jy2mJy, Point_error_Jy * Jy2mJy,
+            fmt='.r', ecolor='darkgrey', label='Our continuum', ms=10)
+ax.plot(GHz2um(Core_3c263_freq * Hz2GHz), Core_3c263_Jy * Jy2mJy,
+        'sc',
+        label='3C263 Core')
+ax.plot(GHz2um(Core_3c6dot1_freq * Hz2GHz), Core_3c6dot1_Jy * Jy2mJy,
+        'bx',
+        label='3C6.1 Core')
+ax.plot(GHz2um(Core_3c220dot3_Hz[0] * Hz2GHz), Core_3c220dot3_Jy[0] * Jy2mJy,
+        'or',
+        label='3C220.3 Core')
 
 ax.errorbar(GHz2um(Core_3c220dot3_Hz[1] * Hz2GHz),
-             Core_3c220dot3_Jy[1] * Jy2mJy,
-             Core_3c220dot3_Jy[1] * Jy2mJy,
-             uplims=True,
-             fmt='kv-',
-             label='upper limit no core')
+            Core_3c220dot3_Jy[1] * Jy2mJy,
+            Core_3c220dot3_Jy[1] * Jy2mJy,
+            uplims=True,
+            fmt='rv')   # label='upper limit on core')
 
-
-# ---- Extrpolate lobe 3C220.3 ---------
 yfit = lobeSyn(Radio_Hz[7:], *theta_best)
-ax.plot(GHz2um(Radio_Hz[7:] * Hz2GHz), yfit,
-         label='Lobe fit to NED data')
+ax.plot(GHz2um(Radio_Hz[7:] * Hz2GHz), yfit, 'k-.', linewidth=2, label='Lobe fit')  # 'Lobe fit to NED data')
 
-epsilon = 10.e9     # extra buffer
-x_syn_extend = np.linspace(10.e9, Avg_cont_freq + epsilon)
-extrapolate_mJy = lobeSyn(x_syn_extend, *theta_best)
-ax.plot(GHz2um(x_syn_extend * Hz2GHz), extrapolate_mJy, ':',
-         label='Extrapolate Lobe fit')
+epsilon = 50.e9     # extra buffer
+start_Hz = 10.e9
+end_Hz = Avg_cont_freq+epsilon
+x_syn_extend = np.linspace(start_Hz, end_Hz)
+syn_extend_mJy = lobeSyn(x_syn_extend, *theta_best)
+ax.plot(GHz2um(x_syn_extend * Hz2GHz), syn_extend_mJy, 'k-.', linewidth=2)   # label='Extrapolate Lobe fit')
 
-
-# ----- -Core extrapolate? -----------
+# ------ Core extrapolate -----------
 # ------ Don't think worth doing -------
 # core_fit_3c220dot3, core_fit_3c220dot3_covar = curve_fit(
 #     powerlaw, Core_3c220dot3_Hz, Core_3c220dot3_Jy,
@@ -391,30 +456,44 @@ ax.plot(GHz2um(x_syn_extend * Hz2GHz), extrapolate_mJy, ':',
 #          'k+',
 #          markersize=10,
 #          label='3c220.3 Extrapolated Core from 9GHz @ 104GHz')
-
 #          'k+')
 
-###########
-# SMG
-###########
-
-filename_thick = 'thick_500_500.h5'
+############################################
+# SMG Plot MBB results
+############################################
 import mbb_emcee
+filename_thick = 'thick_500_500.h5'
 res_thick = mbb_emcee.mbb_results(h5file=filename_thick)
 wave, flux, flux_unc = res_thick.data
-p_data = ax.errorbar(wave, flux, yerr=flux_unc, fmt='ko')
+p_data = ax.errorbar(wave, flux, yerr=flux_unc, fmt='go', label="J0939 IR Data")
 p_wave = np.linspace(wave.min() * 0.5, wave.max() * 1.5, 200)
-p_fit_thick = ax.plot(p_wave, res_thick.best_fit_sed(p_wave), color='blue', lw=3)
-
+p_fit_thick = ax.plot(p_wave, res_thick.best_fit_sed(p_wave), 'b:', lw=2)
 filename_thin = 'thin_500_500.h5'
 res_thin = mbb_emcee.mbb_results(h5file=filename_thin)
-p_fit_thin = ax.plot(p_wave, res_thin.best_fit_sed(p_wave), color='orange', lw=3)
+p_fit_thin = ax.plot(p_wave, res_thin.best_fit_sed(p_wave), '--', color='magenta', lw=2)
 
-ax.set_xlabel('Wavelength [um]')
+ax.set_xlabel(r'$\lambda_{obs} [\mu m]$', size=20)
 # ax.set_title('SMM J0939+8315', fontsize=20,  fontweight='bold')
 ax.set_ylabel('Flux Density [mJy]', fontsize=20,  fontweight='bold')
+plt.legend(loc='best', fontsize='10')
+ax.set_xscale('log')
+ax.set_yscale('log')
+ax_top.set_xscale('log')
+ax_top.set_yscale('log')
 
+############################################
+# Save Figure
+############################################
+try:
+    response = raw_input('Save fig?: (y/n)')
+except EOFError:
+    raise ValueError(response)
 
-# plt.legend(loc='best')
+if response.lower() in ['y', 'yes']:
+    filename = '3C220.3FullSED'
+    savefigure(filename)
+elif response.lower() in ['n', 'no']:
+    pass
+else:
+    print "Response {0} is not valid! ".format(response)
 plt.show()
-
