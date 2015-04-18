@@ -24,7 +24,7 @@ def savefigure(f, verbose=True, dirStr='../Figure/'):
     f: str
         filename without extension
     dirStr: str
-        default to the ../Figure
+        default to the ../Figure/
     """
     import os
     if verbose is True:
@@ -73,9 +73,9 @@ def data_readin_unit_conversion(micron, flux_mJy, err_mJy):
 
     wavelg_SI = micron * 1.e-6  # meters
     freq_Hz = c / wavelg_SI     # Hz
-    mJy2SIfac = 1000. * 10 ** (26)
-    flux_SI = flux_mJy / mJy2SIfac
-    error_SI = err_mJy / mJy2SIfac
+    mJy2SIfac = 1000. * 10 ** (-26)
+    flux_SI = flux_mJy * mJy2SIfac
+    error_SI = err_mJy * mJy2SIfac
     return freq_Hz, flux_SI, error_SI
 
 
@@ -373,8 +373,8 @@ class Wavelength2FreqTransform(Freq2WavelengthTransform):
             redshift
         """
         x = (wl*un.um).to(un.GHz, equivalencies=un.spectral()).value
-        z = 2.221
-        x *= (1. + z)
+        #z = 2.221
+#        x *= (1. + z)
         return x
 
     def inverted(self):
@@ -383,11 +383,11 @@ class Wavelength2FreqTransform(Freq2WavelengthTransform):
 fig = plt.figure(1, figsize=(10, 8))
 ax = SubplotHost(fig, 1, 1, 1)
 fig.add_subplot(ax)
-print "*** !! Redshifting axis for z = 2.221, if undesired, change in function"
+# print "*** !! Redshifting axis for z = 2.221, if undesired, change in function"
 
 aux_trans = mtransforms.BlendedGenericTransform(Wavelength2FreqTransform(), mtransforms.IdentityTransform())
 ax_top = ax.twin(aux_trans)
-ax_top.set_xlabel(r'$\nu_{Rest} [GHz]$', size=15)
+ax_top.set_xlabel(r'$\nu_{Obs} [GHz]$', size=15)
 ax_top.set_viewlim_mode("transform")
 ax_top.axis["right"].toggle(ticklabels=False)
 
@@ -467,10 +467,10 @@ res_thick = mbb_emcee.mbb_results(h5file=filename_thick)
 wave, flux, flux_unc = res_thick.data
 p_data = ax.errorbar(wave, flux, yerr=flux_unc, fmt='go', label="J0939 IR Data")
 p_wave = np.linspace(wave.min() * 0.5, wave.max() * 1.5, 200)
-p_fit_thick = ax.plot(p_wave, res_thick.best_fit_sed(p_wave), 'b:', lw=2)
+p_fit_thick = ax.plot(p_wave, res_thick.best_fit_sed(p_wave), 'b:', lw=2, label='Optically Thick Fit')
 filename_thin = 'thin_500_500.h5'
 res_thin = mbb_emcee.mbb_results(h5file=filename_thin)
-p_fit_thin = ax.plot(p_wave, res_thin.best_fit_sed(p_wave), '--', color='magenta', lw=2)
+p_fit_thin = ax.plot(p_wave, res_thin.best_fit_sed(p_wave), '--', color='magenta', lw=2, label='Optically Thin Fit')
 
 ax.set_xlabel(r'$\lambda_{obs} [\mu m]$', size=20)
 # ax.set_title('SMM J0939+8315', fontsize=20,  fontweight='bold')
@@ -484,16 +484,13 @@ ax_top.set_yscale('log')
 ############################################
 # Save Figure
 ############################################
-try:
-    response = raw_input('Save fig?: (y/n)')
-except EOFError:
-    raise ValueError(response)
 
+response = raw_input('Save fig?: (y/n)')
 if response.lower() in ['y', 'yes']:
     filename = '3C220.3FullSED'
     savefigure(filename)
 elif response.lower() in ['n', 'no']:
-    pass
+    plt.show()
 else:
-    print "Response {0} is not valid! ".format(response)
-plt.show()
+    print "Response '{0}' is not valid! ".format(response)
+    raise SystemExit('Exiting')
