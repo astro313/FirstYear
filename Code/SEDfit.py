@@ -484,16 +484,14 @@ ax_top.set_yscale('log')
 ############################################
 # Save Figure
 ############################################
-try:
-    response = raw_input('Save fig?: (y/n)')
-except EOFError:
-    raise ValueError(response)
 
+response = raw_input('Save fig?: (y/n)')
 if response.lower() in ['y', 'yes']:
     filename = '3C220.3FullSED'
     savefigure(filename)
 elif response.lower() in ['n', 'no']:
     pass
 else:
-    print "Response {0} is not valid! ".format(response)
+    print "Response '{0}' is not valid! ".format(response)
+    raise SystemExit('Exiting')
 plt.show()
