@@ -1,43 +1,52 @@
 """
 Return scientific values using derived values + extra Parmas (e.g. Line )
 
-Under development
 """
 import numpy as np
 import scipy.constants as scConst
 
-"""
-L_CO = ?
-L_FIR =
-L_IR =
-beta =
-S_1.4 = extrapolated 1.4 Ghz fluxin obs frame
-"""
-
-
-class prettyGalaxies():
-    def __init__(self, file):
-        self.Lir = blah
-        self.Lfir = blah
-        se.lf.beta = blah
-        self.R_ul = blah         # Riechers 2013 QSO host
-        self.z = blah
-        self.mu = blah
+class prettyGalaxies:
+    def __init__(self):
+        self.LIR = None
+        self.LFIR = None
+        self.beta = None
+        self.R_ul = 1.         # Riechers 2013 QSO host
+        self.z = 0.
+        self.mu = 0.
         self.alphaCO = 0.8
         self.alpha_radio = -0.80
+        self.Sradio_obs = None
+        self.FWHM_Line = None
+        self.I_line = None
+        self.M_dust = None
 
     def __str__(self):
         print '\n', '=' * 40
         print "All the results..."
+        print 'LIR: {:.3f} * 10^12 [L sun]'.format(self.LIR/1e12)
+        print 'LFIR: {:.3f} * 10^12 [L sun]'.format(self.LFIR/1e12)
+        print 'beta: {:.2f}'.format(self.beta)
+        print 'line ratio upper-lower: {:.2f}'.format(self.R_ul)
+        print 'z: ', self.z
+        print 'mu: ', self.mu
+        print 'alpha_co conversion: ', self.alphaCO
+        print 'alpha_radio spectral for q', self.alpha_radio
+        print 'flux density observed frame 1.4Ghz: [mJy]', self.Sradio_obs*1.e3
+        print 'line velocity: {:.3f} [km/s]'.format(self.FWHM_Line)
+        print 'Line integrated Intensity: {:.2f} [Jy km/s /beam]'.format(self.I_line)
+        print 'gas mass: {:.3f} * 10^10 [M_sun]'.format(self.M_gas/1.e10)
+        print "Luminosity Distance: {:.3f} Mpc Using WMAP9 Cosmo".format(self.lum_dist)
+        print "L'_co (1-0) {:.2f} * 10^10 [K km/s pc^2]".format(self.L_prime/1.e10)
+        return '=' * 40
 
     def D_L(self):
         """
         calculate luminosity distance based on redshift
         """
-        import astropy.cosmology
-        self.lum_dist = cosmology.luminosity_distance(self.z)
+        from astropy.cosmology import WMAP9 as cosmo
+        self.lum_dist = cosmo.luminosity_distance(self.z).value
 
-    def I2T(self):
+    def I2T(self, freq_obs):
         """
         Convert velocity integrated flux density to brightness temperature in RJ
 
@@ -52,11 +61,11 @@ class prettyGalaxies():
         T_b: float
             brightness temperature in observed frequency in K
         """
-        I_nu = I_nu * 1.e-26
-        T_b = I_nu * c**2 / (2 * scConst.k * freq_obs ** 2)
+        I_line_SI = self.I_line * 1.e-26
+        T_b = I_line_SI * scConst.c ** 2 / (2 * scConst.k * freq_obs ** 2)
         return T_b
 
-    def LineRatioCO(self):
+    def LineRatioCO(self, upper, lower, upper_freq, lower_freq, UseTemp=None):
         """
         Calcaulate CO transition lines ratio in the RJ limit
         e.g. R_31 = T_32 / T_10
@@ -65,41 +74,53 @@ class prettyGalaxies():
 
         Inputs:
         -------
-        freq_high: rest-frame CO of the higher J transition
-        freq_low: rest-frame CO of the lower J transition
+        upper: float
+            upper transition velocity integrated line Intensity or upper transition brightness temperature
+        lower: float
+            lower transition velocity integrated line Intensity or lower transition brightness temperature
+        freq_high: float [Hz]
+            rest-frame CO of the higher J transition
+        freq_low: float  [Hz]
+            rest-frame CO of the lower J transition
+        UseTemp: bool
+            compute R using brightness temperature ratios instead
 
 
         Returns:
         --------
-        R_ul_T: using brightness temperatures
-        R_ul_I: using veloicity integrated line Intensities
+        R_ul: using brightness temperatures
+        R_ul: using veloicity integrated line Intensities
 
         """
-        R_ul_T = T_u / T_l
-        R_ul_I = I_u / I_l * (freq_low / freq_high) ** 2
-        return R_ul_I
+        if UseTemp:
+            R_ul = T_u / T_l
+        else:
+            R_ul = I_u / I_l * (freq_low / freq_high) ** 2
+        return R_ul
 
-    def L_transition(self):
+    def L_transition(self, freq_res_line):
         """
         Ref: Solomon & Vanden Bout 2005
 
         Input:
         ------
-        D_L = luminosity distance in Mpc
-        freq_res_line = line frequency in GHz in rest-frame
-        I = velocity-integrated line flux in [Jy km/s] of CO(1-0)
-        R = CO line ratio = I_{1-0} / I_{3-2}
-        mu = magnification
-
+        freq_res_line: float
+            line frequency in Hz in rest-frame
+        I: float
+            velocity-integrated line flux in [Jy km/s] of CO(3-2)
+        R_ul: float
+            CO line ratio = I_{3-2} / I_{1-0}
+        mu: float
 
         Returns:
         --------
         L: in [L_sun]
         """
-        L = 1.04e-03 * (I * R) * D_L ** 2 * freq_res_line / (1 + z) / mu
-        return L
 
-    def Lprime_transition(self):
+        freq_res_line /= 1e9
+        self.L = 1.04e-03 * (self.I_line / self.R_ul) * self.lum_dist ** 2 * freq_res_line / (1 + self.z) / self.mu
+
+    def Lprime_transition(self, freq_res_line):
         """
         Ref: e.g., Solomon et al. 1992, 1997
         Calculate luminosity of line transition using flux of higher-J CO line
@@ -109,11 +130,11 @@ class prettyGalaxies():
         D_L: float
             luminosity distance in Mpc
         freq_res_line: float
-            line frequency in GHz in rest-frame
+            line frequency in Hz in rest-frame
         I: float
             velocity-integrated line flux in [Jy km/s] of CO(higher-J) (not 1-0)
         R: float
-            CO line ratio = I_{1-0} / I_{3-2} = R_lu
+            CO line ratio = I_{3-2} / I_{1-0} = R_ul
         mu: flaot
             magnification
 
@@ -121,8 +142,9 @@ class prettyGalaxies():
         L_line': float
             in [K km/s pc^2]
         """
-        L_prime = 3.25e7 / freq_res_line ** 2 * (D_L ** 2) * (I * R) / (1 + z) / mu
-        return L_prime
+
+        freq_res_line /= 1e9
+        self.L_prime = 3.25e7 / freq_res_line ** 2 * (self.lum_dist ** 2) * (self.I_line / self.R_ul) / (1 + self.z) / self.mu
 
     def L_linePrime2line(self):
         """
@@ -142,7 +164,7 @@ class prettyGalaxies():
         L = 3.e-11 * freq_rest ** 3 * Lprime
         return L
 
-    def X2alpha(self):
+    def X2alpha(self, X):
         """
         Converting from X_CO to alpha_CO for computing M_gas
         X Does not include contribution of Helium
@@ -161,15 +183,15 @@ class prettyGalaxies():
         """
 
         alpha = 6.3e-19 * X
-        alpha_HE = 4.65e-19 * X_HE
+        # alpha_HE = 4.65e-19 * X_HE
         return alpha
 
-    def M_gas(self):
+    def M_gas(self, alpha=None):
         """
         ref: Downes & Solomon 1998
 
         Calculate cold H2 molecular gas masses from L_CO (lensing corrected)
-
+        alpha [M_sun K km/s pc^2]-1
         alpha_disk = 3.6    # z ~ 1.5 disk galaxies (Daddi et al. 2010)
         alpha_BzK_low = 2.5
         alpha_BzK_high = 4.0    # BzK with high uncertainties of +/- 1.4
@@ -178,13 +200,13 @@ class prettyGalaxies():
 
         Returns:
         --------
-        M_gas ()
+        M_gas [M_sun]
         """
+        if alpha is None:
+            alpha = 0.8
+        self.M_gas = alpha * self.L_prime
 
-        M_gas = alpha * L_primeOne2zero
-        return M_gas
-
-    def SFR(self, IMF='Chabrier'):
+    def SFRFunc(self, L_IR, IMF='Chabrier'):
         """
         Calculate the SFR using L_IR (8-1000) or (42.5-122.5) avoid AGN dust heating
         ref: Kennicutt 1998 conversion using 1-100 M_sun IMF of some sort
@@ -200,9 +222,9 @@ class prettyGalaxies():
         """
 
         if IMF == 'Chabrier':
-            SFR = 1.0e-10 * L_IR
+            SFR = 1.0e-10 * L_IR / self.mu
         if IMF == 'Salpeter':
-            SFR = 1.71e-10 * L_IR
+            SFR = 1.71e-10 * L_IR / self.mu
         return SFR
 
     def M_dust(self, kappa=2.64):
@@ -233,43 +255,47 @@ class prettyGalaxies():
         M_dust = D_L ** 2 * I * (B_T - B_CMB) ** (-1) / (1+z) / kappa_greve / mu
         return M_dust
 
-    def SFE(self):
+    def SFEFunc(self, L_IR):
         """
         Forms:
         Some author uses L_FIR / M_gas, L_IR / L'_CO , SFR / M_H2
         We use the more direct more without conversion factor alpha and IMF assumption: L_IR / L'_CO
 
-        SFE values for ULIRGs and distant SMGs typically exceed 100 L⊙ (K km s−1 pc^2)−1
-        (e.g., Yao et al. 2003; Neri et al. 2003; Greve et al. 2005; Bouch´e et al. 2007).
+        SFE values for ULIRGs and distant SMGs typically exceed 100 L_sun [K km/s pc^2]-1
+        (e.g., Yao et al. 2003; Neri et al. 2003; Greve et al. 2005; Bouche et al. 2007).
 
 
         Inputs:
         -------
         L_IR: float
-            Luminosity in FIR or IR?
-        L_prime: float
-            CO luminosity
+            Luminosity in FIR or IR? [L_sun]
+        L: float
+            CO luminosity [L_sun]
         Returns:
         --------
         SFE: float
         """
 
-        SFE = L_IR / L_prime
+        SFE = (L_IR / self.mu) / self.L
         return SFE
 
-    def depleTime_Gas(self):
+    def depleTime_Gas(self, SFR):
         """
         Compute depletion time scale assuming some value for alpha in computing M_gas = alpha * L_CO
+
+        Inputs:
+        -------
+        SFR: float   [M_sun/yr]
 
         Returns:
         --------
         t: float        [years]
 
         """
-        t = M_gas / SFR
+        t = self.M_gas / SFR
         return t
 
-    def depleTime_ISM(self):
+    def depleTime_ISM(self, freq_obs, SFR):
         """
         Computing the depletion time using the mass of the ISM equation from Scoville 2014, where M_ISM = M_HI + M_H2
 
@@ -291,9 +317,22 @@ class prettyGalaxies():
 
         """
 
-        self._M_ISM = 1.2e4 * D_L ** 2 * (350. / freq_obs) ** beta * (1 + z)**(-(1 + beta)) * I_obs / mu
+        self._M_ISM = 1.2e4 * self.lum_dist ** 2 * (350. / freq_obs) ** self.beta * (1 + self.z)**(-(1 + self.beta)) * I_obs / self.mu
         tau = self._M_ISM / SFR
         return tau
+
+    def Mdyn(self, r):
+        """
+        Compute dynamical mass using "isotropic virial estimator"
+
+        Inputs:
+        --------
+        FWHM_line: float
+            [km/s] of line
+        r: float
+            half light radius [kpc], major axis of line (resolved)
+        """
+        self.M_dyn = 2.8e5 * (self.FWHM_Line) ** 2 * r
 
     def f_molGas_dyn(self):
         """
@@ -310,7 +349,7 @@ class prettyGalaxies():
         --------
         molecular gas mass fraction
         """
-        return M_gas/M_dyn
+        return self.M_gas / self.M_dyn
 
     def f_mol_total(self):
         """
@@ -327,7 +366,24 @@ class prettyGalaxies():
         f: float
         """
         M_ISM = self._M_ISM
-        f = M_gas / M_ISM
+        f = self.M_gas / M_ISM
+        return f
+
+    def f_gas_dust(self):
+        """
+        compute the ratio of molecular gas mass to dust mass
+
+        Inputs:
+        -------
+        M_gas: float
+            H2 molecular gas mass [M_sun]
+        M_dust: float
+            dust mass [M_sun]
+        Returns:
+        --------
+        f: float
+        """
+        f = self.M_gas / self.M_dust / self.mu
         return f
 
     def M_SF(self):
@@ -347,7 +403,7 @@ class prettyGalaxies():
             lower limit of star forming mass
         """
         SFE_Max = 500.       # [L_sun / M_sun]
-        M_SF = L_IR / SFE_max
+        M_SF = L_IR / self.mu / SFE_max
         return M_SF
 
     def qFactor_Helou(self, FIR, S_radio):
@@ -368,7 +424,7 @@ class prettyGalaxies():
         q = np.log10(S_FIR / 3.75e12) - np.log10(S_radio)
         return q
 
-    def qFactor_calibrated(self):
+    def qFactor_normL(self, L_FIR):
         """
         Compute the q factor using integrated FIR luminosity, rest-frame 1.4 GHz
 
@@ -379,24 +435,60 @@ class prettyGalaxies():
         -------
         L_FIR: float [L_sun]
             luminosity in the far infared (integrated L), some use 8-1000 micron, most use 40-1000micron for cold dust, star formation
-        L_radio:
-            luminosity at 1.4GHz, k-corrected (rest frame)
+        L_radio: float
+            luminosity at 1.4GHz, k-corrected (rest frame) [W/Hz]
+
+        self.alpha_radio: negative float
 
 
         """
-
-        L_radio = 4 * np.pi * self.lum_dist ** 2 * (1+z) ** (-(1 + self.alpha_radio)) * S_radio
-        q = np.log10(L_FIR / 9.8e-15) - np.log10(L_radio)
+        Mpc2m = 3.08567758e22
+        Jy2SI = 1.e-26
+        L_radio = 4 * np.pi * (self.lum_dist * Mpc2m) ** 2 * (1+self.z) ** (-(1 + self.alpha_radio)) * (self.Sradio_obs * Jy2SI)
+        q = np.log10(L_FIR / self.mu / 9.8e-15) - np.log10(L_radio)
         return q
 
 
+SMG = prettyGalaxies()
+SMG.LIR = 88.52e12      # L_sun
+SMG.LFIR = 53.33e12      # L_sun
+SMG.z = 2.2214
+SMG.mu = 9.7368538
+SMG.beta = 1.90267276
+SMG.Sradio_obs = 0.45655848e-3   # Jy
+SMG.FWHM_Line = 541.65      # km/s
+SMG.I_line = 14.6       # CO 3-2 [mJy km/s /beam]
+SMG.M_dust = 50.47e8
+SMG.D_L()
+freq_CO32_rest = 345.651e9
+SMG.Lprime_transition(freq_CO32_rest)
+SMG.L_transition(freq_CO32_rest)
+SMG.M_gas()
+SFR_IR = SMG.SFRFunc(SMG.LIR)
+SFR_FIR = SMG.SFRFunc(SMG.LFIR)
+SFE_IR = SMG.SFEFunc(SMG.LIR)
+SFE_FIR = SMG.SFEFunc(SMG.LFIR)
+t_IR = SMG.depleTime_Gas(SFR_IR)
+t_FIR = SMG.depleTime_Gas(SFR_FIR)
+q_IR = SMG.qFactor_normL(SMG.LIR)
+q_FIR = SMG.qFactor_normL(SMG.LFIR)
+gas_dust = SMG.f_gas_dust()
+# R_halflight =       # 0.02"?
+# SMG.Mdyn(R_halflight)
+# f = SMG.f_molGas_dyn()
+print SMG
+print "SFR using LIR: {:.2f} [M_sun/yr]".format(SFR_IR)
+print "SFR using LFIR: {:.2f} [M_sun/yr]".format(SFR_FIR)
+print "SFE using LIR: {:.2f}".format(SFE_IR)
+print "SFE using LFIR: {:.2f}".format(SFE_FIR)
+print "depletion Time using IR {:.2f} Myr".format(t_IR/1e6)
+print "Depletion Time using FIR {:.2f} Myr".format(t_FIR/1e6)
+print "q correlation using IR: {:.2f}".format(q_IR)
+print "q correlation using FIR: {:.2f}".format(q_FIR)
+print "gas_dust fraction: {:.2f}".format(gas_dust)
 
-def mat2LaTex(arr):
-    """
-    Convert numpy array into latex table format
-    """
-    tab = " \\\\\n".join([" & ".join(map(str, line)) for line in arr])
-    return tab
+
+# Lens Mass =
 
 def me(theta_Es, e_theta_Es, zlenses, zsources):
     """
@@ -456,3 +548,15 @@ def me(theta_Es, e_theta_Es, zlenses, zsources):
         e_vdisp[targ] = numpy.std(numpy.sqrt(vdisp2) / 1e5)
 
     return M_E, e_M_E, vdisp, e_vdisp
+
+r_E0 = 1.2230522136336528
+r_E1 = 0.73374533852753454
+
+r1 = np.array([r_E0])
+r2 = np.array([r_E1])
+e_r = np.array([0.01012153668])
+e_r2 = np.array([0.0150122127])
+z_arr = np.array([0.685])
+z_source = np.array([2.2214])
+x = me(r1, e_r, z_arr, z_source)
+x2 = me(r2, e_r2, z_arr, z_source)
