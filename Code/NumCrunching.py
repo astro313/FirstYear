@@ -268,15 +268,15 @@ class prettyGalaxies:
         Inputs:
         -------
         L_IR: float
-            Luminosity in FIR or IR? [L_sun]
-        L: float
-            CO luminosity [L_sun]
+            Luminosity in FIR or IR [L_sun]
+        L_prime: float
+            CO luminosity [K km/s pc^2]-1
         Returns:
         --------
         SFE: float
         """
 
-        SFE = (L_IR / self.mu) / self.L
+        SFE = (L_IR / self.mu) / self.L_prime
         return SFE
 
     def depleTime_Gas(self, SFR):
