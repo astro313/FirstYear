@@ -4,8 +4,11 @@ Return scientific values using derived values + extra Parmas (e.g. Line )
 """
 import numpy as np
 import scipy.constants as scConst
+from astropy.cosmology import WMAP9 as cosmo
+
 
 class prettyGalaxies:
+
     def __init__(self):
         self.LIR = None
         self.LFIR = None
@@ -43,7 +46,6 @@ class prettyGalaxies:
         """
         calculate luminosity distance based on redshift
         """
-        from astropy.cosmology import WMAP9 as cosmo
         self.lum_dist = cosmo.luminosity_distance(self.z).value
 
     def I2T(self, freq_obs):
@@ -321,7 +323,7 @@ class prettyGalaxies:
         tau = self._M_ISM / SFR
         return tau
 
-    def Mdyn(self, r):
+    def Mdyn(self, r_arcsec):
         """
         Compute dynamical mass using "isotropic virial estimator"
 
@@ -329,10 +331,11 @@ class prettyGalaxies:
         --------
         FWHM_line: float
             [km/s] of line
-        r: float
-            half light radius [kpc], major axis of line (resolved)
+        r_arcsec: float
+            half light radius ["], major axis of line (resolved)
         """
-        self.M_dyn = 2.8e5 * (self.FWHM_Line) ** 2 * r
+        r_kpc = cosmo.kpc_proper_per_arcmin(self.z).value * (r_arcsec/60.)
+        self.M_dyn = 2.8e5 * (self.FWHM_Line) ** 2 * r_kpc
 
     def f_molGas_dyn(self):
         """
@@ -379,6 +382,8 @@ class prettyGalaxies:
             H2 molecular gas mass [M_sun]
         M_dust: float
             dust mass [M_sun]
+        mu: float
+            magnification
         Returns:
         --------
         f: float

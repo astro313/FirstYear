@@ -25,9 +25,9 @@ t_FIR = SMG.depleTime_Gas(SFR_FIR)
 q_IR = SMG.qFactor_normL(SMG.LIR)
 q_FIR = SMG.qFactor_normL(SMG.LFIR)
 gas_dust = SMG.f_gas_dust()
-# R_halflight =       # 0.02"?
-# SMG.Mdyn(R_halflight)
-# f = SMG.f_molGas_dyn()
+R_halflight = 0.023484507515718567    # arscec, from lens model of dust continuum
+SMG.Mdyn(R_halflight)
+f_gas_dyn = SMG.f_molGas_dyn()
 print SMG
 print "SFR using LIR: {:.2f} [M_sun/yr]".format(SFR_IR)
 print "SFR using LFIR: {:.2f} [M_sun/yr]".format(SFR_FIR)
@@ -38,6 +38,7 @@ print "Depletion Time using FIR {:.2f} Myr".format(t_FIR/1e6)
 print "q correlation using IR: {:.2f}".format(q_IR)
 print "q correlation using FIR: {:.2f}".format(q_FIR)
 print "gas_dust fraction: {:.2f}".format(gas_dust)
+print "gas to dyn mass fraction: {:.2f}".format(f_gas_dyn)
 
 r_E0 = 1.2230522136336528
 r_E1 = 0.73374533852753454
