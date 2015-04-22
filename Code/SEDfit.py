@@ -380,6 +380,8 @@ class Wavelength2FreqTransform(Freq2WavelengthTransform):
     def inverted(self):
         return Freq2WavelengthTransform()
 
+
+plt.clf()
 fig = plt.figure(1, figsize=(10, 8))
 ax = SubplotHost(fig, 1, 1, 1)
 fig.add_subplot(ax)
@@ -494,4 +496,5 @@ elif response.lower() in ['n', 'no']:
 else:
     print "Response '{0}' is not valid! ".format(response)
     raise SystemExit('Exiting')
+
 
