@@ -33,7 +33,9 @@ def savefigure(f, verbose=True, dirStr='../Figure/'):
             os.mkdir(dirStr)
         else:
             print "... Directory {:s} exists...".format(dirStr)
+    os.system('rm -rf ' + f + '.png' + ' ' + f + '.eps')
     plt.savefig(dirStr + f + '.png')
+    plt.savefig(dirStr + f + '.eps', dvi=600)
 
 
 def read_data_fromtxt(filename):
