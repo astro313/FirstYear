@@ -57,7 +57,7 @@ def chain_iter(nburn=100, saveFig=False):
     plt.suptitle('performance of each paramater as a function of iter', fontsize=14, y=0.90)
     if saveFig == True:
         outfile = 'steps_convergence__'
-        savefig('../Figure/' + outfile + filename.replace('.h5', '.png'))
+        savefig('../Figure/' + outfile + filename.replace('.h5', '.eps'), dvi=600)
     else:
         plt.show()
 
@@ -203,7 +203,7 @@ def Plot_Standard(saveFig=False):
 
     if saveFig == True:
         outfile = 'SED_ParamProb__'
-        savefig('../Figure/' + outfile + filename.replace('.h5', '.png'))
+        savefig('../Figure/' + outfile + filename.replace('.h5', '.eps'), dvi=600)
     else:
         f.show()
 
@@ -558,7 +558,7 @@ def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
     f.subplots_adjust(wspace=0.1)
     if saveFig == True:
         outfile = 'CorrelationPlot__'
-        savefig('../Figure/' + outfile + filename.replace('.h5', '.png'))
+        savefig('../Figure/' + outfile + filename.replace('.h5', '.eps'), dvi=600)
     else:
         plt.show()
 

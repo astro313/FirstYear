@@ -23,16 +23,16 @@ def sigma_contour_array(sigma):
     arr = range(11)
     arr.remove(0)
     arr.remove(1)
-    arr = [2**i * sigma for i in arr]
+    arr = [2 ** i * sigma for i in arr]
     arr.append(list(np.array(arr) * -1)[0])
     return arr
 
 
 def sigma_contour_CARMA(sigma):
     """
-    return list of sigma multiples,
+    return list of sigma multiples, -3,-2,2,3...11 * sqrt(2) * sigma
     """
-    arr = range(-3, 11)
+    arr = range(-4, 11)
     arr.remove(0)
     arr.remove(1)
     arr.remove(-1)

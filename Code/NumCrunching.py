@@ -39,7 +39,7 @@ class prettyGalaxies:
         print 'Line integrated Intensity: {:.2f} [Jy km/s /beam]'.format(self.I_line)
         print 'gas mass: {:.3f} * 10^10 [M_sun]'.format(self.M_gas/1.e10)
         print "Luminosity Distance: {:.3f} Mpc Using WMAP9 Cosmo".format(self.lum_dist)
-        print "L'_co (1-0) {:.2f} * 10^10 [K km/s pc^2]".format(self.L_prime/1.e10)
+        print "L'_CO (1-0) {:.2f} * 10^10 [K km/s pc^2]".format(self.L_prime/1.e10)
         return '=' * 40
 
     def D_L(self):
@@ -449,7 +449,7 @@ class prettyGalaxies:
         """
         Mpc2m = 3.08567758e22
         Jy2SI = 1.e-26
-        L_radio = 4 * np.pi * (self.lum_dist * Mpc2m) ** 2 * (1+self.z) ** (-(1 + self.alpha_radio)) * (self.Sradio_obs * Jy2SI)
+        L_radio = 4 * np.pi * (self.lum_dist * Mpc2m) ** 2 * (1+self.z) ** (-(1 + self.alpha_radio)) * ((self.Sradio_obs / self.mu) * Jy2SI)
         q = np.log10(L_FIR / self.mu / 9.8e-15) - np.log10(L_radio)
         return q
 
