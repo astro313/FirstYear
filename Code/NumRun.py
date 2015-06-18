@@ -2,12 +2,12 @@ from NumCrunching import prettyGalaxies, me
 import numpy as np
 
 SMG = prettyGalaxies()
-SMG.LIR = 88.52e12      # L_sun
-SMG.LFIR = 53.33e12      # L_sun
+SMG.LIR = 88.52e12      # L_sun, before lensing correction
+SMG.LFIR = 53.33e12      # L_sun, before lesning correction
 SMG.z = 2.2214
 SMG.mu = 9.7368538
 SMG.beta = 1.90267276
-SMG.Sradio_obs = 0.45655848e-3   # Jy
+SMG.Sradio_obs = 0.45655848e-3   # Jy, before lensing correction
 SMG.FWHM_Line = 541.65      # km/s
 SMG.I_line = 14.6       # CO 3-2 [mJy km/s /beam]
 SMG.M_dust = 50.47e8
@@ -26,7 +26,7 @@ q_IR = SMG.qFactor_normL(SMG.LIR)
 q_FIR = SMG.qFactor_normL(SMG.LFIR)
 gas_dust = SMG.f_gas_dust()
 R_halflight = 0.023484507515718567    # arscec, from lens model of dust continuum
-SMG.Mdyn(R_halflight)
+M_dyn = SMG.Mdyn(R_halflight)
 f_gas_dyn = SMG.f_molGas_dyn()
 print SMG
 print "SFR using LIR: {:.2f} [M_sun/yr]".format(SFR_IR)
@@ -38,6 +38,7 @@ print "Depletion Time using FIR {:.2f} Myr".format(t_FIR/1e6)
 print "q correlation using IR: {:.2f}".format(q_IR)
 print "q correlation using FIR: {:.2f}".format(q_FIR)
 print "gas_dust fraction: {:.2f}".format(gas_dust)
+print "Dynamical mass: {:.2f} M_sun ".format(M_dyn/1e10)
 print "gas to dyn mass fraction: {:.2f}".format(f_gas_dyn)
 
 r_E0 = 1.2230522136336528

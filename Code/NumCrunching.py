@@ -336,6 +336,7 @@ class prettyGalaxies:
         """
         r_kpc = cosmo.kpc_proper_per_arcmin(self.z).value * (r_arcsec/60.)
         self.M_dyn = 2.8e5 * (self.FWHM_Line) ** 2 * r_kpc
+        return self.M_dyn
 
     def f_molGas_dyn(self):
         """
@@ -388,7 +389,7 @@ class prettyGalaxies:
         --------
         f: float
         """
-        f = self.M_gas / self.M_dust / self.mu
+        f = self.M_gas / (self.M_dust / self.mu)
         return f
 
     def M_SF(self):
@@ -400,7 +401,7 @@ class prettyGalaxies:
         -------
         Default -- SFE_max = L_IR / M_SF < 500 [L_sun/M_sun] in units of L_sun [K km/s pc^2]^{-1}
         L_IR: float
-            lensing-corrected IR luminosity
+            IR luminosity
 
         Returns:
         --------
@@ -408,7 +409,7 @@ class prettyGalaxies:
             lower limit of star forming mass
         """
         SFE_Max = 500.       # [L_sun / M_sun]
-        M_SF = L_IR / self.mu / SFE_max
+        M_SF = (L_IR / self.mu) / SFE_max
         return M_SF
 
     def qFactor_Helou(self, FIR, S_radio):
@@ -504,6 +505,7 @@ def me(theta_Es, e_theta_Es, zlenses, zsources):
         G = 6.67e-8
         sigma_crit = c**2 / 4 / pi / G * d_AS / d_AL / d_ALS
         M_E_iters = pi * sigma_crit * theta_E_iters**2 / 2e33
+#        print pi * sigma_crit * theta_E_cm*2. * e_theta_E_cm / 2e33 (propagation of error)
         M_E[targ] = numpy.mean(M_E_iters)
         e_M_E[targ] = numpy.std(M_E_iters)
 
