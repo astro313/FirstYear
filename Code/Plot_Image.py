@@ -6,7 +6,7 @@ import matplotlib as mpl
 from FgContIm import *
 
 path = '../FinalData/'
-Plotpath = '../Figure'
+Plotpath = '../Figure/'
 label = dict.fromkeys(['VLA', 'cont', 'lin', 'SMA'])
 for k in label.iterkeys():
     files = glob.glob(path+'*'+k+'*.fits')
@@ -21,8 +21,8 @@ fig_line = plt.figure(2, figsize=(12, 5))
 # user define area
 ########################################
 sigma_9ghz = 6.41094e-05
-sigma_cont = 0.829972e-3       # 0.38466e-3    # 0.829972e-3
-sigma_line = 2.             # 1.57804
+sigma_cont = 5.0e-4
+sigma_line = 0.7    # on the mom0 map, MIRIAD imfit RMS residual is 7.45E-01
 sigma_SMA = 0.000836951
 
 vla_min = -0.000270099
@@ -37,7 +37,7 @@ SMA_max = 0.00634805
 VLA_ra = 1.448437499980E+02
 VLA_dec = 8.325666666846E+01
 sizep = 0.0025
-sizePcont_noise = 0.008
+sizePcont_noise = 0.017
 sizePLine = 0.006
 ra_center = 144.84933
 dec_center = 83.257175
@@ -147,10 +147,10 @@ put_label(fSMA, 0.2625, 0.9, 'SMM J0939+8315', 'titleObj')
 
 labsize = 'xx-large'
 labc = 'white'
-put_label(fvla, 0.80, 0.925, '(a)', 'ref', c=labc, s=labsize)
-put_label(fcont, 0.80, 0.925, '(b)', 'ref', c=labc, s=labsize)
-put_label(flin, 0.80, 0.925, '(c)', 'ref', c=labc, s=labsize)
-put_label(fSMA, 0.80, 0.925, '(d)', 'ref', c=labc, s=labsize)
+# put_label(fvla, 0.80, 0.925, '(a)', 'ref', c=labc, s=labsize)
+# put_label(fcont, 0.80, 0.925, '(b)', 'ref', c=labc, s=labsize)
+# put_label(flin, 0.80, 0.925, '(c)', 'ref', c=labc, s=labsize)
+# put_label(fSMA, 0.80, 0.925, '(d)', 'ref', c=labc, s=labsize)
 ########################################
 # Colorbar
 ########################################
