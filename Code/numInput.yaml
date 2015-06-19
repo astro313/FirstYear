@@ -1,0 +1,31 @@
+# Author: Daisy Leung
+
+# Last Edited: Jun 18 2015
+#
+#
+# Usage:
+# Comment out if doesn't have values, if no measurements for gas (e.g., line measurement), comment out the whole block
+# Set magnification mu to 1 if not Lensing and comment out Lensing block
+#
+#
+z: 2.2214
+mu: 9.7368538
+
+Gas:
+    FWHM_line: 541.65   # km/s
+    I_line: 14.3    # Jy km/s
+    line: CO(3-2)
+    freq_rest: 345.651e+9 # Hz
+    R_ul: 1.0          # Riechers 2013 QSO host
+    alphaCO: 0.8
+
+SED:
+    LIR: 88.52e+12   # L_sun, before lensing correction
+    LFIR: 53.33e+12  # L_sun, before lensing correction
+    beta: 1.90267276
+    M_dust: 50.47e+8     # M_sun
+
+
+Lensing:
+    theta_E: 1.2230522136336528        # arcsec
+    R_halflight: 0.023484507515718567   # arcsec

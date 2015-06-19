@@ -5,23 +5,33 @@ Return scientific values using derived values + extra Parmas (e.g. Line )
 import numpy as np
 import scipy.constants as scConst
 from astropy.cosmology import WMAP9 as cosmo
-
+import yaml, os
 
 class prettyGalaxies:
 
-    def __init__(self):
-        self.LIR = None
-        self.LFIR = None
-        self.beta = None
-        self.R_ul = 1.         # Riechers 2013 QSO host
-        self.z = 0.
-        self.mu = 0.
-        self.alphaCO = 0.8
+    def __init__(self, paramfileName, dirName='./'):
+        paramfile = os.path.join(dirName, paramfileName)
+        if not os.path.exists(paramfile):
+            raise ValueError("Parameter files %s does not exists in %s" % (paramfileName, dirName))
+        params = yaml.load(open(paramfile, 'r'))
+        for k in params.keys():
+            setattr(self, k, params[k])
+        if hasattr(self, 'SED'):
+            self.LIR = self.SED['LIR']
+            self.LFIR = self.SED['LFIR']
+            self.beta = self.SED['beta']
+            self.M_dust = self.SED['M_dust']
+        if hasattr(self, 'Gas'):
+            self.FWHM_Line = self.Gas['FWHM_line']
+            self.I_line = self.Gas['I_line']
+            self.freq_res_line = self.Gas['freq_rest']
+            self.R_ul = self.Gas['R_ul']
+            self.alphaCO = self.Gas['alphaCO']
+        if hasattr(self, 'Lensing'):
+            self.R_halflight = self.Lensing['R_halflight']
+
         self.alpha_radio = -0.80
         self.Sradio_obs = None
-        self.FWHM_Line = None
-        self.I_line = None
-        self.M_dust = None
 
     def __str__(self):
         print '\n', '=' * 40
@@ -100,14 +110,12 @@ class prettyGalaxies:
             R_ul = I_u / I_l * (freq_low / freq_high) ** 2
         return R_ul
 
-    def L_transition(self, freq_res_line):
+    def L_transition(self):
         """
         Ref: Solomon & Vanden Bout 2005
 
         Input:
         ------
-        freq_res_line: float
-            line frequency in Hz in rest-frame
         I: float
             velocity-integrated line flux in [Jy km/s] of CO(3-2)
         R_ul: float
@@ -119,10 +127,10 @@ class prettyGalaxies:
         L: in [L_sun]
         """
 
-        freq_res_line /= 1e9
-        self.L = 1.04e-03 * (self.I_line / self.R_ul) * self.lum_dist ** 2 * freq_res_line / (1 + self.z) / self.mu
+        self.freq_res_line /= 1e9
+        self.L = 1.04e-03 * (self.I_line / self.R_ul) * self.lum_dist ** 2 * self.freq_res_line / (1 + self.z) / self.mu
 
-    def Lprime_transition(self, freq_res_line):
+    def Lprime_transition(self):
         """
         Ref: e.g., Solomon et al. 1992, 1997
         Calculate luminosity of line transition using flux of higher-J CO line
@@ -131,8 +139,6 @@ class prettyGalaxies:
         -------
         D_L: float
             luminosity distance in Mpc
-        freq_res_line: float
-            line frequency in Hz in rest-frame
         I: float
             velocity-integrated line flux in [Jy km/s] of CO(higher-J) (not 1-0)
         R: float
@@ -145,8 +151,8 @@ class prettyGalaxies:
             in [K km/s pc^2]
         """
 
-        freq_res_line /= 1e9
-        self.L_prime = 3.25e7 / freq_res_line ** 2 * (self.lum_dist ** 2) * (self.I_line / self.R_ul) / (1 + self.z) / self.mu
+        self.freq_res_line /= 1e9
+        self.L_prime = 3.25e7 / self.freq_res_line ** 2 * (self.lum_dist ** 2) * (self.I_line / self.R_ul) / (1 + self.z) / self.mu
 
     def L_linePrime2line(self):
         """
@@ -323,18 +329,18 @@ class prettyGalaxies:
         tau = self._M_ISM / SFR
         return tau
 
-    def Mdyn(self, r_arcsec):
+    def Mdyn(self):
         """
         Compute dynamical mass using "isotropic virial estimator"
 
         Inputs:
         --------
-        FWHM_line: float
+        self.FWHM_line: float
             [km/s] of line
-        r_arcsec: float
+        self.R_halflight: float
             half light radius ["], major axis of line (resolved)
         """
-        r_kpc = cosmo.kpc_proper_per_arcmin(self.z).value * (r_arcsec/60.)
+        r_kpc = cosmo.kpc_proper_per_arcmin(self.z).value * (self.R_halflight/60.)
         self.M_dyn = 2.8e5 * (self.FWHM_Line) ** 2 * r_kpc
         return self.M_dyn
 
@@ -353,6 +359,7 @@ class prettyGalaxies:
         --------
         molecular gas mass fraction
         """
+        print self.M_gas, self.M_dyn
         return self.M_gas / self.M_dyn
 
     def f_mol_total(self):
@@ -452,65 +459,65 @@ class prettyGalaxies:
         Jy2SI = 1.e-26
         L_radio = 4 * np.pi * (self.lum_dist * Mpc2m) ** 2 * (1+self.z) ** (-(1 + self.alpha_radio)) * ((self.Sradio_obs / self.mu) * Jy2SI)
         q = np.log10(L_FIR / self.mu / 9.8e-15) - np.log10(L_radio)
-        return q
+        return q, L_radio
 
 
-def me(theta_Es, e_theta_Es, zlenses, zsources):
-    """
-    Created 2013 March 13
-    Author: Shane Bussmann
-    Purpose: Returns mass and velocity dispersion inside Einstein radius given an Einstein radius (in arcsec), source redshift, and lens redshift
-    Inputs: must be in numpy array format!
-    """
-    from math import pi
-    from astropy.cosmology import WMAP9 as cosmo
-    import numpy
+    def me(self, theta_Es, e_theta_Es, zlenses):
+        """
+        Created 2013 March 13
+        Author: Shane Bussmann
+        Purpose: Returns mass and velocity dispersion inside Einstein radius given  an Einstein radius (in arcsec), source redshift, and lens redshift
+        Inputs: must be in numpy array format!
+        """
+        from math import pi
+        zsources = np.array([self.z])        # in most cases.
 
-    ntarg = theta_Es.size
-    M_E = numpy.zeros(ntarg)
-    e_M_E = numpy.zeros(ntarg)
-    vdisp = numpy.zeros(ntarg)
-    e_vdisp = numpy.zeros(ntarg)
+        ntarg = theta_Es.size
+        M_E = np.zeros(ntarg)
+        e_M_E = np.zeros(ntarg)
+        vdisp = np.zeros(ntarg)
+        e_vdisp = np.zeros(ntarg)
 
-    for targ in numpy.arange(ntarg):
+        for targ in np.arange(ntarg):
 
-        zsource = zsources[targ]
-        zlens = zlenses[targ]
-        theta_E = theta_Es[targ]
-        e_theta_E = e_theta_Es[targ]
+            zsource = zsources[targ]
+            zlens = zlenses[targ]
+            theta_E = theta_Es[targ]
+            e_theta_E = e_theta_Es[targ]
 
-        # luminosity distances
-        d_LS = cosmo.luminosity_distance(zsource).value * 3.08e24
-        d_LL = cosmo.luminosity_distance(zlens).value * 3.08e24
+            # luminosity distances
 
-        # comoving distances
-        d_MS = d_LS / (1 + zsource)
-        d_ML = d_LL / (1 + zlens)
+            d_LS = cosmo.luminosity_distance(zsource).value * 3.08e24
+            d_LL = cosmo.luminosity_distance(zlens).value * 3.08e24
 
-        # angular diameter distances
-        d_ALS = 1 / (1 + zsource) * ( d_MS - d_ML )
-        d_AL = d_LL / (1 + zlens)**2
-        d_AS = d_LS / (1 + zsource)**2
+            # comoving distances
+            d_MS = d_LS / (1 + zsource)
+            d_ML = d_LL / (1 + zlens)
 
-        # einstein radius in cm (7.1 kpc/" at z=0.7)
-        theta_E_cm = theta_E / 206265. * d_AL
-        e_theta_E_cm = e_theta_E / 206265. * d_AL
+            # angular diameter distances
+            d_ALS = 1 / (1 + zsource) * ( d_MS - d_ML )
+            d_AL = d_LL / (1 + zlens)**2
+            d_AS = d_LS / (1 + zsource)**2
 
-        # get a distribution of Einstein radii
-        niters = 1e3
-        theta_E_iters = numpy.random.normal(loc=theta_E_cm, scale=e_theta_E_cm, size=niters)
+            # einstein radius in cm (7.1 kpc/" at z=0.7)
+            theta_E_cm = theta_E / 206265. * d_AL
+            e_theta_E_cm = e_theta_E / 206265. * d_AL
 
-        # compute the mass enclosed within the Einstein radius
-        c = 3e10
-        G = 6.67e-8
-        sigma_crit = c**2 / 4 / pi / G * d_AS / d_AL / d_ALS
-        M_E_iters = pi * sigma_crit * theta_E_iters**2 / 2e33
-#        print pi * sigma_crit * theta_E_cm*2. * e_theta_E_cm / 2e33 (propagation of error)
-        M_E[targ] = numpy.mean(M_E_iters)
-        e_M_E[targ] = numpy.std(M_E_iters)
+            # get a distribution of Einstein radii
+            niters = 1e3
+            theta_E_iters = np.random.normal(loc=theta_E_cm, scale=e_theta_E_cm,  size=niters)
 
-        vdisp2 = theta_E_iters / d_AL / 4 / pi * c**2 * d_AS / d_ALS
-        vdisp[targ] = numpy.mean(numpy.sqrt(vdisp2) / 1e5)
-        e_vdisp[targ] = numpy.std(numpy.sqrt(vdisp2) / 1e5)
+            # compute the mass enclosed within the Einstein radius
+            c = 3e10
+            G = 6.67e-8
+            sigma_crit = c**2 / 4 / pi / G * d_AS / d_AL / d_ALS
+            M_E_iters = pi * sigma_crit * theta_E_iters**2 / 2e33
+            err = np.array(pi * sigma_crit * theta_E_cm*2. * e_theta_E_cm / 2e33)  # (  propagation of error)
+            M_E[targ] = np.mean(M_E_iters)
+            e_M_E[targ] = np.std(M_E_iters)
 
-    return M_E, e_M_E, vdisp, e_vdisp
+            vdisp2 = theta_E_iters / d_AL / 4 / pi * c**2 * d_AS / d_ALS
+            vdisp[targ] = np.mean(np.sqrt(vdisp2) / 1e5)
+            e_vdisp[targ] = np.std(np.sqrt(vdisp2) / 1e5)
+
+        return M_E, err, vdisp, e_vdisp # M_E, e_M_E, vdisp, e_vdisp
