@@ -1,0 +1,71 @@
+\begin{deluxetable}{ccc}[tbpH]
+\tabletypesize{\scriptsize}
+\tablecolumns{3}
+\tablecaption{SED fitting results}
+\tablehead{
+\colhead{Parameters}                  &
+\colhead{Optically Thick}       &
+\colhead{Optically Thin}
+}
+\startdata
+$\chi^2$ & 2.25 & 5.31 \\
+D.O.F & 2 & 3 \\
+$T_{\rm d}$ (K) & 60.91$^{+1.08}_{-1.31}$ & 51.95$^{+1.26}_{-1.21}$ \\
+$\beta$ & 1.35$^{+0.57}_{-0.53}$ & 0.7$^{+0.24}_{-0.26}$ \\
+$\alpha$ & 3.05$^{+0.31}_{-0.40}$ & 2.76$^{+0.23}_{-0.23}$ \\
+%$\lambda_0$(1+$z$) ($\micron$) \tablenotemark{c} & 722.81$^{+276.88}_{-398.67}$ & --- \\
+$\lambda_0$ ($\micron$) \tablenotemark{e} & 224.41$^{+85.96}_{-123.77}$ & --- \\
+$\lambda_{\rm peak}$ \tablenotemark{c}\micron & 254.7$^{+6.2}_{-6.1}$ & 301.4$^{+29.0}_{-30.1}$ \\
+$f_{\rm norm, 500 \micron}$ mJy  \tablenotemark{c} & 255.79$^{+16.67}_{-16.31}$ & 244.25$^{15.28}_{15.30}$ \\
+$L_{\rm (8-1000)\micron}$ [10$^{12}$ L$_\sun$] \tablenotemark{d} & 88.52$^{+2.62}_{-2.63}$ & 89.15 \\
+$M_{\rm d}$ [10$^8$ M$_\odot$] \tablenotemark{b} & 50.47$^{+20.42}_{-20.15}$ & 25.74$^{+3.88}_{-5.49}$
+\enddata
+
+% Optically thick & 18.91 & 1.35 & 722.81 & 3.05 & 254.7 & 88.52 & 50.47 \\
+% Optically thin &  16.13 & 0.7 & N/A   & 2.76 & 301.4 & 89.15 & 25.74
+
+\label{tab:mbb}
+\tablenotetext{a}{The observed-frame wavelength where the dust becomes optically thick}
+\tablenotetext{b}{Assuming standard absorption mass coefficient $\kappa$=2.64 m$^2$ kg$^{-1}$ at $\lambda$=125.0 $\micron$ (Dunne et al. 2003), without lensing correction}
+\tablenotetext{c}{observed-frame}
+\tablenotetext{d}{rest-frame 8-1000 $\micron$ without lensing correction}
+\tablenotetext{e}{The rest-frame wavelength where the dust becomes optically thick, upper limit is 2000 $\micron$}
+\tablecomments{Errors are $\pm$1$\sigma$}
+\end{deluxetable}
+
+% thick_500_500.log
+% T/(1+z): 18.91 +1.09 -1.31 (low lim: 1.00 upper lim: 60.00) [K]
+% beta: 1.35 +0.57 -0.53 (low lim: 0.10 upper lim: 2.20)
+% fnorm: 255.79 +16.67 -16.31 (low lim: 0.03) [mJy]
+% lambda0 (1+z): 722.81 +276.88 -398.67 (low lim: 1.00 upper lim: 3049.15) [um]
+% alpha: 3.05 +0.31 -0.40 (low lim: 0.10 upper lim: 20.00)
+% Lambda peak: 254.7 +6.2 -6.1 [um]
+% L_IR(8.0 to 1000.0um): 88.52 +2.62 -2.63 [10^12 L_sun]
+% M_d(kappa=2.64, lam=125.0um): 50.47 +20.42 -20.15 [10^8 M_sun]
+% Number of data points: 7
+% ChiSquare of best fit point: 2.25
+
+% note using beta upper limit 3.0, getting very different beta, and dust mass
+% Fit results:
+% T/(1+z): 19.75 +0.56 -0.53 (low lim: 1.00 upper lim: 60.00) [K]
+% beta: 1.91 +0.76 -0.76 (low lim: 0.10 upper lim: 3.00)
+% fnorm: 267.13 +16.03 -15.98 (low lim: 0.03) [mJy]
+% lambda0 (1+z): 1012.99 +142.79 -275.29 (low lim: 1.00 upper lim: 3049.15) [um]
+% alpha: 3.64 +0.08 -0.86 (low lim: 0.10 upper lim: 20.00)
+% Lambda peak: 255.6 +6.3 -6.2 [um]
+% L_IR(8.0 to 1000.0um): 88.02 +2.85 -2.85 [10^12 L_sun]
+% M_d(kappa=2.64, lam=125.0um): 108.23 +32.00 -63.67 [10^8 M_sun]
+% Number of data points: 7
+% ChiSquare of best fit point: 2.25
+% Saving results to thick_testbeta.h5
+
+% thin_testSMA
+% T/(1+z): 16.13 +1.26 -1.21 (low lim: 1.00 upper lim: 60.00) [K]
+% beta: 0.70 +0.24 -0.26 (low lim: 0.10 upper lim: 3.00)
+% fnorm: 244.25 +15.28 -15.30 (low lim: 0.03) [mJy]
+% alpha: 2.76 +0.23 -0.23 (low lim: 0.10 upper lim: 20.00)
+% Lambda peak: 301.4 +29.0 -30.1 [um]
+% L_IR(8.0 to 1000.0um): 89.15 +2.48 -2.51 [10^12 L_sun]
+% M_d(kappa=2.64, lam=125.0um): 25.74 +3.88 -5.49 [10^8 M_sun]
+% Number of data points: 7
+% ChiSquare of best fit point: 5.31
