@@ -119,7 +119,7 @@ corresponds to 8.406 kpc at $z$ = 2.221, and 7.169 kpc at $z$ = 0.685.
 % 16 windows, each 0.494792 GHz with 95 channels
 % rms per channel. (29.xx km/s) xx mjy per beam
 
-Observations of the CO($J$ = 3 $\rightarrow$ 2) rotation line ($\nu_{rest}$ = 345.7959899 GHz),
+Observations of the CO($J$ = 3 $\rightarrow$ 2) rotational transition ($\nu_{rest}$ = 345.7959899 GHz),
 redshifted to $\nu_{obs}$ = 107.357 GHz (2.794 mm) towards the background galaxy SMM
 J0939+8315 ($z$ = 2.221) were carried out using CARMA (programme ID: cf0142; P.I.: D. Riechers).
 We used the 3mm receivers with a bandwidth of 3.75 GHz in each sideband, at 5.208 MHz ($\sim$14.5 km s$^{-1}$)
@@ -145,25 +145,20 @@ rms noise of 0.55 mJy beam$^{-1}$.
 MHz
 \section{Results}\label{sec:res}
 \subsection{New results: Continuum Emission} 
+% So integrated - peak should be approx. the extended components ~ (7.18 - 5.56 mJy)
+%      --- Integrated:   7.18 +/- 0.69 mJy
+%      --- Peak:         5.56 +/- 0.54 mJy/beam
 
-%%Continuum: 104.2106 GHz (2.876794 mm observed frame)
-% So integrated - peak should be approx. the extended components ~ (7.18 +/- 0.69 mJy - 5.56 +/- 0.54 mJy)
-% max peak = 0.005347 \pm 5.0e-4
-% VLA sigma = 6.41094e-05 Jy
-
-%Deconvolution size bigger than expected (= just radio core):
+%Deconvolution size bigger than expected (if just radio core):
 %1) phase error that wasn't well calibrated (~30/360 $\times$\appox 16") ~ 1-2"
 %2) low SNR giving rise to fitting error ~ 4" from `imfit`
 %3) PA beam align with RG (radio galaxy) orientation
 Averaging over all the line-free channels, we detect the continuum with peak flux density of S$_\nu$ = 5.56 $\pm$ 0.54 
-mJy at an averaged frequency of $\nu_{cont}$ = 104.2106 GHz (2.877 mm) in the observed-frame. In this lens system, the 
+mJy beam$^{-1}$ at an averaged frequency of $\nu_{cont}$ = 104.2106 GHz (2.877 mm) in the observed-frame, corresponding to $\sim$2.79 mm at $z$ = 0.658. In this lens system, the 
 foreground galaxy (3C220.3) is radio-loud, hence we expect the continuum to be dominated by the foreground galaxy. The 
-deconvolved source size of the continuum image is 8\farcs72 $\pm$ 0\farcs69 $\times$ 3\farcs87 $\pm$ 1\farcs60. At this 
-frequency, we expect the emission from the radio core to dominate our continuum detection; however, the integrated flux 
-density is measured to be 7.18 $\pm$ 0.69 mJy. Considering the fact that the orientation of the synthesized beam aligns with 
-the axis along the lobes of the foreground radio galaxy as shown in Figure \ref{fig:cont}, we interpret this difference between 
-the peak flux density and the integrated flux density as the source (core and lobes) being partially resolved, i.e., the 
-continuum detection includes non-thermal emission from the lobes.
+deconvolved source size in the continuum image is 8\farcs72 $\pm$ 0\farcs69 $\times$ 3\farcs87 $\pm$ 1\farcs60, and the integrated flux density is 7.18 $\pm$ 0.69 mJy. 
+In Figure \ref{fig:cont}, we show the new measurement of the continuum emission at 104 GHz overlaid on the VLA 9 GHz continuum measurement reported by \citet{Haas14}. The figure demonstrates that at the resolution of our observation, the continuum detection is marginally resolved, it is therefore plausible that both non-thermal and thermal emissions from the lobes and the radio core contribute to the integrated flux density this frequency.
+
 \begin{figure*}[tbph]
 \centering
 \includegraphics[width=0.80\textwidth]{Figure/ContPanel}
@@ -171,7 +166,7 @@ continuum detection includes non-thermal emission from the lobes.
 emission start at $\pm$4$\sigma$ of $\sigma$ = 0.0641 mJy beam$^{-1}$ and increment at steps of $\pm$2$^n\sigma$, 
 where n is positive integers; contour levels of the 104 GHz continuum emission start at $\pm$3$\sigma$, incrementing at steps 
 of $\pm$1$\sigma$ of 0.5 mJy beam$^{-1}$.
-Left:Contour map of the 104 GHz continuum emission in 3C220.3. The beam size is 16\farcs67 $\times$ 7\farcs17, at P.A. = 
+Left: Contour map of the 104 GHz continuum emission in 3C220.3. The beam size is 16\farcs67 $\times$ 7\farcs17, at P.A. = 
 -58$\degr$, as indicated in the bottom left corner. Right: Contours of the CARMA 104 GHz continuum emission (red) from the 
 foreground radio galaxy 3C220.3 overlaid the 9 GHz emission (green) \citep{Haas14}. The rms in the 9GHz image is $\sigma$ 
 = 0.0641 mJy beam$^{-1}$. The synthesized beam size of the VLA observations is 0$\farcs$60 $\times$ 0$\farcs$23 at P.A. 
@@ -179,22 +174,12 @@ foreground radio galaxy 3C220.3 overlaid the 9 GHz emission (green) \citep{Haas1
 \label{fig:cont}}
 \end{figure*}
 
-
 \subsection{New results: CO($J$ = 3 $\rightarrow$ 2) line emission}
-%peak 19.907623291015625 2.2045940408007811
-%We have detected unresolved CO($J$ = 3 $\rightarrow$ 2) line emission toward SMM J0939+8315 at peak flux
-%of blah sigma  of $ \sigma$ = blah mJy beam$^{-1}$.
-We detect unresolved CO($J$ = 3 $\rightarrow$ 2) line emission toward the background SMG SMM J0939+8315. We extract 
-the spectrum and fit a single-component Gaussian as shown in Figure \ref{fig:mom0}, yielding peak flux density of 19.90 $\pm
-$ 2.20 mJy, superimposed on a continuum level of 3.46 mJy, the FWHM of the Gaussian fit is 541.65 $\pm$ 31.91 km s
-$^{-1}$. The spatial extent of the SMG is shown in the SMA 1 mm dust continuum in Figure \ref{fig:mom0}, where the 
-synthesized beam size of the SMA observation is 1\farcs42$\times$1\farcs16, at P.A. -34.0\degr. Since the angular resolution 
-of our CO measurement is 13$\farcs$57 $\times$ 5\farcs77 , the CO($J$ = 3 $\rightarrow$ 2) detection in the SMG is 
-therefore spatially unresolved. We construct the velocity-integrated (moment-0) map of the CO($J$ = 3 $\rightarrow$ 2) 
-emission using the uv-continuum subtracted data, the velocity-integrated CO($J$ = 3 $\rightarrow$ 2) line flux is 14.6 $\pm$ 
-0.9 Jy km s$^{-1}$.
-
-Channel width used for mom0 map. and to get the integrated flux.
+We detect CO($J$ = 3 $\rightarrow$ 2) line emission toward the background SMG SMM J0939. We fit a four-parameter single-component Gaussian to the spectrum as shown in Figure \ref{fig:mom0}, yielding peak flux density of 19.9 $\pm
+$ 2.2 mJy superimposed on a continuum level of 3.46 $\pm$ 0.40 mJy at the peak position of the CO emission; and FWHM of 541.65 $\pm$ 31.91 km s$^{-1}$. 
+The spatial extent of the SMG is shown in the SMA 1 mm dust continuum in Figure \ref{fig:mom0}, the 
+synthesized beam size of the SMA observation is 1\farcs42$ \times $1\farcs16, at P.A. -34.0\degr. As such, the CO($J$ = 3 $\rightarrow$ 2) detection in the SMG is spatially unresolved. We construct a velocity-integrated (0th moment) map of the CO($J$ = 3 $\rightarrow$ 2) 
+emission using the continuum-subtracted data in the visibility plane, this results in velocity-integrated CO($J$ = 3 $\rightarrow$ 2) line flux of $S$ 14.6 $\pm$ 0.9 Jy km s$^{-1}$ over a velocity range of $\Delta$v = $\sim$378.1 km s$^{-1}$.
 
 \begin{figure*}[tbph] 
 \centering
@@ -204,16 +189,12 @@ Channel width used for mom0 map. and to get the integrated flux.
 incrementing at
 steps of $\pm$1$\sigma$. Top Left: Continuum-subtracted moment-0 map of the CO($J$ = 3 $\rightarrow$ 2) line emission in 
 the background SMG with $\sigma$ = 0.7 Jy km s$^{-1}$ beam$^{-1}$. The angular resolution is 13$\farcs$57 $\times$ 
-5\farcs77, the beam size is shown in the bottom left corner. 
+5\farcs77, as shown in the bottom left corner. 
 Top Right: Contours of CO($J$ = 3 $\rightarrow$ 2) emission (red) overlaid on the SMA 1 mm dust continuum (green) with $
 \sigma$ = 0.84 mJy beam$^{-1}$. The beam size of the SMA data is 1\farcs42$ \times $1\farcs16, P.A. -34\degr, as shown 
 in the bottom left corner. From this image, it is apparent that the extent of the background SMG is smaller than the beam 
-size of the CARMA observations, hence the CO($J$ = 3 $\rightarrow$ 2) line detection is spatially unresolved.
-%Bottom: The Gaussian-fitted line peak of CO($J$ = 3 $\rightarrow$ 2) is 23.36 $\pm$ 2.21 mJy (before continuum
-%subtraction), and the integrated line flux over linewidth of $\sim$1000 km/s is 14.6 $\pm$ 0.9 Jy km s$^{-1}$
-%(after continuum subtraction).  
-Bottom: Solid black line shows our Gaussian fit to the CO ($J$ = 3 $\rightarrow$ 2) line profile. Yellow histogram shows the 
-flux density as a function of velocity offset, where 0 km/s corresponds to $z$ = 2.2214. 
+size of the CARMA observations, hence the CO($J$ = 3 $\rightarrow$ 2) line detection is spatially unresolved. Bottom: Solid black line shows the Gaussian fit to the CO ($J$ = 3 $\rightarrow$ 2) line profile. Yellow histogram shows the 
+flux density as a function of velocity offset, where 0 km/s corresponds to $z$ = 2.221. 
 \label{fig:mom0}}
 \end{figure*}
 
@@ -297,6 +278,11 @@ density and the integrated flux density as the source (core and lobes) being par
 includes non-thermal emission from the lobes. Besides, the contours of the 104 GHz continuum are
 centered on the north lobe of the radio galaxy, this further supports our argument.
 %% OK up
+
+Considering the fact that the orientation of the synthesized beam aligns with 
+the axis along the lobes of the foreground radio galaxy as shown in Figure \ref{fig:cont}, we interpret this difference between 
+the peak flux density and the integrated flux density as the source (core and lobes) being partially resolved, i.e., the 
+continuum detection includes non-thermal emission from the lobes.
 
 
 Talk about the radio core:
