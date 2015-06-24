@@ -1,0 +1,75 @@
+\begin{deluxetable*}{ccc}[tbpH]
+\tabletypesize{\scriptsize}
+\tablecolumns{3}
+\tablecaption{Continuum data of 3C220.3}
+\tablehead{
+\colhead{Frequency (GHz)} &
+\colhead{Flux Density (mJy)} &
+\colhead{Reference}
+\\ \tableline
+\multicolumn{3}{c}{3C220.3}
+}
+% add our data to entry, add core entries
+\startdata
+104.2 & 7.18 $\pm$ 0.051   & This work \\
+10.7 & 270 $\pm$ 30 &    \citet{r9} \\
+10.7 & 253 $\pm$ 28 &    \citet{r10-13-15-19-20-26-29-31}\\
+9.0  &  0.8  $\pm$    blah  \tablenotemark{a} &   \citet{Haas14} \\
+5.0  &   640 $\pm$ 100 &  \citet{r11-14-18-22-25-32}  \\
+5.0  &   636 $\pm$ 50 &   \citet{r10-13-15-19-20-26-29-31} \\
+4.86   &  $<$ 0.17 $\pm$ blah \tablenotemark{a}  & \citet{Mullin06a} \\
+2.7   & 1330 $\pm$ 70.0         &  \citet{r11-14-18-22-25-32}  \\
+2.7   & 1340 $\pm$ 101.0        &   \citet{r10-13-15-19-20-26-29-31} \\
+1.4   & 2950 $\pm$ 88.6         &  \citet{r16}   \\
+1.4   & 2990 $\pm$ 60.0         &   \citet{r17-21} \\
+1.4   & 2800 $\pm$ 140.0        &   \citet{r11-14-18-22-25-32} \\
+1.4   & 2890 $\pm$ 93.0         &      \citet{r10-13-15-19-20-26-29-31} \\
+0.75    &   5940 $\pm$ 273.0    &  \citet{r10-13-15-19-20-26-29-31}  \\
+0.75    &   5940 $\pm$ 210.0    &  \citet{r17-21}   \\
+0.75    &   5600 $\pm$ 840.0    &  \citet{r11-14-18-22-25-32} \\
+0.352   &   11300 $\pm$ 453     &  WENSS  \\
+0.352   &   11600 $\pm$ 464     &  WENSS \\
+0.178   &   15700 $\pm$ 2350    &  \citet{r11-14-18-22-25-32}   \\
+0.178   &   17100 $\pm$ 1710    & \citet{r10-13-15-19-20-26-29-31}    \\
+0.152   &   22600 $\pm$ 80 &  \citet{r2728} \\
+0.152   & 22500 $\pm$ 35.0 &   \citet{r2728} \\
+0.086   & 51600 $\pm$ 9900 &  \citet{r10-13-15-19-20-26-29-31}   \\
+0.0738  & 37500 $\pm$ 3820 &   \citet{r30} \\
+0.038   & 49600 $\pm$ 4960 &  \citet{r10-13-15-19-20-26-29-31}   \\
+0.038   & 40200 $\pm$ 6300 &   \citet{r11-14-18-22-25-32}  \\
+0.0378  & 60700 $\pm$ 6070 &   \citet{r33-34} \\
+0.0178  & 64900 $\pm$ 6490 & \citet{r33-34} \\ \tableline
+
+% # Our Data: [peak, integrated, difference]
+% Point_Continuum_Jy = np.array([5.56e-3, 7.18e-3, 1.62e-3])
+% Point_error_Jy = np.array([5.0647e-4, 5.0647e-4, 5.0647e-4])    # Jy
+
+\multicolumn{3}{c}{Other FR-II: 3C 6.1\tablenotetext{a}} \\ \tableline
+% % add table heading
+8.0 & 3.7 & someone \\
+1.4 & 10.14 & someone \\ \tableline
+\multicolumn{3}{c}{Other FR-II: 3C 263\tablenotetext{a}} \\ \tableline
+8 & 0.119 Jy & someone \\
+5 & 161.1 &  someone
+\enddata
+\label{tab:SEDdataRadio}
+\tablenotetext{a}{Core}
+% \tablenotetext{b}{}
+% \tablenotetext{c}{}
+\tablecomments{Need to FIX: Consider putting references into 1,2,3 etc; explain the other FR-II core measurement what for}
+\end{deluxetable*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
