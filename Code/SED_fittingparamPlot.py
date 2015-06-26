@@ -12,7 +12,21 @@ Purpose:
 Look at resulting fits from mbb_emcee
 plot probabilities of parameters
 """
-
+# matplotlib.rc('text', usetex=True)
+matplotlib.rc('xtick', labelsize=12)
+matplotlib.rc('ytick', labelsize=12)
+font = {'family': 'Arial Narrow',
+        'weight': 'bold',
+        'size': 13}
+matplotlib.rc('font', **font)
+# monospace sans-serif
+axes = {
+    'titlesize': 'xx-large',
+    'labelsize': 'x-large',
+    'labelweight': 'normal',
+    'linewidth': 1.5
+}
+matplotlib.rc('axes', **axes)
 
 def convergence(plotTitle='ln prob', saveFig=False):
     """
@@ -475,8 +489,8 @@ def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
     from matplotlib.ticker import FormatStrFormatter, NullFormatter, NullLocator, MaxNLocator
 
     # rcParams settings
-    plt.rcParams['ytick.labelsize'] = 10.0
-    plt.rcParams['xtick.labelsize'] = 10.0
+#    plt.rcParams['ytick.labelsize'] = 10.0
+#    plt.rcParams['xtick.labelsize'] = 10.0
 #    plt.rcParams['text.usetex'] = True
     plt.rcParams['figure.figsize'] = figsize
 
@@ -558,7 +572,7 @@ def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
     f.subplots_adjust(wspace=0.1)
     if saveFig == True:
         outfile = 'CorrelationPlot__'
-        savefig('../Figure/' + outfile + filename.replace('.h5', '.eps'), dvi=600)
+        savefig('../Figure/' + outfile + filename.replace('.h5', '.png'), dvi=600)
     else:
         plt.show()
 
@@ -694,6 +708,7 @@ def BestFit(verbose=True):
 
 def S_100Rest(alpha=0.80):
     """
+    06- 25 2015: SHOULD REMOVE THIS, no reason to use 100 GHz for deriving qIR if we have different beta than 1.5 (condon 91 or 92)
     Compute flux density at rest frame 100 GHz
 
     Inputs:
@@ -755,19 +770,21 @@ if __name__ == '__main__':
 #    chain_iter(nburn=100, saveFig=save_op)
 #    Ramdon()
     get_Paramvalues(percentile=68.3)
-    S_100Rest(alpha=0.8)
+#    S_100Rest(alpha=0.8)
     IR = get_computation_value(FIR=fir_op)
-    Plot_Standard(saveFig=save_op)
-    Plot_Chain(IR, FIR=fir_op, saveFig=save_op)
-    MCMC_scatterDots(saveFig=save_op)
-    PanelPlot(maxLev=False, confid=False, saveFig=save_op)
+#    Plot_Standard(saveFig=save_op)
+#    Plot_Chain(IR, FIR=fir_op, saveFig=save_op)
+#    MCMC_scatterDots(saveFig=save_op)
+#    PanelPlot(maxLev=False, confid=False, saveFig=save_op)
     chi2 = BestFit()
 
     chainPlot, inj_best = makeChainTriPlot()
-    triplotLabel = ['T', 'beta', 'alpha', 'fnorm', 'lambda0']
+    triplotLabel = ['T/(1+z)', r'$\beta$', r'$\alpha$', r'$f_{\rm norm}$', r'$\lambda_0$']
     if res._opthin == True:
-        triplotLabel.remove('lambda0')
+        triplotLabel.remove(r'$\lambda_0$')
     if res._noalpha == True:
-        triplotLabel.remove('alpha')
+        triplotLabel.remove(r'$\alpha$')
     triplot(chainPlot, title=(filename.replace('.h5', ' ') + 'Parameters'),
             labels=triplotLabel, inj=inj_best, saveFig=save_op)
+#    triplot(chainPlot, title=('Optically thin model ' + 'Parameters'),
+#            labels=triplotLabel, inj=inj_best, saveFig=save_op)
