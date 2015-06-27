@@ -5,8 +5,8 @@ from scipy.constants import k, h, c
 import matplotlib
 
 # matplotlib.rc('text', usetex=True)
-matplotlib.rc('xtick', labelsize=17)
-matplotlib.rc('ytick', labelsize=17)
+matplotlib.rc('xtick', labelsize=20)
+matplotlib.rc('ytick', labelsize=20)
 font = {'family': 'Arial Narrow',
         'weight': 'bold',
         'size': 15}
@@ -41,7 +41,7 @@ def savefigure(f, verbose=True, dirStr='../Figure/'):
             print "... Directory {:s} exists...".format(dirStr)
     os.system('rm -rf ' + f + '.png' + ' ' + f + '.eps')
     plt.savefig(dirStr + f + '.png')
-    plt.savefig(dirStr + f + '.eps', dvi=600)
+#    plt.savefig(dirStr + f + '.eps', dvi=600)
 
 
 def read_data_fromtxt(filename):
@@ -338,16 +338,18 @@ class Wavelength2FreqTransform(Freq2WavelengthTransform):
 
 
 plt.clf()
-fig = plt.figure(1, figsize=(12, 8))
+fig = plt.figure(1, figsize=(20, 8))
+fig.subplots_adjust(left=0.12, right=0.96, top=0.85, bottom=0.15, wspace=0.39)
 ax = SubplotHost(fig, 1, 1, 1)
 fig.add_subplot(ax)
+
 # print "*** !! Redshifting axis for z = 2.221, if undesired, change in
 # function"
 
 aux_trans = mtransforms.BlendedGenericTransform(
     Wavelength2FreqTransform(), mtransforms.IdentityTransform())
 ax_top = ax.twin(aux_trans)
-ax_top.set_xlabel(r'$\nu_{\rm obs}$ [GHz]', size=18, fontweight='normal')
+ax_top.set_xlabel(r'$\nu_{\rm obs}$ [GHz]', size=16, fontweight='bold')
 ax_top.set_viewlim_mode("transform")
 ax_top.axis["right"].toggle(ticklabels=False)
 
@@ -417,9 +419,9 @@ res_thin = mbb_emcee.mbb_results(h5file=filename_thin)
 p_fit_thin = ax.plot(p_wave, res_thin.best_fit_sed(
     p_wave), '-', color='c', lw=4, label='Optically Thin Fit', alpha=0.6)
 
-ax.set_xlabel(r'$\lambda_{\rm obs}\ [\mu$m]', fontsize=17, fontweight='normal')
+ax.set_xlabel(r'$\lambda_{\rm obs}\ [\mu$m]', fontsize=16, fontweight='bold')
 # ax.set_title('SMM J0939+8315', fontsize=20,  fontweight='bold')
-ax.set_ylabel(r'$\rm S_{\nu}$ [mJy]', fontsize=20,  fontweight='bold')
+ax.set_ylabel(r'$\rm S_{\nu}$ [mJy]', fontsize=16,  fontweight='bold')
 led = plt.legend(loc='best', fontsize=15, numpoints=1,
            fancybox=True, borderpad=0.2, handlelength=2, labelspacing=0.1)
 led.get_frame().set_alpha(0) # this will make the box totally transparent
@@ -438,6 +440,7 @@ response = raw_input('Save fig?: (y/n)')
 if response.lower() in ['y', 'yes']:
     filename = '3C220_3FullSED'
     savefigure(filename)
+    fig.savefig('../Figure/' + filename + '2.png')
 elif response.lower() in ['n', 'no']:
     plt.show()
 else:
