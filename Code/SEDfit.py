@@ -420,8 +420,11 @@ p_fit_thin = ax.plot(p_wave, res_thin.best_fit_sed(
 ax.set_xlabel(r'$\lambda_{\rm obs}\ [\mu$m]', fontsize=17, fontweight='normal')
 # ax.set_title('SMM J0939+8315', fontsize=20,  fontweight='bold')
 ax.set_ylabel(r'$\rm S_{\nu}$ [mJy]', fontsize=20,  fontweight='bold')
-plt.legend(loc='best', fontsize=15, numpoints=1,
+led = plt.legend(loc='best', fontsize=15, numpoints=1,
            fancybox=True, borderpad=0.2, handlelength=2, labelspacing=0.1)
+led.get_frame().set_alpha(0) # this will make the box totally transparent
+led.get_frame().set_edgecolor('white') # this will make the edges of the border white to match the background instead
+
 ax.set_xscale('log')
 ax.set_yscale('log')
 ax_top.set_xscale('log')
