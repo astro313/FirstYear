@@ -22,7 +22,7 @@ fig_line = plt.figure(2, figsize=(12, 5))
 ########################################
 sigma_9ghz = 6.41094e-05
 sigma_cont = 5.0e-4
-sigma_line = 1.49
+sigma_line = 1.826
 sigma_SMA = 0.000836951
 
 vla_min = -0.000270099
