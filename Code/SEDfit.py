@@ -337,7 +337,7 @@ class Wavelength2FreqTransform(Freq2WavelengthTransform):
 
 
 plt.clf()
-fig = plt.figure(1, figsize=(20, 8))
+fig = plt.figure(1, figsize=(12, 8))
 fig.subplots_adjust(left=0.12, right=0.96, top=0.85, bottom=0.15, wspace=0.39)
 ax = SubplotHost(fig, 1, 1, 1)
 fig.add_subplot(ax)
@@ -429,6 +429,7 @@ ax.set_xscale('log')
 ax.set_yscale('log')
 ax_top.set_xscale('log')
 ax_top.set_yscale('log')
+#ax.set_rasterized(True)
 
 ############################################
 # Save Figure
@@ -438,7 +439,7 @@ response = raw_input('Save fig?: (y/n)')
 if response.lower() in ['y', 'yes']:
     filename = '3C220_3_FullSED'
     savefigure(filename)
-    fig.savefig('../Figure/' + filename + '2.png')
+    fig.savefig('../Figure/' + filename + '2.pdf')
 elif response.lower() in ['n', 'no']:
     plt.show()
 else:
