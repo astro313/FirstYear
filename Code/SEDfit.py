@@ -20,7 +20,6 @@ axes = {
 }
 matplotlib.rc('axes', **axes)
 
-
 def savefigure(f, verbose=True, dirStr='../Figure/'):
     """
     Save figure in designatied directory and make directory if it doesn't alraedy exist
@@ -373,11 +372,11 @@ errorfill(GHz2um(Radio_Hz[6:] * Hz2GHz),
 ax.errorbar(GHz2um(Radio_Hz[6:] * Hz2GHz),
             Radio_Jy[6:] * Jy2mJy,
             Radio_error[6:] * Jy2mJy,
-            fmt='.k', ecolor='darkgray', label='Previous Data', ms=11, capsize=4, elinewidth=4)      # mJy
+            fmt='.k', ecolor='darkgray', label='Previous Data', ms=11, capsize=8, elinewidth=4, capthick=1.5) # mJy
 
 ax.errorbar(GHz2um(Point_Cont_Hz * Hz2GHz),
             Point_Continuum_Jy * Jy2mJy, Point_error_Jy * Jy2mJy,
-            fmt='.r', ecolor='darkgrey', label='New continuum data', ms=13, capsize=4, elinewidth=4)
+            fmt='.r', ecolor='darkgrey', label='New continuum data', ms=13, capsize=8, elinewidth=4, capthick=1.5)
 
 ax.plot(GHz2um(Core_3c220dot3_Hz[0] * Hz2GHz), Core_3c220dot3_Jy[0] * Jy2mJy,
         'or',
@@ -390,7 +389,7 @@ ax.errorbar(GHz2um(Core_3c220dot3_Hz[1] * Hz2GHz),
 
 yfit = lobeSyn(Radio_Hz[6:], *theta_best)
 # errorfill(GHz2um(Radio_Hz[6:] * Hz2GHz), yfit, Radio_error[6:] * Jy2mJy, ax=ax)
-ax.plot(GHz2um(Radio_Hz[6:] * Hz2GHz), yfit, 'b-', linewidth=4, label='Lobe fit', alpha=0.5)
+ax.plot(GHz2um(Radio_Hz[6:] * Hz2GHz), yfit, 'b-', linewidth=4, label='Lobe fit', alpha=0.35)
 
 epsilon = 50.e9     # extra buffer
 start_Hz = 1e10
@@ -398,8 +397,7 @@ end_Hz = Avg_cont_freq + epsilon
 x_syn_extend = np.linspace(start_Hz, end_Hz)
 syn_extend_mJy = lobeSyn(x_syn_extend, *theta_best)
 ax.plot(GHz2um(x_syn_extend * Hz2GHz),
-        syn_extend_mJy, 'b-', linewidth=3, alpha=0.5)
-
+        syn_extend_mJy, 'b-', linewidth=2.5, alpha=0.5)
 
 ############################################
 # SMG Plot MBB results
@@ -410,14 +408,14 @@ filename_thick = 'thick_500_500.h5'
 res_thick = mbb_emcee.mbb_results(h5file=filename_thick)
 wave, flux, flux_unc = res_thick.data
 p_data = ax.errorbar(wave, flux, yerr=flux_unc, fmt='g.',
-                     label="SMG Data", elinewidth=4, ecolor="darkgrey", ms=13)
+                     label="SMG Data", elinewidth=4, ecolor="darkgrey", ms=13, capthick=1.5, capsize=8)
 p_wave = np.linspace(wave.min() * 0.5, wave.max() * 1.5, 200)
 p_fit_thick = ax.plot(p_wave, res_thick.best_fit_sed(
-    p_wave), 'b--', lw=4, label='Optically Thick Fit', alpha=0.6)
+    p_wave), 'b--', lw=2.5, label='Optically Thick Fit', alpha=0.45)
 filename_thin = 'thin_500_500.h5'
 res_thin = mbb_emcee.mbb_results(h5file=filename_thin)
 p_fit_thin = ax.plot(p_wave, res_thin.best_fit_sed(
-    p_wave), '-', color='c', lw=4, label='Optically Thin Fit', alpha=0.6)
+    p_wave), '-', color='c', lw=2.5, label='Optically Thin Fit', alpha=0.45)
 
 ax.set_xlabel(r'$\lambda_{\rm obs}\ [\mu$m]', fontsize=16, fontweight='bold')
 # ax.set_title('SMM J0939+8315', fontsize=20,  fontweight='bold')
@@ -438,7 +436,7 @@ ax_top.set_yscale('log')
 
 response = raw_input('Save fig?: (y/n)')
 if response.lower() in ['y', 'yes']:
-    filename = '3C220_3FullSED'
+    filename = '3C220_3_FullSED'
     savefigure(filename)
     fig.savefig('../Figure/' + filename + '2.png')
 elif response.lower() in ['n', 'no']:
