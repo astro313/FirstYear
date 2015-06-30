@@ -30,33 +30,50 @@ def sigma_contour_array(sigma):
 
 def sigma_contour_CARMA(sigma):
     """
-    return list of sigma multiples, -3,-2,2,3...11 * sqrt(2) * sigma
+    return list of sigma multiples, -4,-3,3...20  * sigma
     """
-    arr = range(-4, 11)
+    arr = range(-4, 20)
     arr.remove(0)
     arr.remove(1)
+    arr.remove(2)
     arr.remove(-1)
-    arr = [i * np.sqrt(2) * sigma for i in arr]
+    arr.remove(-2)
+#    arr = [i * np.sqrt(2) * sigma for i in arr]
+    arr = [i * sigma for i in arr]
+    return arr
+
+def sigma_contour_lowSNR(sigma):
+    """
+    return list of sigma multiples, -4,-3,-2,2,...20  * sigma
+    """
+    arr = range(-4, 20)
+    arr.remove(0)
+    arr.remove(1)
+#    arr.remove(2)
+    arr.remove(-1)
+#    arr.remove(-2)
+#    arr = [i * np.sqrt(2) * sigma for i in arr]
+    arr = [i * sigma for i in arr]
     return arr
 
 
-def standard_plot_setup(sp, ra_center, dec_center, size):
+def standard_plot_setup(sp, ra_center, dec_center, size, tc='black'):
     sp.set_frame_color('black')
     sp.frame.set_linewidth(1)
     sp.set_system_latex(True)
     sp.recenter(x=ra_center, y=dec_center, radius=size)   # width = blah, height = blah     # Scaling and panning
 
-    sp.tick_labels.set_font(size='medium', weight='bold')      # size='10'
+    sp.tick_labels.set_font(size='large', weight='bold')      # size='10'
     sp.tick_labels.set_style('colons')
     sp.tick_labels.set_xformat('hh:mm:ss')
     sp.tick_labels.set_yformat('dd:mm:ss')
-    sp.ticks.set_color('black')
+    sp.ticks.set_color(tc)
     sp.ticks.set_linewidth(2)
     sp.ticks.set_length(10)
     sp.ticks.set_minor_frequency(4)
     # sp.ticks.set_xspacing(45*15/3600.)        # deg
 
-    sp.axis_labels.set_font(size='medium', weight='bold')      # (size='12')
+    sp.axis_labels.set_font(size='large', weight='bold')      # (size='12')
     sp.axis_labels.set_xtext('Right Ascension (J2000)')
     sp.axis_labels.set_ytext('Declination (J2000)')
     sp.axis_labels.set_xpad(3)

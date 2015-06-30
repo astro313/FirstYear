@@ -22,7 +22,7 @@ fig_line = plt.figure(2, figsize=(12, 5))
 ########################################
 sigma_9ghz = 6.41094e-05
 sigma_cont = 5.0e-4
-sigma_line = 0.7    # on the mom0 map, MIRIAD imfit RMS residual is 7.45E-01
+sigma_line = 1.49
 sigma_SMA = 0.000836951
 
 vla_min = -0.000270099
@@ -37,8 +37,8 @@ SMA_max = 0.00634805
 VLA_ra = 1.448437499980E+02
 VLA_dec = 8.325666666846E+01
 sizep = 0.0025
-sizePcont_noise = 0.0103
-sizePLine = 0.0103
+sizePcont_noise = 0.00920
+sizePLine = 0.0075
 ra_center = 144.84933
 dec_center = 83.257175
 
@@ -82,9 +82,9 @@ fSMA.show_grayscale(stretch='log', vmin=SMA_min, vmax=SMA_max, vmid=-0.05)
 fcont.show_contour(label['cont'][0], colors='black', levels=sigma_contour_CARMA(sigma_cont), linewidths=1.5, layer='fg')
 fvla.show_contour(label['VLA'][0], colors="lime", levels=sigma_contour_array(sigma_9ghz), linewidths=2, layer='fg')
 fvla.show_contour(label['cont'][0], colors='red', levels=sigma_contour_CARMA(sigma_cont), linewidths=2, layer='fg_cont')
-flin.show_contour(label['lin'][0], colors="white", levels=sigma_contour_CARMA(sigma_line), linewidths=2, layer='mol')
+flin.show_contour(label['lin'][0], colors="white", levels=sigma_contour_lowSNR(sigma_line), linewidths=2, layer='mol')
 fSMA.show_contour(label['SMA'][0], colors="lime", levels=sigma_contour_CARMA(sigma_SMA), linewidths=1.8, layer='bf_cont')
-fSMA.show_contour(label['lin'][0], colors="red", levels=sigma_contour_CARMA(sigma_line), linewidths=2, layer='mol')
+fSMA.show_contour(label['lin'][0], colors="red", levels=sigma_contour_lowSNR(sigma_line), linewidths=2, layer='mol')
 
 ########################################
 # beam
