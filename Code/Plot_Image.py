@@ -12,6 +12,7 @@ for k in label.iterkeys():
     files = glob.glob(path+'*'+k+'*.fits')
     label[k] = files
 
+print label
 
 fig = plt.figure(3, figsize=(12, 5))
 fig_line = plt.figure(2, figsize=(12, 5))
@@ -22,23 +23,23 @@ fig_line = plt.figure(2, figsize=(12, 5))
 ########################################
 sigma_9ghz = 6.41094e-05
 sigma_cont = 5.0e-4
-sigma_line = 1.826
+sigma_line = 1.663      # chan 65-85 not pretty mom0    # 0.984      # chan72,90 (pretty) mom0 without options=double,mosaic
 sigma_SMA = 0.000836951
 
 vla_min = -0.000270099
 vla_max = 0.00960869
 max_cont = 5.347e-3
 min_cont = -1.94e-3
-max_line = 9.609
-min_line = -0.2700985
+max_line = 8.93562
+min_line = -8.836704
 SMA_min = -0.00210908
 SMA_max = 0.00634805
 
 VLA_ra = 1.448437499980E+02
 VLA_dec = 8.325666666846E+01
 sizep = 0.0025
-sizePcont_noise = 0.00920
-sizePLine = 0.0075
+sizePcont_noise = 0.012
+sizePLine = 0.012
 ra_center = 144.84933
 dec_center = 83.257175
 
@@ -72,7 +73,7 @@ fvla.show_grayscale(stretch='log', vmin=vla_min, vmax=vla_max, vmid=-0.001)
 
 flin = aplpy.FITSFigure(label['lin'][0], \
         figure=fig_line, subplot=[x0,row_a,width,dy])
-flin.show_colorscale(cmap=mpl.cm.jet)   #, vmin=min_line, vmax=max_line, vmid=min_line-0.5, stretch='log')
+flin.show_colorscale(cmap=mpl.cm.jet, vmin=min_line, vmax=max_line, vmid=-25, stretch='log')
 fSMA = aplpy.FITSFigure(label['SMA'][0], figure=fig_line, subplot=[x0+width+2*x_gap, row_a, width, dy])
 fSMA.show_grayscale(stretch='log', vmin=SMA_min, vmax=SMA_max, vmid=-0.05)
 
@@ -111,7 +112,7 @@ lg_20kpc_fg = lg_1arcsec * 20./scale_radio
 lg_20kpc_bg = lg_1arcsec * 20./scale_SMG
 setup_scalebar(fvla, lg_20kpc_fg, str('20kpc'))
 setup_scalebar(fcont, lg_20kpc_fg, str('20kpc'))
-setup_scalebar(flin, lg_20kpc_bg, str('20kpc'))
+setup_scalebar(flin, lg_20kpc_bg, str('20kpc'), c='black')
 setup_scalebar(fSMA, lg_20kpc_bg, str('20kpc'))
 
 ########################################
@@ -142,10 +143,10 @@ put_label(fvla, 0.15, 0.95, 'VLA 9GHz', 'titleBand')
 put_label(fvla, 0.17, 0.9, '3C220.3', 'titleObj')
 put_label(fcont, 0.31, 0.95, 'CARMA 104GHz', 'titleBand')
 put_label(fcont, 0.2625, 0.9, '3C220.3', 'titleObj')
-put_label(flin, 0.31, 0.95, 'CARMA CO(3-2)', 'titleBand', c='black')
-put_label(flin, 0.31, 0.9, 'SMM J0939+8315', 'titleObj', c='black')
-put_label(fSMA, 0.40, 0.95, 'SMA 1 mm, CARMA CO(3-2)', 'titleBand')
-put_label(fSMA, 0.2625, 0.9, 'SMM J0939+8315', 'titleObj')
+put_label(flin, 0.31, 0.90, 'CARMA CO(3-2)', 'titleBand', c='black')
+put_label(flin, 0.31, 0.85, 'SMM J0939+8315', 'titleObj', c='black')
+put_label(fSMA, 0.40, 0.90, 'SMA 1 mm, CARMA CO(3-2)', 'titleBand')
+put_label(fSMA, 0.2625, 0.85, 'SMM J0939+8315', 'titleObj')
 
 labsize = 'xx-large'
 labc = 'white'
