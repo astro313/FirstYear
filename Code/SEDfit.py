@@ -104,9 +104,9 @@ Core_3c220dot3_Jy = np.array([0.8e-3, 0.17e-3])     # Jy
 Core_3c220dot3_Hz = np.array([9.e9, 4.86e9])    # Hz
 
 # Our Data: [peak, integrated, difference]
-Point_Continuum_Jy = np.array([5.56e-3, 7.18e-3, 1.62e-3])
+Point_Continuum_Jy = np.array([5.18e-3, 9.46e-3, 4.28e-3])
 Point_Cont_Hz = np.array([1.042e11, 1.042e11, 1.02e11])     # Hz
-Point_error_Jy = np.array([5.0647e-4, 5.0647e-4, 5.0647e-4])    # Jy
+Point_error_Jy = np.array([0.24e-3, 0.364e-3, 0.88e-3])    # Jy
 
 
 ########################################

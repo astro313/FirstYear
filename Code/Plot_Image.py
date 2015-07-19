@@ -22,7 +22,7 @@ fig_line = plt.figure(2, figsize=(12, 5))
 # user define area
 ########################################
 sigma_9ghz          = 6.41094e-05
-sigma_cont          = 5.1e-4
+sigma_cont          = 4.9e-4
 sigma_line          = 1.0 # 1.35   # chan 65,85 (pretty)     # 1.0      # chan72,90 (pretty) mom0 without options=double,mosaic
 sigma_SMA           = 0.000836951
 
