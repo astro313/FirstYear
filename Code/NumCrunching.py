@@ -359,7 +359,7 @@ class prettyGalaxies:
         --------
         molecular gas mass fraction
         """
-        print self.M_gas, self.M_dyn
+#        print self.M_gas, self.M_dyn
         return self.M_gas / self.M_dyn
 
     def f_mol_total(self):
@@ -513,8 +513,10 @@ class prettyGalaxies:
             sigma_crit = c**2 / 4 / pi / G * d_AS / d_AL / d_ALS
             M_E_iters = pi * sigma_crit * theta_E_iters**2 / 2e33
             err = np.array(pi * sigma_crit * theta_E_cm*2. * e_theta_E_cm / 2e33)  # (  propagation of error)
+
             M_E[targ] = np.mean(M_E_iters)
             e_M_E[targ] = np.std(M_E_iters)
+            print e_M_E
 
             vdisp2 = theta_E_iters / d_AL / 4 / pi * c**2 * d_AS / d_ALS
             vdisp[targ] = np.mean(np.sqrt(vdisp2) / 1e5)
