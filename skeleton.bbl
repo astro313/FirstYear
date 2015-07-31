@@ -44,6 +44,9 @@
   {Dickinson}, {Krips}, \& {Aravena}}]{Carilli10a}
 {Carilli}, C.~L., {Daddi}, E., {Riechers}, D., {et~al.} 2010, \apj, 714, 1407
 
+\bibitem[{{Casey}(2012)}]{Casey12a}
+{Casey}, C.~M. 2012, \mnras, 425, 3094
+
 \bibitem[{{Chabrier}(2003)}]{Chabrier03a}
 {Chabrier}, G. 2003, \pasp, 115, 763
 
@@ -285,6 +288,7 @@
 {Rengelink}, R.~B., {Tang}, Y., {de Bruyn}, A.~G., {et~al.} 1997, \aaps, 124,
   259
 
+
 \bibitem[{{Riechers} {et~al.}(2006){Riechers}, {Walter}, {Carilli}, {Knudsen},
   {Lo}, {Benford}, {Staguhn}, {Hunter}, {Bertoldi}, {Henkel}, {Menten},
   {Weiss}, {Yun}, \& {Scoville}}]{Riechers06a}
@@ -320,6 +324,7 @@
 {Riechers}, D.~A., {Cooray}, A., {Omont}, A., {et~al.} 2011{\natexlab{d}},
   \apjl, 733, L12
 
+
 \bibitem[{{Riechers} {et~al.}(2013){Riechers}, {Bradford}, {Clements},
   {Dowell}, {P{\'e}rez-Fournon}, {Ivison}, {Bridge}, {Conley}, {Fu}, {Vieira},
   {Wardlow}, {Calanog}, {Cooray}, {Hurley}, {Neri}, {Kamenetzky}, {Aguirre},
@@ -345,6 +350,14 @@
   {Rowan-Robinson}, {Scott}, {Seymour}, {Smith}, {Symeonidis}, {Tugwell},
   {Vaccari}, {Vieira}, {Vigroux}, {Wang}, {Wright}, \& {Zmuidzinas}}]{Scott11a}
 {Scott}, K.~S., {Lupu}, R.~E., {Aguirre}, J.~E., {et~al.} 2011, \apj, 733, 29
+
+\bibitem[{{Simpson} {et~al.}(2012){Simpson}, {Smail}, {Swinbank}, {Alexander},
+  {Auld}, {Baes}, {Bonfield}, {Clements}, {Cooray}, {Coppin}, {Danielson},
+  {Dariush}, {Dunne}, {de Zotti}, {Harrison}, {Hopwood}, {Hoyos}, {Ibar},
+  {Ivison}, {Jarvis}, {Lapi}, {Maddox}, {Page}, {Riechers}, {Valiante}, \& {van
+  der Werf}}]{Simpson12a}
+{Simpson}, J.~M., {Smail}, I., {Swinbank}, A.~M., {et~al.} 2012, \mnras, 426,
+  3201
 
 \bibitem[{{Smol{\v c}i{\'c}} \& {Riechers}(2011)}]{Smolcic11a}
 {Smol{\v c}i{\'c}}, V., \& {Riechers}, D.~A. 2011, \apj, 730, 64
@@ -373,6 +386,12 @@
   {F{\"o}rster Schreiber}, {Genel}, {Lutz}, {Swinbank}, {Shapley}, {Erb},
   {Cimatti}, {Daddi}, \& {Baker}}]{Tacconi08a}
 {Tacconi}, L.~J., {Genzel}, R., {Smail}, I., {et~al.} 2008, \apj, 680, 246
+
+\bibitem[{{Tacconi} {et~al.}(2010){Tacconi}, {Genzel}, {Neri}, {Cox}, {Cooper},
+  {Shapiro}, {Bolatto}, {Bouch{\'e}}, {Bournaud}, {Burkert}, {Combes},
+  {Comerford}, {Davis}, {Schreiber}, {Garcia-Burillo}, {Gracia-Carpio}, {Lutz},
+  {Naab}, {Omont}, {Shapley}, {Sternberg}, \& {Weiner}}]{Tacconi10a}
+{Tacconi}, L.~J., {Genzel}, R., {Neri}, R., {et~al.} 2010, \nat, 463, 781
 
 \bibitem[{{Vieira} {et~al.}(2010){Vieira}, {Crawford}, {Switzer}, {Ade},
   {Aird}, {Ashby}, {Benson}, {Bleem}, {Brodwin}, {Carlstrom}, {Chang}, {Cho},
