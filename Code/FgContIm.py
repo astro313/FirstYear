@@ -42,6 +42,16 @@ def sigma_contour_CARMA(sigma):
     arr = [i * sigma for i in arr]
     return arr
 
+def sigma_contour_cont(sigma):
+    """
+    return list of sigma multiples, -4,-2,2,4,6..20  * sigma
+    """
+    arr = range(-4, 20)
+    arr.remove(0)
+#    arr = [i * np.sqrt(2) * sigma for i in arr]
+    arr = [i * 2 * sigma for i in arr]
+    return arr
+
 def sigma_contour_lowSNR(sigma):
     """
     return list of sigma multiples, -4,-3,-2,2,...20  * sigma
