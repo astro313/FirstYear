@@ -13,11 +13,11 @@ Look at resulting fits from mbb_emcee
 plot probabilities of parameters
 """
 # matplotlib.rc('text', usetex=True)
-matplotlib.rc('xtick', labelsize=12)
-matplotlib.rc('ytick', labelsize=12)
+matplotlib.rc('xtick', labelsize=18)
+matplotlib.rc('ytick', labelsize=18)
 font = {'family': 'Arial Narrow',
         'weight': 'bold',
-        'size': 13}
+        'size': 15}
 matplotlib.rc('font', **font)
 # monospace sans-serif
 axes = {
@@ -437,7 +437,7 @@ def makesubplot2d(ax, samples1, samples2, color=True, weights=None, smooth=True,
                            interpolation='gaussian', norm=matplotlib.colors.LogNorm())
         else:
             c2 = ax.imshow(np.flipud(hist2d.T), extent=extent, aspect=ax.get_aspect(),
-                           interpolation='gaussian')
+                           interpolation='gaussian', alpha=0.8)
 
     if logx:
         ax.set_xscale('log')
@@ -552,7 +552,7 @@ def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
             if jj == len(parameters) - 1:
                 axarr[jj][ii].xaxis.set_major_formatter(xmajorFormatter)
                 if labels:
-                    axarr[jj][ii].set_xlabel(labels[ii])
+                    axarr[jj][ii].set_xlabel(labels[ii], labelpad=10)
 
             if ii == 0:
                 if jj == 0:
@@ -561,18 +561,19 @@ def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
                 else:
                     axarr[jj][ii].yaxis.set_major_formatter(ymajorFormatter)
                     if labels:
-                        axarr[jj][ii].set_ylabel(labels[jj])
+                        axarr[jj][ii].set_ylabel(labels[jj], labelpad=10)
 
     # overall plot title
     if title:
-        f.suptitle(title, fontsize=14, y=0.90)
+        f.suptitle(title, fontsize=22, y=0.90)
 
     # make plots closer together
     f.subplots_adjust(hspace=0.1)
     f.subplots_adjust(wspace=0.1)
     if saveFig == True:
         outfile = 'CorrelationPlot__'
-        savefig('../Figure/' + outfile + filename.replace('.h5', '.png'), dvi=600)
+#        savefig('../Figure/' + outfile + filename.replace('.h5', '.png'), dvi=600)
+        savefig('../Figure/' + outfile + filename.replace('.h5', '.pdf'), dvi=600)
     else:
         plt.show()
 
@@ -732,7 +733,7 @@ def S_100Rest(alpha=0.80):
 if __name__ == '__main__':
     """
     run script.py filename True False
-    sys.argv[2] determines whether or not to get values and plots for FIR
+    sys.argv[2] determines whether or not to compute values and plots for FIR
     sys.argv[3] determines whether to save all the plots or not
     """
     if len(sys.argv) < 4:
@@ -784,7 +785,5 @@ if __name__ == '__main__':
         triplotLabel.remove(r'$\lambda_0$')
     if res._noalpha == True:
         triplotLabel.remove(r'$\alpha$')
-    triplot(chainPlot, title=(filename.replace('.h5', ' ') + 'Parameters'),
-            labels=triplotLabel, inj=inj_best, saveFig=save_op)
-#    triplot(chainPlot, title=('Optically thin model ' + 'Parameters'),
-#            labels=triplotLabel, inj=inj_best, saveFig=save_op)
+#    triplot(chainPlot, title=(filename.replace('.h5', ' ') + 'Parameters'),            labels=triplotLabel, inj=inj_best, saveFig=save_op)
+    triplot(chainPlot, title=('Optically thick model parameters'),            labels=triplotLabel, inj=inj_best, saveFig=save_op)
