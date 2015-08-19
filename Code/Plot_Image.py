@@ -139,10 +139,11 @@ markers_cross(fSMA, ra_cross, dec_cross, layer='marker_set_1')
 ########################################
 # Labels
 ########################################
-put_label(fvla, 0.18, 0.93, 'VLA 9GHz', 'titleBand')
+put_label(fvla, 0.40, 0.93, 'VLA 9GHz, CARMA 104GHz', 'titleBand')
 put_label(fvla, 0.17, 0.87, '3C220.3', 'titleObj')
-put_label(fcont, 0.31, 0.90, 'CARMA 104GHz', 'titleBand', c='orangered')
-put_label(fcont, 0.2625, 0.85, '3C220.3', 'titleObj', c='orangered')
+put_label(fcont, 0.31, 0.90, 'CARMA 104GHz', 'titleBand', c='black', w=
+'heavy')
+put_label(fcont, 0.2625, 0.85, '3C220.3', 'titleObj', c='black', w='extra bold')
 put_label(flin, 0.31, 0.93, 'CARMA CO(3-2)', 'titleBand', c='black')
 put_label(flin, 0.31, 0.87, 'SMM J0939+8315', 'titleObj', c='black')
 put_label(fSMA, 0.40, 0.935, 'SMA 1 mm, CARMA CO(3-2)', 'titleBand')
