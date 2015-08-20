@@ -1,6 +1,6 @@
 %\documentclass[12pt,preprint]{aastex}
 \documentclass[twocolumn,apj,numberedappendix]{emulateapj}
-\usepackage{hyperref}
+\usepackage[breaklinks,colorlinks,urlcolor=blue,citecolor=blue,linkcolor=blue]{hyperref}
 \newcommand{\vdag}{(v)^\dagger}
 \newcommand{\myemail}{tleung@astro.cornell.edu}
 \newcommand{\Msun}{\mbox{$M_{\odot}$}}
@@ -10,7 +10,6 @@
 \newcommand{\CO}{\mbox{CO($J$\,=\,3\,$\rightarrow$\,2) }}
 \newcommand{\Lp}{\mbox{$L^{\prime}_\textrm{CO(1-0)}$}}
 \newcommand{\LpU}{\mbox{K\,\,km\,\,s$^{-1}$\,\,pc$^2$}}
-%\newcommand{\eg}{{\sl e.g.,}}
 \newcommand{\eg}{{\sl e.g.,~}}
 \newcommand{\ie}{{\sl i.e.,~}}
 \newcommand{\pmOne}{\mbox{$^{-1}$}}
@@ -39,59 +38,60 @@
 \affil{Department of Astronomy, Space Sciences Building, Cornell University, Ithaca, NY 14853, USA; \myemail}
 
 \begin{abstract}
-We report the detection of \CO line emission in the strongly-lensed submillimeter galaxy (SMG) SMM\,J0939+8315 at $z$ = 2.221, using  
+We report the detection of \CO line emission in the strongly-lensed submillimeter galaxy (SMG) SMM\,J0939+8315 at $z$ = 2.221, using
 the Combined Array for Research in Millimeter-wave Astronomy (CARMA). 
-The underlying continuum emission toward the foreground radio galaxy 3C220.3, at $z$ = 0.685, is detected with an integrated flux density of $S_\textrm{cont}$ = 7.4\,$\pm$\,1.4 mJy. 
-Using the \CO line intensity of $I_\textrm{CO(3-2)}$ = (10.1\,$\pm$\,1.3)\,Jy\,km\,s\pmOne, we derive 
- a lensing- and excitation-corrected CO line luminosity of \Lp = (2.7\,$\pm$\,0.6) $\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$)\,\LpU, where $\mu_\textrm{L}$ is the lensing magnification factor inferred from our lens modeling performed on the archival 1\,mm continuum emission. 
- This translates to a molecular gas mass of $M_\textrm{gas}$\,=\,(2.3\,$\pm$\,0.5)\,$\times$\,10$^{10}$\,\Msun. 
-Fitting the spectral energy distribution (SED) models to the (sub)-millimeter data of this SMG yields a rest-frame dust temperature of $T_\textrm{dust}$ = 
-63.1$^{+1.1}_{-1.3}$\,K, a dust mass of $M_\textrm{dust}$ = (5.2\,$\pm$\,2.1)\,$\times$\,10$^8$\,\Msun, and a total infrared luminosity of 
-$L_\textrm{IR}$ = (9.1\,$\pm$\,1.2)\,$\times$10$^{12}$\,\Lsun, after correcting for lensing magnification.
-Our comparative study 
-of the intrinsic properties (\eg gas mass, dust mass, star formation rate, and surface densities) in SMM
-J0939+8315 
+The radio galaxy 3C220.3 at $z$ = 0.685 acts as a gravitational lens of this SMG, which hosts a type-2 quasar.
+The underlying 104 GHz continuum emission toward 3C220.3 is detected with an integrated flux density of $S_\textrm{cont}$ = 7.4\,$\pm$\,1.4 mJy.
+Using the \CO line intensity of $I_\textrm{CO(3-2)}$ = (10.1\,$\pm$\,1.3)\,Jy\,km\,s\pmOne, we derive
+ a lensing- and excitation-corrected CO line luminosity of \Lp = (2.7\,$\pm$\,0.6) $\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$)\,\LpU, where $\mu_\textrm{L}$ is the lensing magnification factor inferred from our lens modeling performed on the 1\,mm continuum emission.
+ This translates to a molecular gas mass of $M_\textrm{gas}$ = (2.2\,$\pm$\,0.5)\,$\times$\,10$^{10}$\,\Msun.
+Fitting spectral energy distribution models to the (sub)-millimeter data of this SMG yields a dust temperature of $T_\textrm{dust}$ =
+63.1$^{+1.1}_{-1.3}$\,K, a dust mass of $M_\textrm{dust}$ = (5.2\,$\pm$\,2.1)\,$\times$\,10$^8$\,(10.1/$\mu_\textrm{L}$)\,\Msun, and a total infrared luminosity of
+$L_\textrm{IR}$ = (9.1\,$\pm$\,1.2)\,$\times$10$^{12}$\,(10.1/$\mu_\textrm{L}$)\,\Lsun.
+Our comparative study
+of the gas mass, dust mass, star formation rate, and surface densities in SMM
+J0939+8315
 and other high-redshift SMGs and type-2 quasars shows that SMM\,J0939+8315 is a faithful representation of both populations, suggesting that
-SMM\,J0939+8315 may be transitioning from its star-bursting phase to the unobscured quasar phase in the currently favored evolutionary link model.
+SMM\,J0939+8315 may be transitioning from its star-bursting phase to the unobscured quasar phase.
 \end{abstract}
 \keywords{cosmology: observations --- galaxies: formation --- galaxies: high-redshift ---  galaxies: starburst --- submillimeter: galaxies}
 
 \section{Introduction}\label{sec:intro}
-Submillimeter-selected galaxies (SMGs) are predominantly found at redshifts $z$\,$\sim$\,1\,--\,3, during the epoch of stellar mass and 
-galaxy assembly, with a tail out to $z>$ 6 \citep{Riechers13a}. 
-These galaxies are luminous at submillimeter (submm) wavelengths due to the re-radiation of dust emission peaking at 
-rest-frame far-infrared (FIR) wavelengths \citep{blain02a}. 
-In the past $\sim$\,5~years, considerable amounts of effort have been invested into follow-up observations of SMGs that were 
-discovered in large sky surveys \citep[\eg H-ATLAS, HerMES; ][]{Eales10a,Oliver12a}, conducted using (sub)-mm facilities. These detailed studies have led to growing consensus that SMGs are a population of high-redshift galaxies that are extremely dusty, gas-rich, 
-  and luminous ($\gtrsim$ 10$^{12}$ \Lsun) at the infrared wavebands, with high star formation rates \citep[$\gtrsim $ 500 \Msun yr\pmOne; \eg][]{Lagache05a}.
-  
-  To characterize the physical properties of the gas reservoirs in the interstellar medium (ISM) where active star formation takes place, carbon monoxide (CO) rotational lines have been commonly used as tracers due to its high abundance in the ISM as well as its low excitation energy; the ground state transition line thereby directly probes the cool gas that is essential to fuel star formation \citep[See \eg][]{Carilli13a}. Recent observations of CO in SMGs at $z$\,$\sim$\,1\,--\,3 have demonstrated that these galaxies have large gas reservoirs typical of \textgreater 10$^{10}$\Msun \citep[\eg][]{Riechers11c,Riechers11d,Ivison11a,Bothwell13a}. 
+Submillimeter-selected galaxies (SMGs) are predominantly found at redshifts $z$\,$\sim$\,1\,--\,3, during the epoch of stellar mass and
+galaxy assembly, with a tail out to $z>$ 6 \citep{Riechers13a}.
+These galaxies are luminous at submillimeter (submm) wavelengths due to the re-radiation of dust emission peaking at
+rest-frame far-infrared (FIR) wavelengths \citep{blain02a}.
+In the past $\sim$\,5~years, considerable amounts of effort have been invested into follow-up observations of SMGs that were
+discovered in large sky surveys \citep[\eg H-ATLAS, HerMES, SPT; ][]{Eales10a,Oliver12a,Vieira10a}, conducted using (sub)-mm facilities. These detailed studies have led to growing consensus that SMGs are a population of high-redshift galaxies that are extremely dusty, gas-rich,
+  and luminous ($\gtrsim$ 10$^{12}$ \Lsun) at the infrared wavebands, with high star formation rates \citep[$\gtrsim $ 500 \Msun yr\pmOne; \eg][]{Lagache05a,Casey14a}.
 
-Many recent follow-up observations and thus detailed studies are carried out on SMGs that are gravitationally lensed,
- as lensing amplifies the intrinsic luminosities of these sources, making them the brightest unveiled in large sky surveys \citep{Negrello10a,Vieira10a,Oliver12a}, and allowing observations to be carried out in a timely-manner.
-A particularly interesting and peculiar lensing system was discovered serendipitously in a sky survey carried out with the {\it Herschel Space Telescope}, in which 
-a type-2 quasar host SMG --- SMM\,J0939+8315 (hereafter SMM\,J0939) is being lensed by the double-lobed Fanaroff-Riley 
+  To characterize the physical properties of the gas reservoirs in the interstellar medium (ISM) where active star formation takes place, carbon monoxide (CO) rotational lines have been commonly used as tracers due to its high abundance in the ISM as well as its low excitation energy; the ground state transition line thereby directly probes the cool gas that is essential to fuel star formation \citep[See \eg][]{Solomon05a,Carilli13a}. Recent observations of CO in SMGs at $z$\,$\sim$\,1\,--\,3 have demonstrated that these galaxies have large gas reservoirs typical of \textgreater 10$^{10}$\Msun \citep[\eg][]{Riechers11c,Riechers11d,Ivison11a,Bothwell13a}.
+
+Many recent detailed studies have been carried out on SMGs that are gravitationally lensed,
+ as lensing amplifies the intrinsic luminosities of these sources, making them the brightest unveiled in large sky surveys \citep{Negrello10a,Vieira10a,Oliver12a}, and making follow-up studies considerably less time consuming.
+A particularly interesting and peculiar lensing system was discovered serendipitously in a study carried out with the {\it Herschel Space Telescope}, in which
+a type-2 quasar host SMG --- SMM\,J0939+8315 (hereafter SMM\,J0939) is being lensed by the double-lobed Fanaroff-Riley
 Class II \citep*[FR-II; ][]{Fanaroff74} radio galaxy 3C220.3 and its
 companion galaxy B at $z$\,=\,0.685.
 SMM\,J0939 is currently one of the brightest known lensed
-SMGs, with a lensing-magnified flux density of $S_\textrm{250\micron m}$\,=\,440\,$\pm$\,15 mJy. 
-Previous detections of CIV\,1459\AA\
- and HeII\,1640\AA\ line emission toward SMM\,J0939 
- placed the redshift of this galaxy at $z$\,=\,2.221, and suggested the presence of a type-2 quasar,  
-indicating active galactic nucleus (AGN) activity in this SMG \citep[hereafter H14]{Haas14}. 
+SMGs, with a lensing-magnified flux density of $S_\textrm{250\micron}$\,=\,440\,$\pm$\,15 mJy.
+Previous detections of C{\scriptsize\sc IV}\,1459\AA\
+ and He{\scriptsize\sc II}\,1640\AA\ line emission toward SMM\,J0939
+ placed the redshift of this galaxy at $z$\,=\,2.221, and suggested the presence of an active galactic nucleus (AGN),
+indicating a type-2 quasar in this SMG \citep[hereafter H14]{Haas14}.
 
 In this paper, we present the detection of \CO line emission toward the background SMG obtained with the Combined
-Array for Research in Millimeter Astronomy (CARMA), which refines the redshift, and permits the study of the physical conditions in the ISM of SMM\,J0939 in great detail. We report the detection of the underlying continuum emission and place constraints on the spectral energy distribution (SED) of the foreground FR-II galaxy at mm wavelength ($\sim$\,104 GHz). Based on the magnification factor derived from our lens model, we infer intrinsic properties of SMM\,J0939 and thereby 
+Array for Research in Millimeter Astronomy (CARMA), which refines the redshift, and permits the study of the physical conditions in the ISM of SMM\,J0939 in great detail. We report the detection of the underlying continuum emission and place constraints on the spectral energy distribution (SED) of the foreground FR-II galaxy at millimeter (mm) wavelengths ($\sim$\,104 GHz). Based on the magnification factor derived from our lens model, we infer various intrinsic properties of SMM\,J0939. We 
 conclude this paper by comparing our findings to other similarly bright, strongly-lensed SMGs, as well as other type-2 quasars at $z$\,$\sim$\,2 .
 
-We adopt a flat $\Lambda$CDM cosmological model throughout this paper, with H$_0$= 69.32 km\,\,Mpc\pmOne\,\,s\pmOne, $\Omega_\textrm{M}$\,=\,0.286, $\Omega_\Lambda$=0.713, based on WMAP9 results \citep{Hinshaw13a}.
+We adopt a flat $\Lambda$CDM cosmological model throughout this paper, with H$_0$= 69.32 km\,\,Mpc\pmOne\,\,s\pmOne, $\Omega_\textrm{M}$\,=\,0.286, $\Omega_\Lambda$=0.713, based on the WMAP9 results \citep{Hinshaw13a}.
 The luminosity distances at $z$\,=\,0.685 and $z$\,=\,2.221 are 4214 Mpc and 19052 Mpc, respectively; 1$\arcsec$
 corresponds to 8.406 kpc at $z$\,=\,2.221, and 7.169 kpc at $z$\,=\,0.685.
 
 \section{Observations}\label{sec:obs}
 \subsection{CARMA} \label{sec:carmadata}
 Observations of the \CO rotational transition ($\nu_\textrm{rest}$\,=\,345.7959899 GHz) toward the background galaxy SMM
-J0939 ($z$\,=\,2.221) were carried out using CARMA at a redshifted frequency of $\nu_{obs}$\,=\,107.357\,\,GHz (2.79\,\,mm)  (program ID: cf0142; PI: Riechers). The 3\,mm receivers were used to cover the redshifted \CO line and the nearby 2.88\,mm continuum emission. The correlators were configured to provide a bandwidth of 3.75 GHz in each sideband, and a spectral resolution of 5.208 MHz ($\sim$\,14.5 km\,\,s\pmOne). The line was placed in the
+J0939 ($z$\,=\,2.221) were carried out using CARMA at a redshifted frequency of $\nu_{\textrm obs}$\,=\,107.357\,\,GHz (2.79\,\,mm)  (program ID: cf0142; PI: Riechers). The 3\,mm receivers were used to cover the redshifted \CO line and the nearby observed-frame 2.88\,mm continuum emission. The correlator was configured to provide a bandwidth of 3.75 GHz in each sideband, and a spectral resolution of 5.208 MHz ($\sim$\,14.5 km\,\,s\pmOne). The line was placed in the
 upper sideband, with the local oscillator tuned to $\nu_\textrm{LO}$\,$\sim$\,104.2609 GHz. % restructure
 Observations were carried out under good
 weather conditions in the E array configuration on 2014 July 12. This resulted in 1.56 hours of 15 antenna-equivalent on-source time after discarding unusable visibility data.
@@ -100,82 +100,82 @@ pointing, amplitude, and phase calibration. Mars was observed as the primary
 absolute flux calibrator, and the quasar 3C273 was observed as the secondary
 flux calibrator. J0927+390 was observed for bandpass calibration, yielding $\sim
 $15\% calibration accuracy. \par
-We use the {\sc MIRIAD} package to calibrate and analyze the visibility data, which are deconvolved and imaged with ``natural" weighting. 
-This yields a synthesized clean beam size of 11$\farcs$5\,$\times$\,6\farcs2, $-$56.1$\degr$ east of north for the upper sideband image cube and an rms noise of $\sigma_\textrm{ch}$\,=\,9.49\,\,mJy\,\,beam\pmOne\ per channel 
+We use the {\sc MIRIAD} package to calibrate and analyze the visibility data, which are deconvolved and imaged with ``natural" weighting.
+This yields a synthesized clean beam size of 11$\farcs$5\,$\times$\,6\farcs2, $-$56.1$\degr$ east of north for the upper sideband image cube and an rms noise of $\sigma_\textrm{ch}$\,=\,9.49\,\,mJy\,\,beam\pmOne\ per channel
 of width $\sim$\,29 km\,\,s\pmOne.
 The continuum image is created by
-averaging over all line-free channels, this yields a synthesized clean beam of 12\farcs0\,$\times$\,6\farcs5, $-$55.9$\degr$ east of north, and an rms noise of $\sigma_\textrm{cont}$ = 0.50\,\,mJy\,\,beam\pmOne.
+averaging over all line-free channels, this yields a synthesized clean beam of 12\farcs0\,$\times$\,6\farcs5, $-$55.9$\degr$ east of north, and an rms noise of $\sigma_\textrm{cont}$ = 0.50\,\,mJy\,\,beam\pmOne over 7.BLAH GHz
 
 \section{Results}\label{sec:res}
-%\subsection{New Results: Continuum Emission} 
-\subsection{New Results: 3C220.3} 
-Averaging over all line-free channels, we detect $\sim$\,9$\sigma$ continuum emission at an averaged frequency of $\nu_{cont}$\,=\,104.2106 GHz ($\sim$\,2.9 mm) in the observed-frame, corresponding to 175.6 GHz ($\sim$\,1.7 mm) at $z$\,=\,0.685. In this lensing system, the 
-foreground galaxy (3C220.3) is radio-loud, we thus expect it to be the dominant source of the continuum emission (see \S \ref{sec:SEDFg} for details). The task {\sc imfit} is used to estimate the peak position of the continuum emission, where the flux density is S$_\nu$\,=\,4.93\,$\pm$\,0.31\,\,mJy\,\,beam\pmOne. From the continuum measurement, the deconvolved source size 
-is (8\farcs4\,$\pm$\,1\farcs1)\,$\times$\,(4\farcs9\,$\pm$\,0\farcs6) at $-$53.8$\degr$, and the integrated flux density is 7.39\,$\pm$\,1.42\,\,mJy. An overlay image of the 104 GHz  
-continuum emission with the 9 GHz continuum emission (H14) is shown in Figure~\ref{fig:cont}, demonstrating that the continuum 
-emission is marginally resolved at the resolution of our observations. It is therefore plausible that non-thermal emission from the radio lobes and core of the foreground galaxy dominate the integrated flux 
+%\subsection{New Results: Continuum Emission}
+\subsection{New Results: 3C220.3}
+Averaging over all line-free channels, we detect continuum emission at $\sim$\,9$\sigma$ at an averaged frequency of $\nu_{\textrm cont}$\,=\,104.2106 GHz ($\sim$\,2.9 mm) in the observed-frame, corresponding to 175.6 GHz ($\sim$\,1.7 mm) at $z$\,=\,0.685. In this lensing system, the
+foreground galaxy (3C220.3) is radio-loud, we thus expect it to be the dominant contributor to the continuum emission (see \S \ref{sec:SEDFg} for details). The task {\sc imfit} is used to estimate the peak position of the continuum emission, where the flux density is S$_\nu$\,=\,4.93\,$\pm$\,0.31\,\,mJy\,\,beam\pmOne. From the continuum measurement, the deconvolved source size
+is (8\farcs4\,$\pm$\,1\farcs1)\,$\times$\,(4\farcs9\,$\pm$\,0\farcs6) at $-$53.8$\degr$, and the integrated flux density is 7.39\,$\pm$\,1.42\,\,mJy. An overlay image of the 104 GHz
+continuum emission with the 9 GHz continuum emission (H14) is shown in Figure~\ref{fig:cont}, demonstrating that the continuum
+emission is marginally resolved at the resolution of our observations. It is therefore plausible that non-thermal emission from the radio lobes and core of the foreground galaxy dominate the integrated flux
 density of the measured continuum. We discuss this further in Section \ref{sec:SEDFg}. \par
-The frequency range of our observations covers the HCO$^+$(2\,\rarr\,1), HNC($J$\,=\,2\,$\rightarrow$\,1), and H$_2$O(3$_{13}$\,\rarr\,2$_{20}$) 
-transition line emission in the foreground galaxy, at 
-the redshifted frequencies of 105.86, 107.71, and 108.79\,\,GHz, respectively. We establish 3$\sigma$ upper limits employing a typical FWHM line width of 
+The frequency range of our observations covers the HCO$^+$($J$\,=\,2\,\rarr\,1), HNC($J$\,=\,2\,$\rightarrow$\,1), and H$_2$O(3$_{13}$\,\rarr\,2$_{20}$)
+transition line emission in the foreground galaxy, at
+the redshifted frequencies of 105.86, 107.71, and 108.79\,\,GHz, respectively. We establish 3$\sigma$ upper limits employing a typical FWHM line width of
 $\sim$\,300\,\,km\,\,s\pmOne, based on the CO($J$\,=\,1\,$\rightarrow$\,0) line measurements in a sample of local radio galaxies \citep[$z$ $<$ 0.1; ][]{Smolcic11a}. This results in upper limits of $<$ 2.66\,\,Jy\,\,km\,\,s\pmOne\ on the integrated emission line strengths.
 
 \begin{figure*}[tbph]
 \centering
 \includegraphics[width=0.80\textwidth]{Figure/ContPanel.pdf}
-\caption{Left: Contour map of the 104 GHz continuum emission in the foreground radio galaxy 3C220.3. 
-%The contour levels start at $\pm$2$\sigma$, where $\sigma$ = 0.5 mJy beam\pmOne, and 
-%increment at steps of $\pm$2$\sigma$. 
+\caption{Left: Contour map of the 104 GHz continuum emission in the foreground radio galaxy 3C220.3.
+%The contour levels start at $\pm$2$\sigma$, where $\sigma$ = 0.5 mJy beam\pmOne, and
+%increment at steps of $\pm$2$\sigma$.
 The beam size is 12\farcs0\,$\times$\,6\farcs5, at P.A.\,=\,
-$-$56$\degr$, as indicated in the bottom left corner. Right: CARMA 104 GHz continuum emission (red contours) overlaid on the VLA 9 GHz continuum emission (green contours and grayscale; H14). 
-The synthesized beam size of the VLA observations is 0$\farcs$6\,$\times$\,0$\farcs$2, at P.A. 
-76$\degr$. The contour levels of the 104 GHz continuum emission start at $\pm$2$\sigma$, incrementing at steps 
-of $\pm$2$\sigma$ of 0.5 mJy beam\pmOne; the contour levels of the 9 GHz continuum 
-emission start at $\pm$4$\sigma$, where $\sigma$\,=\,0.064 mJy beam\pmOne, and increment at steps of $\pm$2$^n\sigma$, 
+$-$56$\degr$, as indicated in the bottom left corner. Right: CARMA 104 GHz continuum emission (red contours) overlaid on the VLA 9 GHz continuum emission (green contours and grayscale; H14).
+The synthesized beam size of the VLA observations is 0$\farcs$6\,$\times$\,0$\farcs$2, at P.A.
+76$\degr$. The contour levels of the 104 GHz continuum emission start at $\pm$2$\sigma$, incrementing at steps
+of $\pm$2$\sigma$ of 0.5 mJy beam\pmOne; the contour levels of the 9 GHz continuum
+emission start at $\pm$4$\sigma$, where $\sigma$\,=\,0.064 mJy beam\pmOne, and increment at steps of $\pm$2$^n\sigma$,
 where $n$ is a positive integer.
 The central cross on each image indicates the position of the radio core of 3C220.3. \label{fig:cont}}
 \end{figure*}
 %\subsection{New Results: \CO Line Emission}
 \subsection{New Results: SMM\,J0939\\ \CO Line Emission}
 We detect \CO line emission at $\sim$\,8$\sigma$ significance toward the background SMG SMM\,J0939 at $z$\,=\,2.221.
-The spatial extent of this SMG is $\sim$\,5$\arcsec$, as shown in the Submillimeter Array (SMA) 1\,mm dust continuum in Figure~\ref{fig:mom0}; as such, 
-the detected \CO line emission is spatially unresolved. We therefore extract the line profile (Figure~\ref{fig:mom0}) at the peak position of the unresolved 
-CO emission. Fitting a four-parameter single Gaussian to the spectrum yields a peak flux density of 21.61\,$\pm$\,2.66\,\,mJy, superimposed on a 
-continuum level of 4.15\,$\pm$\,0.48\,\,mJy, and a full width at half-maximum (FWHM) line width of 546\,$\pm$\,36\,\,km\,\,s\pmOne.  \par
-We construct a velocity-integrated (0th moment) map of the \CO line 
-emission after subtracting continuum emission in the visibility plane. This results in a velocity-integrated \CO line flux of $I_\textrm{CO}$\,=\,10.1\,$\pm$\,1.3 Jy km\,\,s\pmOne\ over the velocity range of $\Delta v$\,$\sim$\,680 km\,\,s\pmOne, the uncertainty does not include $\sim$\,15\% calibration 
+The lensing-magnified spatial extent of this SMG is $\sim$\,5$\arcsec$, as shown in the Submillimeter Array (SMA) 1\,mm dust continuum image in Figure~\ref{fig:mom0} (H14); as such,
+the detected \CO line emission is spatially unresolved. We therefore extract the line profile (Figure~\ref{fig:mom0}) at the peak position of the unresolved
+CO emission. Fitting a four-parameter single Gaussian to the spectrum yields a peak flux density of 21.61\,$\pm$\,2.66\,\,mJy, superimposed on a
+continuum level of 4.15\,$\pm$\,0.48\,\,mJy beam\pmOne, and a line full width at half-maximum (FWHM) of 546\,$\pm$\,36\,\,km\,\,s\pmOne.  \par
+We construct a velocity-integrated (0th moment) map of the \CO line
+emission after subtracting continuum emission in the visibility plane. This results in a velocity-integrated \CO line flux of $I_\textrm{CO}$\,=\,10.1\,$\pm$\,1.3 Jy km\,\,s\pmOne\ over the velocity range of $\Delta v$\,$\sim$\,680 km\,\,s\pmOne, the uncertainty does not include $\sim$\,15\% calibration
 uncertainty. Our \CO line measurement confirms the redshift of SMM\,J0939, yielding $z$\,=\,2.2212\,$\pm$\,0.0010.
 
-\begin{figure*}[tbph] 
+\begin{figure*}[tbph]
 \centering
 \includegraphics[width=0.8\textwidth]{Figure/LinePanel.pdf}
 \includegraphics[width=0.65\textwidth]{Figure/smmj0939-co32_spec.eps}
-\caption{Top Left: Continuum-subtracted moment-0 map of \CO line emission toward 
-the background SMG with $\sigma$\,=\,1.03\,Jy\,\,km\,\,s\pmOne\ beam\pmOne\ over a velocity range of $\Delta v$\,$\sim$\,514\,km\,\,s\pmOne. The beam size is 11$\farcs$5\,$\times$\,6\farcs2, at P.A.\,=\,$-$56\degr, as indicated in the bottom left corner. 
-Top Right: Velocity-integrated \CO line emission (red contours) overlaid on the SMA 1\,mm dust continuum (green contours and grayscale; H14), with an rms noise of $\sigma_\textrm{1\,mm}$\,=\,0.84 mJy beam\pmOne. The beam size of the SMA observations is 1\farcs4$ \times $1\farcs2, P.A. $-$34\degr, as shown 
-in the bottom left corner. 
+\caption{Top Left: Continuum-subtracted moment-0 map of \CO line emission toward
+the background SMG with $\sigma$\,=\,1.03\,Jy\,\,km\,\,s\pmOne\ beam\pmOne\ over a velocity range of $\Delta v$\,$\sim$\,514\,km\,\,s\pmOne. The beam size is 11$\farcs$5\,$\times$\,6\farcs2, at P.A.\,=\,$-$56\degr, as indicated in the bottom left corner.
+Top Right: Velocity-integrated \CO line emission (red contours) overlaid on the SMA 1\,mm dust continuum (green contours and grayscale; H14), with an rms noise of $\sigma_\textrm{1\,mm}$\,=\,0.84 mJy beam\pmOne. The beam size of the SMA observations is 1\farcs4$ \times $1\farcs2, P.A. $-$34\degr, as shown
+in the bottom left corner.
 The central cross on each image corresponds to the same coordinates as in Figure~\ref{fig:cont}. The contour levels start at $\pm$3$\sigma$, incrementing at
-steps of $\pm$1$\sigma$. 
-Bottom: 
+steps of $\pm$1$\sigma$.
+Bottom:
 Spectrum extracted at the peak position of CO line emission, with a spectral resolution of $\Delta v$ $\sim$\,29 km\,\,s\pmOne, and an rms of $\sigma_\textrm{ch}$\,=\,9.5 mJy beam\pmOne\ per channel. The
-solid black line shows the Gaussian fit to the \CO line profile, and the yellow histogram shows the 
-flux density as a function of velocity offset, where the velocity scale is relative to $z$\,=\,2.221. 
+solid black line shows a Gaussian fit to the \CO line profile, and the yellow histogram shows the
+line emission, where the velocity scale is relative to $z$\,=\,2.221.
 \label{fig:mom0}}
 \end{figure*}
 
 
 \section{Analysis}
-\subsection{Lens Modelling} \label{sec:Lens} 
+\subsection{Lens Modelling} \label{sec:Lens}
 To study the intrinsic properties of the background galaxy, we determine the magnification factor by performing
-lens modeling on the SMA 1\,mm archival data of this system. Lens modeling is carried out in the visibility
-({\it uv-}) plane using the updated version\footnote{commit: 7aee6276} of the publicly available software {\sc uvmcmcfit}\footnote{https://github.com/sbussmann/uvmcmcfit}
+lens modeling on the SMA 1\,mm continuum data presented by H14 of this system. Lens modeling is carried out in the visibility
+({\it uv-}) plane using the updated version\footnote{commit: 7aee6276} of the publicly available software {\sc uvmcmcfit}\footnote{\url{https://github.com/sbussmann/uvmcmcfit}}
 \citep{Bussmann15a}. The code uses an affine-invariant Markov chain Monte Carlo (MCMC) approach to sample the posterior
 probability density function (PDF) of the model parameters. In the code, the surface mass densities of both
 lenses are represented by singular isothermal ellipsoid (SIE) profiles, and the source is assumed to have an
 elliptical Gaussian profile. The code does not include an external shear parameter.
 
 We fix the phase center to coordinates ($\alpha$,\,$\delta$)\,\,(J2000) = (9:39:23.54,\,\,83:15:26.10), where the
-angular offsets of the lenses and source are referenced to this phase center. The primary lens (3C220.3) is
+angular offsets of the lenses and source are referenced to this position. The primary lens (3C220.3) is
 described by five free parameters: the angular offset relative to
 the chosen phase center in the image ($\Delta \alpha_{\rm
 lens0}$ and $\Delta \delta_\textrm{lens0}$), the angular Einstein radius ($\theta_\textrm{E0}$), the
@@ -211,10 +211,10 @@ walkers and 6000 steps to identify the best-fit model parameters.
 \includegraphics[width=0.232\textwidth]{Figure/LensedSBmap_residual_goodfit1970}
 \caption{Double-lens modeling of SMM\,J0939 using {\sc uvmcmcfit} on the SMA 1\,mm continuum data.
 The contours start at $\pm$2$\sigma$, incrementing at
-steps of $\pm$2$\sqrt{\rm 2}\sigma$. Solid contours show the positive residuals and dashed contours
-show the negative residuals. 
-Left: SMA 1\,mm continuum (red contours) overlaid on the best-fit model (grayscale image) assuming an elliptical Gaussian profile for the background SMG. The lenses are represented as black dots, the half-light area of the background source is represented as magenta ellipse, and the critical curves are represented as orange curves. 
-Right: Residual contours and image obtained by taking the Fourier transform of the difference between the SMA data and the best-fit model in the visibility plane. \label{fig:lens}}
+steps of $\pm$2$\sqrt{\rm 2}\sigma$. Left: SMA 1\,mm continuum (red contours) overlaid on the best-fit model (grayscale image) assuming an elliptical Gaussian profile for the background SMG. The lenses are represented as black dots, the half-light area of the background source is represented as magenta ellipse, and the critical curves are represented as orange curves.
+Right: Residual contours and image obtained by taking the Fourier transform of the difference between the SMA data and the best-fit model in the visibility plane. Solid contours show the positive residuals and dashed contours
+show the negative residuals.
+\label{fig:lens}}
 \end{figure}
 
 The resulting best-fit model as shown in Figure\,\,\ref{fig:lens} shows no significant bowls in the residual
@@ -222,44 +222,44 @@ image, and the knots (lensed emission) in the observed SMA data are well-reassem
 Our best-fit model yields a magnification
 factor of $\mu_\textrm{L}$ = 10.13\,$\pm$\,1.38, this is consistent the value reported by H14 within the errors. All best-fit
 parameters are listed in Table~\ref{tab:lensParam}. The Einstein radii associated with the best-fit model for the two lenses are $\theta_{E}$ = 1\farcs22\,$\pm$\,0\farcs01 (8.75 kpc at $z$\,=\,0.685) and $\theta_{E}$ = 0\farcs75\,$\pm$\,0\farcs02 (5.34\,\,kpc at $z$\,=\,0.685),
-the corresponding masses within the Einstein radii are $M(\theta$\,\,$<$\,\,$\theta_\textrm{E})$\,=\,(4.86\,$\pm$\,0.08)\,$\times$\,10$^{11}$\,\,\Msun\ and $M(\theta$\,\,$<$\,\,$\theta_\textrm{E})$\,=\,(1.82\,$\pm$\,0.07)\,$\times$\,10$^{11}$\,\,\Msun, respectively. 
+the corresponding masses within the Einstein radii are $M(\theta$\,\,$<$\,\,$\theta_\textrm{E})$\,=\,(4.86\,$\pm$\,0.08)\,$\times$\,10$^{11}$\,\,\Msun\ and $M(\theta$\,\,$<$\,\,$\theta_\textrm{E})$\,=\,(1.82\,$\pm$\,0.07)\,$\times$\,10$^{11}$\,\,\Msun, respectively.
 \input{table_lensParams}
 
 \subsection{SED Fitting} \label{sec:SED}
 \subsubsection{3C220.3}\label{sec:SEDFg}
-Synchrotron continuum emission from extended components of a radio galaxy decreases with increasing radio frequencies, 
-and the spectrum is commonly characterized by a power law distribution $S \propto \nu^{-\alpha}$, where the 
-spectral index $\alpha$ is $\gtrsim$ 0.5. While the contribution from extended components decreases, studies using 
-samples of radio galaxies have suggested that the flat/inverted-spectrum of the compact radio core component rises 
-and dominates the flux density at higher frequencies \citep{Kellermann81a,Begelman84a}. This has been observed in a FR-II galaxy at similar redshift --- 3C220.1 at $z$ = 0.610, where observations were carried out at the observed-frame frequency of $\sim$\,90 GHz \citep{Hardcastle08a}. 
+Synchrotron continuum emission from extended components of a radio galaxy decreases with increasing radio frequencies,
+and the spectrum is commonly characterized by a power law distribution $S \propto \nu^{-\alpha}$, where the
+spectral index $\alpha$ is $\gtrsim$ 0.5. While the contribution from extended components decreases, studies using
+samples of radio galaxies have suggested that the flat/inverted-spectrum of the compact radio core component rises
+and dominates the flux density at higher frequencies \citep{Kellermann81a,Begelman84a}. This has been observed in a FR-II galaxy at similar redshift --- 3C220.1 at $z$ = 0.610, where observations were carried out at the observed-frame frequency of $\sim$\,90 GHz \citep{Hardcastle08a}.
 
-Previous studies of the core component of 3C220.3 have established upper 
+Previous studies of the core component of 3C220.3 have established upper
 limit of $<$ 0.17 mJy at 4.6 GHz \citep{Mullin06a} and an unambiguous detection of 0.8 mJy at 9 GHz (H14), suggesting a substantially inverted spectrum of the core (Figure~\ref{fig:SED}).
-Consequently, we may naively expect the integrated flux density in our continuum detection of $S_\textrm{104GHz}$\,=\,7.39\,$\pm$\,1.42\,\,mJy to be dominated by the unresolved core component of the foreground FR-II galaxy, which is at $z$\,=\,0.685. 
-However, the deconvolved spatial size of the source matching that in the resolved image (see Figure 1) is 
-suggestive of a marginally resolved detection of the extended lobe components with non-negligible emission. 
-This is plausible given that the orientation of the synthesized beam in our observations is in alignment with the 
-axis along the 
-lobes of the radio galaxy, as shown in Figure~\ref{fig:cont}. We investigate this disparity by fitting models to 
-existing SED measurements as listed in Table \ref{tab:SEDdataRadio}, and extrapolating the fit to 
-estimate the flux density of the lobes at the frequency of our continuum measurement. 
+Consequently, we may naively expect the integrated flux density in our continuum detection of $S_\textrm{104GHz}$\,=\,7.39\,$\pm$\,1.42\,\,mJy to be dominated by the unresolved core component of the foreground FR-II galaxy, which is at $z$\,=\,0.685.
+However, the deconvolved spatial size of the source matching that in the resolved image (see Figure 1) is
+suggestive of a marginally resolved detection of the extended lobe components with non-negligible emission.
+This is plausible given that the orientation of the synthesized beam in our observations is in alignment with the
+axis along the
+lobes of the radio galaxy, as shown in Figure~\ref{fig:cont}. We investigate this disparity by fitting models to
+existing SED measurements as listed in Table \ref{tab:SEDdataRadio}, and extrapolating the fit to
+estimate the flux density of the lobes at the frequency of our continuum measurement.
 \input{table_SED}
 Following Equation (1) in \citet{Cleary07a}, the fit to the lobe emission can be expressed as a parabolic function:
 \begin{equation}
 \log F_{\nu}^{\mathrm lobe} (\nu) \propto - \beta\ (\log\ \nu - \log \nu_{t})^2  + \log (\exp({\frac{\nu}{\nu_c^{\mathrm lobe}}}))
 \end{equation}
-where $F_{\nu}^{\mathrm lobe}$ is the flux density of the lobes, $\beta$ is a parameter representing the bending 
-of the parabola, $\nu_t$ is the frequency at which the optical depth of the synchrotron emitting plasma reaches 
-unity, and $\nu_c^{\rm lobe}$ is the frequency corresponding to the cutoff energy of the lobe plasma energy 
-distribution. 
-The extrapolated flux density at 104\,\,GHz is consistent with the peak flux density of our continuum 
-measurement (Figure~\ref{fig:SED}). The 9$\sigma$ detection of the continuum thereby suggests
-dominant contribution from the lobes, and that the peak flux density does not correspond to emission toward 
+where $F_{\nu}^{\mathrm lobe}$ is the flux density of the lobes, $\beta$ is a parameter representing the bending
+of the parabola, $\nu_t$ is the frequency at which the optical depth of the synchrotron emitting plasma reaches
+unity, and $\nu_c^{\rm lobe}$ is the frequency corresponding to the cutoff energy of the lobe plasma energy
+distribution.
+The extrapolated flux density at 104\,\,GHz is consistent with the peak flux density of our continuum
+measurement (Figure~\ref{fig:SED}). The 9$\sigma$ detection of the continuum thereby suggests a
+dominant contribution from the lobes, and that the peak flux density does not correspond to emission toward
 the core. Moreover, the peak position of the 104\,\,GHz continuum is
-centered toward the northern lobe (Figure~\ref{fig:cont}), which further supports our argument. We did not 
-extrapolate the core measurements to the frequency of our continuum, as previous measurements of the core are 
-taken 
-across different epochs. 
+centered toward the northern lobe (Figure~\ref{fig:cont}), which further supports our argument. We did not
+extrapolate the core measurements to the frequency of our continuum, as previous measurements of the core are
+taken
+across different epochs.
 Based on our argument, we place an upper limit of $S_\nu$\,$<$\,2.60 mJy on the core component using the difference between the integrated and the peak flux densities.
 \par
 Studies by \citet{Meisenheimer89a} and \citet{Hardcastle08a} have suggested spectra of hotspots are flat up to optical frequencies, where some exhibit spectral steepening in cm and mm wavelengths (\eg 3C123). At the resolution of our observations, it is unclear whether the measured flux density is dominated by emission from the compact hotspot or that from the surrounding diffuse lobe components.
@@ -267,20 +267,20 @@ Studies by \citet{Meisenheimer89a} and \citet{Hardcastle08a} have suggested spec
 \begin{figure}[!tbph]
 \centering
 \includegraphics[width=0.5\textwidth]{Figure/3C220_3_FullSED2.pdf}
-\caption{The SEDs of 3C220.3 (solid purple line) and SMM\,J0939 (dashed purple line and solid cyan line) including the new measurements presented in this paper. 
-The solid purple line corresponds to the parabolic function we 
+\caption{The SEDs of 3C220.3 (solid purple line) and SMM\,J0939 (dashed purple line and solid cyan line) including the new measurements presented in this paper.
+The solid purple line corresponds to the parabolic function we
 fit to the existing data associated with 3C220.3 (black dots; see Table \ref{tab:SEDdataRadio}).
-The red dots at 104 GHz correspond to 
+The red dots at 104 GHz correspond to
 our continuum measurements (integrated, peak, and difference, respectively).
-The dashed purple line and 
-the solid cyan line correspond to the best-fit SED models of SMM\,J0939, using the photometric data from H14. \label{fig:SED}}
+The dashed purple line and
+the solid cyan line correspond to the best-fit optically thick and optically thin models of SMM\,J0939, respectively, using the photometric data from H14. \label{fig:SED}}
 \end{figure}
 
 \subsubsection{SMM\,J0939+8315} \label{sec:SEDBg}
-To constrain the dust and gas properties in the ISM of SMM\,J0939, we perform the SED fitting to the
+To constrain the dust and gas properties in the ISM of SMM\,J0939, we perform SED fitting to the
 photometric data obtained with {\it Herschel}/PACS and SPIRE, at wavelengths
 between observed-frame 70\,\micron\,$-$\,500\,\micron, and the interferometric data obtained with the SMA at 1\,mm (H14). We use the publicly
-available software {\sc mbb\_emcee}\footnote{https://github.com/aconley/mbb\_emcee} to perform the SED fitting; the code uses an affine-invariant Markov chain Monte
+available software {\sc mbb\_emcee}\footnote{\url{https://github.com/aconley/mbb\_emcee}} to perform the SED fitting; the code uses an affine-invariant Markov chain Monte
 Carlo (MCMC) approach, and further details of the code are given by \citet{Riechers13a} and \citet{Dowell14a}. \par
 The
 functional form of the fit comprises a single-temperature, modified blackbody function joined to a $S_{\lambda} \propto \lambda^\alpha
@@ -300,7 +300,7 @@ and in the optically thin regime, the functional form reduces to:
 \end{equation}
 where $T$ is the rest-frame cold dust temperature, $\beta$ is the dust emissivity index (equivalently, the spectral index of the dust extinction
 curve), and $\alpha$ is the mid-infrared power law spectral index. The overall fit is normalized using the observed-frame 500
-$\micron$ flux density, hence this becomes an additional parameter in the fit. For both models, we impose an upper limit on the observed-frame dust temperature ($T/(1+z)$) to 60 K, and for the optically thick model, we impose an upper limit on $\lambda_0$ to 2000\,\,\micron. Additionally, we fix the upper limits on 
+$\micron$ flux density, hence this becomes an additional parameter in the fit. For both models, we impose an upper limit on the observed-frame dust temperature ($T/(1+z)$) to 60 K, and for the optically thick model, we impose an upper limit on $\lambda_0$ to 2000\,\,\micron. Additionally, we fix the upper limits on
 $\beta$ to be 3.0 and 2.2 for the optically thin model and optically thick model, respectively.
 
 \input{table_mbb}
@@ -316,31 +316,31 @@ M_\textrm{dust}\,=\,S_{\nu} D_{L}^2 [(1 + z) \kappa_{\nu} B_{\nu}]^{-1} \tau_{\n
 \exp(-\tau_{\nu})]^{-1}
 \end{equation}
 where $S_{\nu}$ is the flux density in erg\,s\pmOne\,cm$^{-2}$\,Hz\pmOne, $D_\textrm{L}$ is the luminosity distance in cm, $\kappa_{\nu}$ is the dust
-absorption coefficient in cm$^2$\,g\pmOne, $\tau_{\nu}$ is the optical depth, and $B_{\nu}$ is the Planck function in units of erg\,s\pmOne\,cm$^{-2}$\,Hz\pmOne,
+absorption coefficient in cm$^2$\,g\pmOne, $\tau_{\nu}$ is the optical depth, and $B_{\nu}$ is the Planck function in units of erg\,s\pmOne\,cm$^{-2}$\,Hz\pmOne;
 all quantities are expressed in the observed-frame. We find a dust mass of $M_\textrm{dust}$ = 50.5$^{20.4}_{-20.2}\times$10$^8$\,\,\Msun, the uncertainties do not include those in the dust absorption coefficient ($\kappa_{\nu}$). These values are based on the SED fitting to the photometric data, \ie prior
-to lensing correction. 
+to lensing correction.
 
-With the limited amount of data in the FIR waveband, the dust mass is weakly constrained. 
-We perform an additional fit using an optically thick model where we loosen the upper limit of $\beta$ from 2.2 to 3.0; while the difference between each of all best-fit parameters in this scenario and that using an upper limit of 2.2 (see Table \ref{tab:mbb}) is within 3\%, we find that the dust mass is boosted by a factor of $\sim$\,2. 
+With the limited amount of data in the FIR waveband, the dust mass is weakly constrained.
+We perform an additional fit using an optically thick model where we loosen the upper limit of $\beta$ from 2.2 to 3.0; while the difference between each of all best-fit parameters in this scenario and that using an upper limit of 2.2 (see Table \ref{tab:mbb}) is within 3\%, we find that the dust mass is boosted by a factor of $\sim$\,2.
 \subsection{Physical Properties of the ISM in SMM\,J0939}
 \subsubsection{Molecular Gas Mass}
 While the ground state CO transition line traces the cold molecular gas in the ISM
 \citep*[\eg][]{Wilson70a,Downes98a}, transition lines of higher rotational states ($J$ $>$ 1) are frequently observed in high redshift sources as the
- ground state transition line is redshifted to lower frequencies that can only be observed with a few telescopes 
- \citep{Carilli13a}. Consequently, assumptions on the CO excitation conditions are required to derive the molecular gas mass using the H$_\textrm{2}$-to-CO 
- relation. \par
+ ground state transition line is redshifted to lower frequencies that can only be observed with a few telescopes
+ \citep{Carilli13a}. Consequently, assumptions on the CO excitation conditions are required to derive the molecular gas mass using the M(H$_\textrm{2}$)-to-$L^{\prime}_\textrm{CO}$
+ conversion factor from BLAH. \par
 Prior to the observations of the ground state CO transition line in SMGs, it has been assumed that the molecular gas in the
   ISM traced by CO lines is thermalized owing to their high star formation rates \citep[\eg][]{Greve05a, Coppin08a}.
    Yet, recent observations of this line have demonstrated that SMGs can indeed be subthermally excited
-   \citep{Harris10a,Riechers11c,Riechers11d,Ivison11a}. Namely, observational results of SMGs with both \CO and CO($J$\,=\,1\,\rarr\,0) line measurements have shown that the 
+   \citep{Harris10a,Riechers11c,Riechers11d,Ivison11a}. Namely, observational results of SMGs with both \CO and CO($J$\,=\,1\,\rarr\,0) line measurements have shown that the
    brightness temperature ratio is more commonly found to be $R_\textrm{31}<$ 0.8 \citep
-   {Harris10a,Carilli10a,Swinbank2010a,Ivison10d,Ivison11a,Riechers11d}. In contrast, similar observations in high-redshift quasar hosts suggest that the ratio 
-   is $R_\textrm{31}$\,$\sim$\,1 \citep{Riechers06a, Riechers11a, Scott11a}. In the case of high-redshift type-2 quasars, \citet{Riechers11a} report a brightness temperature ratio of $R_\textrm{31}$ = 1.00\,$\pm$\,0.10 for IRAS F10214+4724 (hereafter F10214), which is currently the only known type-2 quasar with both \CO and CO($J$\,=\,1\,\rarr\,0) line measurements. \par
-Here, we derive the molecular gas mass 
-assuming thermalized excitation of CO, 
-\ie we adopt $R_\textrm{31}$\,=\,1, as SMM\,J0939 is 
-postulated to be hosting a type-2 quasar. 
-We calculate the CO($J$\,=\,1\rarr0) line luminosity using standard relation 
+   {Harris10a,Carilli10a,Swinbank2010a,Ivison10d,Ivison11a,Riechers11d}. In contrast, similar observations in high-redshift quasar hosts suggest that the ratio
+   is $R_\textrm{31}$\,$\sim$\,1 \citep{Riechers06a, Riechers11a}. In the case of high-redshift type-2 quasars, \citet{Riechers11a} report a brightness temperature ratio of $R_\textrm{31}$ = 1.00\,$\pm$\,0.10 for IRAS F10214+4724 (hereafter F10214), which is currently the only known type-2 quasar with both \CO and CO($J$\,=\,1\,\rarr\,0) line measurements. \par
+Here, we derive the molecular gas mass
+assuming thermalized excitation of CO,
+\ie we adopt $R_\textrm{31}$\,=\,1, as SMM\,J0939 is
+postulated to be hosting a type-2 quasar (H14).
+We calculate the CO($J$\,=\,1\rarr\,0) line luminosity using standard relation
 \citep[\eg][]{Solomon05a,Carilli13a}:
 \begin{equation}
 L^{\prime}_\textrm{CO}\,=\,\frac{3.25\times10^7}{\nu_\textrm{CO(3-2)}^2}\times \frac{D_L^2}{\mu_\textrm{L}} \times
@@ -348,119 +348,130 @@ L^{\prime}_\textrm{CO}\,=\,\frac{3.25\times10^7}{\nu_\textrm{CO(3-2)}^2}\times \
 \end{equation}
 where $\nu_\textrm{CO(3-2)}$ is the rest-frame frequency of the \CO transition line in GHz, $D_L$ is the luminosity distance in Mpc, $\mu_\textrm{L}$ is the lensing magnification factor, and $I_\textrm{CO(3-2)}$ is the \CO line flux in Jy\,\,km\,\,s\pmOne. This corresponds to $L^{\prime}_\textrm{CO (1-0)}$ = (2.74\,$\pm$\,0.60) $\times$\,\,10$^{10}$\,(10.1/$\mu_\textrm{L}$)\,\,\LpU, hence
 the inferred total molecular gas mass is $M_\textrm{gas}$ = (2.19\,$\pm$\,0.48) $\times$\,\,10$^{10}$\,\Msun\, after correcting for lensing magnification. We assumed a conversion factor of $\alpha_\textrm{CO}$ = 0.8\,\,\Msun\,(\LpU)\pmOne\ based on empirical relations from local ULIRGs, which is typically
-adopted for SMGs \citep[\eg][]{Tacconi06a,Tacconi08a,Bothwell13a}. 
+adopted for SMGs \citep[\eg][]{Tacconi06a,Tacconi08a,Bothwell13a}.
 This results in a gas-to-dust
-ratio of $f_\textrm{gas-dust}$\,=\,$M_\textrm{gas}/M_\textrm{dust}$\,=\,44\,$\pm$\,21, in good agreement with the 
-values found in other SMGs \citep{Coppin08a,Micha10a,Riechers11c}.
+ratio of $f_\textrm{gas-dust}$\,=\,$M_\textrm{gas}/M_\textrm{dust}$\,=\,44\,$\pm$\,21. We note that a factor of $\sim$\,2 uncertainty arises from the dust mass estimate. The derived gas-to-dust ratio is in good agreement with the
+values found in other SMGs within the uncertainties \citep{Coppin08a,Micha10a,Riechers11c}.
 
 \subsubsection{Star Formation Rate}
-%No strong evidence of a hot dust bump is found in SMM\,J0939 based on the mid-IR (WAIT, BUT ONLY HAVE 70 micron onwards) continuum measurements (see Figure~\ref{fig:SED}), hence 
-We derive the star formation rate (SFR) assuming the dominant IR heating mechanism is from young and massive stars, and ignoring contribution from the 
-dust-enshrouded AGN. 
-Using the \citet{Kennicutt98a} relation and assuming the \citet{Chabrier03a}
-stellar initial mass (IMF) function\footnote{SFR$_\textrm{FIR}$\,=\,526\,$\pm$\,73 $M_
-\odot$ yr\pmOne\ using FIR luminosity},
-we derive a SFR$_\textrm{IR}$ of 874\,$\pm$\,122 $M\sun$\,\,yr\pmOne, employing the lensing-corrected bolometric IR luminosity.
-Assuming constant SFR, the time for which the starburst in SMM\,J0939 can be maintained at its
-current rate can be approximated as the gas depletion timescale, $\tau_\textrm{depl}$\,=\,$M_\textrm{gas}$/SFR. 
-This corresponds to $\tau_\textrm{depl}$\,=\,25.1\,$\pm$\,0.4 Myr, which is in good agreement with that found in other SMGs \citep[\eg][]{Greve05a}. 
+%No strong evidence of a hot dust bump is found in SMM\,J0939 based on the mid-IR (WAIT, BUT ONLY HAVE 70 micron onwards) continuum measurements (see Figure~\ref{fig:SED}), hence
+We derive the star formation rate (SFR) assuming the dominant IR heating source is due to young and massive stars, and ignoring a contribution from the
+dust-enshrouded AGN.
+Using the \citet{Kennicutt98a} relation and assuming a \citet{Chabrier03a}
+stellar initial mass (IMF) function\footnote{The SFR would be SFR$_\textrm{FIR}$\,=\,526\,$\pm$\,73 $M_
+\odot$ yr\pmOne\ if we were to use only the FIR luminosity},
+we derive a SFR$_\textrm{IR}$ of 874\,$\pm$\,122 $M\sun$\,\,yr\pmOne, employing the lensing-corrected total IR luminosity.
+The starburst in SMM\,J0939 can be maintained at its
+current rate for a time that can be approximated by the gas depletion timescale, $\tau_\textrm{depl}$\,=\,$M_\textrm{gas}$/SFR.
+This corresponds to $\tau_\textrm{depl}$\,=\,25.1\,$\pm$\,0.4 Myr, which is in good agreement with that found in other SMGs \citep[\eg][]{Greve05a}.
 
 \subsubsection{Star Formation Efficiency}
 The SFR per unit mass of molecular gas is commonly taken as a
-measure of the star formation efficiency, SFE\,=\,SFR/$M_\textrm{gas}$. We compute this ratio using lensing-corrected IR 
-luminosity and CO luminosity, i.e., SFE\,=\,$L_\textrm{IR}$/\Lp. This makes no assumptions on the CO luminosity to gas mass conversion factor ($\alpha_\textrm{CO}$) as well as the 
-choice of IMF; however, this assumes that differential lensing effect between the CO and infrared emission is negligible. 
-The resulting ratio is SFE$_\textrm{IR}$\,=\,319\,$\pm$\,9\,\,\Lsun\,(\LpU)$^{-1}$, this is comparable
+measure of the star formation efficiency, SFE\,=\,SFR/$M_\textrm{gas}$. We compute this ratio using lensing-corrected IR
+luminosity and CO luminosity, i.e., SFE\,=\,$L_\textrm{IR}$/\Lp. This makes no assumptions on the CO luminosity to gas mass conversion factor ($\alpha_\textrm{CO}$) as well as the
+choice of IMF; however, this assumes that differential lensing between the CO and infrared emission is negligible.
+The resulting ratio is SFE$_\textrm{IR}$\,=\,319\,$\pm$\,35\,\,\Lsun\,(\LpU)$^{-1}$, this is comparable
 to what is found in ``typical" SMGs \citep{Greve05a,Tacconi06a,Riechers11c}.
 
-\subsubsection{Dynamical Mass} 
-Based on our \CO line measurement, we estimate the dynamical mass of SMM\,J0939 assuming the molecular gas is virialized. With this assumption, we use an isotropic virial estimator \citep[\eg][]{Engel10a}:
+\subsubsection{Dynamical Mass}
+Based on our \CO line measurement, we estimate the dynamical mass of SMM\,J0939 assuming that the molecular gas is virialized. With this assumption, we use an isotropic virial estimator \citep[\eg][]{Engel10a}:
 \begin{equation}
 M_\textrm{dyn}\,=\,2.8\times 10^5\Delta v_\textrm{line}^ 2 R_\textrm{eff}
 \end{equation}
 where $\Delta v_\textrm{line}$ is in km\,\,s\pmOne, $R_\textrm{eff}$ is in kpc, and $M_\textrm{dyn}$ is in \Msun.
 We employ the FWHM line width of the \CO line profile for $\Delta v_\textrm{line}$,
-and the half-light radius from our lens model for $R_\textrm{eff}$, assuming that the dust emission traces the same emitting region as the CO. The inferred dynamical mass is $M_\textrm{dyn}$ = (7.5\,$\pm$\,2.4)\,$\times$\,10$^{10}$\,\Msun, and the gas-to-dynamical mass fraction is $f_\textrm{gas-to-dyn}$ = 0.29\,$\pm$\,0.12, consistent with that of other SMGs \citep{Tacconi06a}.
+and the half-light radius from our lens model for $R_\textrm{eff}$, assuming that the dust emission traces the same emitting region as the CO. We note that a derived dynamical mass based on this assumption is likely to be biased low as the CO emitting region, in most cases, is spatially more extended than the dust emitting region \citep[\eg][]{Tacconi06a}.
+% 
+The inferred dynamical mass is $M_\textrm{dyn}$ = (7.5\,$\pm$\,2.4)\,$\times$\,10$^{10}$\,\Msun, and the gas-to-dynamical mass fraction is $f_\textrm{gas-to-dyn}$ = 0.29\,$\pm$\,0.12, consistent with that of other SMGs \citep{Tacconi06a}.
 
 \subsubsection{Star Formation and Gas Surface Densities}
-To compute surface densities, we divide half the inferred SFR and gas mass by the area subtended by the half-light 
+To compute surface densities, we divide half the inferred SFR and gas mass by the area subtended by the half-light
 radius, resulting in $\Sigma_\textrm{gas}$ = 4.39\,$\times$\,10$^9$\,\,\Msun\,\,kpc$^{-2}$ and $\Sigma_\textrm{SF}$ = 175.20 \Msun\,\,yr\pmOne\,\,kpc$^{-2}$, which are in good agreement with values typical for SMGs \citep{Tacconi08a}. The inferred surface densities of SMM\,J0939 follow a universal Schmidt-Kennicutt relation between the star formation rate
-surface density and the molecular gas surface density reported by \citet{B07a}: $\Sigma_\textrm{SF}$ = 9.3\,$\times$\,10$^{-5}$ ($M_\textrm{gas}$/2$\pi R_\textrm{1/2}^2)^{1.71}$, which was derived using a sample consisting of local star-forming galaxies and high-redshift 
+surface density and the molecular gas surface density reported by \citet{B07a}: $\Sigma_\textrm{SF}$ = 9.3\,$\times$\,10$^{-5}$ ($M_\textrm{gas}$/2$\pi R_\textrm{1/2}^2)^{1.71}$, which was derived using a sample consisting of local star-forming galaxies and high-redshift
 galaxies
-out to $z$\,$\sim$\,2.5, and assuming Chabrier IMF. 
+out to $z$\,$\sim$\,2.5, and assuming a Chabrier IMF.
 
-\section{Discussion And Conclusions} 
+\section{Discussion And Conclusions}
 \input{table_compareSMG}
-We present the detection of \CO line emission toward SMM\,J0939+8315, a strongly-lensed SMG that is hosting a type-2 quasar, refining the redshift  
-to $z$\,=\,2.2212\,$\pm$\,0.0010. The underlying continuum is detected at $\sim$\,9$\sigma$ significance, where the flux density is most likely to be 
-dominated by emission from the lobes and hotspot of the foreground radio galaxy 3C220.3, thus an upper limit of $S_\nu$ $<$ 2.60 mJy is 
-placed on the compact core component. 
+We present the detection of \CO line emission toward SMM\,J0939+8315, a strongly-lensed SMG that is hosting a type-2 quasar, refining the redshift
+to $z$\,=\,2.2212\,$\pm$\,0.0010. The underlying continuum is detected at $\sim$\,9$\sigma$ significance, where the flux density is likely dominated by emission from the lobes and hotspot of the foreground radio galaxy 3C220.3.
 
-The detection of CO in SMM\,J0939 
-implies a CO luminosity of \Lp = (2.7\,$\pm$\,0.6) $\times$ 10$^{10}$ (10.1/$\mu_\textrm{L}$) \LpU, suggesting the presence of a massive 
-molecular gas reservoir that fuels the star formation at a rate of $\sim$\,874 \Msun~yr\pmOne. If the star forming activity continues at the current rate, the gas reservoir will be depleted within $\lesssim$~25 Myr, 
-which is consistent with the short timescale found in SMGs \citep{Greve05a}. The derived intrinsic properties of SMM\,J0399 are evident of ongoing rapid star formation; this is in good agreement with the current conjecture that SMGs are a 
-population of high-redshift galaxies that build up most of the stellar mass in the early universe, thus play an important role 
-in galaxy formation and evolution \citep[\eg ][]{Micha10a}. 
+The detection of CO in SMM\,J0939
+implies a CO luminosity of \Lp = (2.7\,$\pm$\,0.6) $\times$ 10$^{10}$ (10.1/$\mu_\textrm{L}$) \LpU, suggesting the presence of a massive
+molecular gas reservoir that fuels the star formation at a rate of $\sim$\,874 \Msun~yr\pmOne. If the star forming activity continues at the current rate, the gas reservoir will be depleted within $\lesssim$~25 Myr,
+which is consistent with the short timescale found in SMGs \citep{Greve05a}. The derived intrinsic properties of SMM\,J0939 are evident of ongoing rapid star formation; this is in good agreement with the current conjecture that SMGs are a %stellar mass assembly in galaxies
+population of high-redshift galaxies that build up the stellar bulk of present-day galaxies, thus play an important role
+in galaxy formation and evolution \citep[\eg ][]{Dickinson03a}.
 
-We investigate variations within the SMG population by comparing SMM\,J0939 with two other exceptionally submm-bright, 
+We investigate variations within the SMG population by comparing SMM\,J0939 with two other exceptionally submm-bright,
 strongly-lensed SMGs
-found at similar redshifts --- HLSW-01 and the cosmic Eyelash, both of which have been studied in great detail. The properties 
-of these galaxies are listed in Table~\ref{tab:comapreSMG}. While the cosmic Eyelash has the least amount of molecular gas, as well as 
-the 
-longest gas depletion timescale (\ie long-lived), the overall gas and dust properties of SMM\,J0939 are between those of HLSW-01 and the 
+found at similar redshifts --- HLSW-01 and the cosmic Eyelash, both of which have been studied in great detail. The properties
+of these galaxies are listed in Table~\ref{tab:comapreSMG}. While the cosmic Eyelash has the least amount of molecular gas, as well as
+the
+longest gas depletion timescale (\ie long-lived), the overall gas and dust properties of SMM\,J0939 are between those of HLSW-01 and the
 cosmic
-Eyelash. Such distinction is likely a result of our selection bias, while these sources appear similarly bright at 250 \micron, their lensing factors 
-vary by a factor of $\sim$\,3. In particular, with the cosmic Eyelash having the highest lensing magnification among the 
+Eyelash. Such distinction is likely a result of our selection bias: while these sources appear similarly bright at 250 \micron, their lensing factors
+vary by a factor of $\sim$\,3. In particular, with the cosmic Eyelash having the highest lensing magnification among the
 three, this
-intrinsically fainter, and less gas-rich SMG appears notably bright 
-at 250\,\micron, with its CO line and IR luminosities lower than those of most SMGs studied to date. 
-This demonstrates 
-the large variations in gas mass, dust mass, thus star forming activity within the population at $z$\,$\sim$\,2, which is discernible only
- with the aid of gravitational lensing. 
-While lensing can probe sources 
-of various intrinsic properties, we find that SMM\,J0939 is representative of the population, with its intrinsic CO line luminosity, IR luminosity, gas mass, 
-dust mass, SFR, SFE, depletion timescale, and gas mass fraction comparable to those found in ``typical" SMGs studied to date 
+intrinsically fainter, and less gas-rich SMG appears notably bright
+at 250\,\micron, with its CO line and IR luminosities lower than those of most SMGs studied to date.
+This demonstrates
+the large variations in gas mass, dust mass, thus star forming activity within the population at $z$\,$\sim$\,2, which is discernible with the aid of gravitational lensing.
+While lensing can probe sources
+of various intrinsic properties, we find that SMM\,J0939 is representative of the population, with its intrinsic CO line luminosity, IR luminosity, gas mass,
+dust mass, SFR, SFE, depletion timescale, and gas mass fraction comparable to those found in ``typical" SMGs studied to date
 \citep[\eg ][]{Greve05a,Tacconi10a}.
 
-To examine whether SMM\,J0939 is also representative of type-2 quasars at high redshifts, we compare the properties of SMM\,J0939 
-against those of eight CO-detected obscured AGNs at $z$ = 1.6\,--\,2.8, using the averaged values reported by \citet[][and references 
-therein]{Polletta11a}. We caution that the detected CO 
-transition line varies across each source, 
-hence inducing high systematic uncertainties in the reported values. 
-In contrast with what was found for F10214, one of the eight sources in their sample with the lowest SFR and gas mass (derived using CO($J$\,=\,4\,\rarr\,3) line emission), we find that the properties 
-(\eg FWHM line width of the CO transition line profile, M$_\textrm{gas}$, and SFE) of SMM\,J0939 are similar to the statistical means, except for the SFR, which is lower by a 
-factor of $\sim$\,1.5, is nevertheless consistent within the measurement uncertainties. The fact that the gas mass of F10214 in their compilation was derived using CO($J$\,=\,4\,\rarr\,3) line emission has minor effect on the resulting low gas mass, \citet{Riechers11a} report a similarly low gas mass derived using their CO($J$\,=\,1\rarr0) line measurement. This demonstrates that despite the variations in the intrinsic properties among lensed sources,
- SMM\,J0939 is representative of type-2 quasars at high redshifts (at least among the sample from \citet{Polletta11a}). 
+To examine whether SMM\,J0939 is also representative of type-2 quasars at high redshifts, we compare the properties of SMM\,J0939
+against those of eight CO-detected obscured AGNs at $z$ = 1.6\,--\,2.8, using the averaged values reported by \citet[][and references
+therein]{Polletta11a}. %P11 Mgas from the lowest CO line, but cited 4-3 line width and intensity, etc in Table 2
+% some mysterious SFE 
+In contrast with what was found for F10214, one of the eight sources in their sample with the lowest molecular gas mass and SFR, we find that the properties
+(\eg FWHM of CO line profile \footnote{The statistical mean in \citet{Polletta11a} is based on the line profile of the CO transition closest to $J$ = 4\,\rarr\,3}, M$_\textrm{gas}$\footnote{The molecular gas mass for each source is derived based on its lowest-$J$ CO line emission available in literature}, and SFE) of SMM\,J0939 are similar to the statistical means, except for the SFR, which is lower by a
+factor of $\sim$\,1.5, is nevertheless consistent within the measurement uncertainties. The fact that the gas mass of F10214 in their compilation was derived using \CO line emission \citep{Solomon05a} has minor effect on the resulting low gas mass; \citet{Riechers11a} report a similarly low gas mass derived using their CO($J$\,=\,1\,\rarr\,0) line measurement. 
+The molecular gas mass and SFR of F10214 is the lowest among high-redshift type-2 quasars due to the high magnification factor of $\mu_{\textrm L}$ = 17 \citep{Solomon05a} as well as its intrinsically gas poorer nature. 
+This demonstrates that despite the variations in the intrinsic properties among lensed sources,
+ SMM\,J0939 is representative of type-2 quasars at high redshifts (at least among the sample from \citet{Polletta11a}).
 
-We conclude this paper by noting that SMM\,J0939 is a faithful representation of both high-redshift type-2 quasars and SMGs, 
-based on the excellent agreements found between theirs properties. In this remarkable lensing system, the background galaxy --- SMM\,J0939 is 
-breaking up its dust cocoon (H14) while undergoing prodigious star-formation (SFR\,$\sim$\,874 \Msun~yr\pmOne). 
-This scenario is consistent with the proposed evolutionary phase model \citep{Coppin08a,Simpson12a}, whereby SMM\,J0939 is transitioning from its star-bursting phase to the unobscured quasar phase. 
+We conclude this paper by noting that SMM\,J0939 is a faithful representation of both high-redshift type-2 quasars and SMGs,
+based on the excellent agreements found between theirs properties. In this remarkable lensing system, the background galaxy --- SMM\,J0939 is
+breaking up its dust cocoon (H14) while undergoing prodigious star-formation (SFR\,$\sim$\,874 \Msun~yr\pmOne).
+This scenario is consistent with the proposed evolutionary phase model \citep{Sanders88,Coppin08a,Simpson12a}, whereby SMM\,J0939 is transitioning from its star-bursting phase to the unobscured quasar phase.
 
 \acknowledgments
-We thank Shane Bussmann for providing the code {\sc uvmcmcfit} for lens modeling, and helpful discussions; Alex Conley for providing the code {\sc mbb\_emcee} for SED fitting. We acknowledge the WENSS team for providing the radio measurements for 3C220.3. 
-Facilities: \facility{CARMA}
+We thank Shane Bussmann for providing the code {\sc uvmcmcfit} for lens modeling, sharing the SMA and VLA data, and for helpful discussions; Alex Conley for providing the code {\sc mbb\_emcee} for SED fitting. 
+%We acknowledge the WENSS team for providing the radio measurements for 3C220.3.
+Support for CARMA construction was derived from the
+Gordon and Betty Moore Foundation, the Kenneth T. and Eileen
+L. Norris Foundation, the James S. McDonnell Foundation, the
+Associates of the California Institute of Technology, the University
+of Chicago, the states of Illinois, California, and Maryland,
+and the National Science Foundation. 
+(REMOVE?)Ongoing CARMA development
+and operations are supported by the National Science
+Foundation under a cooperative agreement, and by the CARMA
+consortium universities.
+%Facilities: \facility{CARMA}
 \newpage
 \bibliographystyle{apj}
 \bibliography{J0939}
 
 \appendix
-We perform the SED fitting to the (sub)-mm data of SMM\,J0939 using {\sc mbb\_emcee} (see \S \ref{sec:SEDBg}), this code uses MCMC to sample the parameter space of each parameter. The bolometric IR luminosity and dust mass are then derived from the set of parameters that maximizes the likelihood. 
+We perform the SED fitting to the (sub)-mm data of SMM\,J0939 using {\sc mbb\_emcee} (see \S \ref{sec:SEDBg}), this code uses MCMC to sample the parameter space of each parameter. The bolometric IR luminosity and dust mass are then derived from the set of parameters that maximizes the likelihood.
 We show in Figure~\ref{fig:sedlikelihood} the resulting correlation plots of each pair of parameters (off-diagonal) as well as the marginalized posterior probability distribution plots of each parameter (diagonal) for the fitted optically thick and optically thin models.
 The parameter values corresponding to the most likely solution are denoted as black crosses in the 2D correlation plots, and vertical lines in the marginalized posterior probability distribution plots. \par
 
-As shown in the figure, the PDF of each parameter in the optically thin model is Gaussian distributed, and 
+As shown in the figure, the marginalized PDF of each parameter in the optically thin model is Gaussian, and
 the dust emissivity index ($\beta$) is highly anti-correlated with the observed-frame dust temperature ($T/(1+z)$).
-We note that the best-fit emissivity in this model is unusually low for high redshift galaxies ($\beta$ = 0.7$^{+0.2}_{-0.3}$, cf. 1$-$2.5; \eg \citet{Casey12a} and references therein). While this directly affects the slope of the Rayleigh-Jeans tail of the modified blackbody function, such low emissivity has insignificant impact on the inferred IR luminosity.
-We also find no evidence of correlation between the inferred dust mass and IR luminosity, to wit, despite the factor of $\sim$\,2 difference
-in dust masses 
+We note that the best-fit emissivity in this model is unusually low among high redshift galaxies ($\beta$ = 0.7$^{+0.2}_{-0.3}$, cf. 1$-$2.5; \eg \citet{Casey12a} and references therein). While this directly affects the slope of the Rayleigh-Jeans tail of the modified blackbody function, such low emissivity has insignificant impact on the inferred IR luminosity.
+We also find no evidence of correlation between the inferred dust mass and IR luminosity. Despite the factor of $\sim$\,2 difference
+in dust masses
 between models, the derived IR luminosities are comparable.
 
-A comparison of the reduced $\chi^2$ between the two models suggests that the optically thick model is superior than the optically thin model. In the preferred model, the marginalized PDF of the dust emissivity index is highly non-Gaussian, with noticeably broad distribution across 
-the allowed range (upper limit: 2.2). We therefore fit a second optically thick model, changing the upper limit of $\beta$ to 3.0. The difference in each 
-parameter of the best-fit solution between these two scenarios is within 3\%, whereas the dust mass is boosted by a factor of $\sim$\,2. This is 
-unsurprising given the dearth of data in the FIR waveband, leading to a weakly constrained emissivity, and thus the inferred dust mass. 
+A comparison of the reduced $\chi^2$ between the two models suggests that the optically thick model fit is superior to the optically thin model fit. In the preferred model, the marginalized PDF of the dust emissivity index is highly non-Gaussian, with noticeably broad distribution across
+the allowed range (upper limit: 2.2). We therefore fit a second optically thick model, changing the upper limit of $\beta$ to 3.0. The difference in each
+parameter of the best-fit solution between these two scenarios is less than 3\%, except for the dust mass, which is boosted by a factor of $\sim$\,2. This is
+unsurprising given the dearth of data in the FIR waveband, leading to a weakly constrained emissivity, and thus the inferred dust mass.
 In our analysis, we employed the set of parameters and thus inferred properties (dust mass, and IR luminosity) from the former.
 
 %Mdust highly dependent on T in shorter wavelengths,
@@ -469,14 +480,20 @@ In our analysis, we employed the set of parameters and thus inferred properties 
 
 \begin{figure}[!tbph]
 \centering
-\includegraphics[width=0.47\textwidth]{Figure/CorrelationPlot__thick_500_500}
-\includegraphics[width=0.47\textwidth]{Figure/CorrelationPlot__thin_testSMA}
+% minipage
+\begin{minipage}{0.5\textwidth}
+\hspace{-1cm}
+\includegraphics[width=1.15\textwidth]{Figure/CorrelationPlot__thick_500_500.pdf}
+\end{minipage}
+\hspace{-0.9cm}
+\begin{minipage}{0.5\textwidth}
+\includegraphics[width=1.15\textwidth]{Figure/CorrelationPlot__thin_testSMA.pdf}
+\end{minipage}
 \caption{Correlation plots from the fitted SEDs, using an optically thick
-model (left), and an optically thin model (right). Marginalized posterior probability 
-distribution of each
-parameter is plotted on the diagonal axis of each panel, where the solid black vertical lines indicate the set of parameter values in the PDFs that maximizes the likelihood. The correlation plots between parameters are plotted as 2D histograms on the off-diagonals, where the black crosses denote the 
-locations in the parameter space
-at which the most likely solution corresponds to.
+model (left), and an optically thin model (right). Marginalized posterior probability
+distributions of each
+parameter are plotted on the diagonal axis of each panel, where the solid black vertical lines indicate the set of parameter values in the PDFs that maximizes the likelihood. The correlation plots between parameters are plotted as 2D histograms on the off-diagonals, where the black crosses denote the
+locations of the most likely solution in the parameter space. The solid, dashed, and dotted lines correspond to 1$\sigma$, 2$\sigma$, and $3\sigma$, respectively. 
 \label{fig:sedlikelihood}}
 \end{figure}
 

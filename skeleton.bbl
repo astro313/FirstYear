@@ -47,6 +47,9 @@
 \bibitem[{{Casey}(2012)}]{Casey12a}
 {Casey}, C.~M. 2012, \mnras, 425, 3094
 
+\bibitem[{{Casey} {et~al.}(2014){Casey}, {Narayanan}, \& {Cooray}}]{Casey14a}
+{Casey}, C.~M., {Narayanan}, D., \& {Cooray}, A. 2014, \physrep, 541, 45
+
 \bibitem[{{Chabrier}(2003)}]{Chabrier03a}
 {Chabrier}, G. 2003, \pasp, 115, 763
 
@@ -92,6 +95,11 @@
   {Lundgren}, {Longmore}, {Neri}, \& {Flaquer}}]{Danielson11a}
 {Danielson}, A.~L.~R., {Swinbank}, A.~M., {Smail}, I., {et~al.} 2011, \mnras,
   410, 1687
+
+\bibitem[{{Dickinson} {et~al.}(2003){Dickinson}, {Papovich}, {Ferguson}, \&
+  {Budav{\'a}ri}}]{Dickinson03a}
+{Dickinson}, M., {Papovich}, C., {Ferguson}, H.~C., \& {Budav{\'a}ri}, T. 2003,
+  \apj, 587, 25
 
 \bibitem[{{Dowell} {et~al.}(2014){Dowell}, {Conley}, {Glenn}, {Arumugam},
   {Asboth}, {Aussel}, {Bertoldi}, {B{\'e}thermin}, {Bock}, {Boselli}, {Bridge},
@@ -288,7 +296,6 @@
 {Rengelink}, R.~B., {Tang}, Y., {de Bruyn}, A.~G., {et~al.} 1997, \aaps, 124,
   259
 
-
 \bibitem[{{Riechers} {et~al.}(2006){Riechers}, {Walter}, {Carilli}, {Knudsen},
   {Lo}, {Benford}, {Staguhn}, {Hunter}, {Bertoldi}, {Henkel}, {Menten},
   {Weiss}, {Yun}, \& {Scoville}}]{Riechers06a}
@@ -338,6 +345,11 @@
   {Zemcov}, \& {Zmuidzinas}}]{Riechers13a}
 {Riechers}, D.~A., {Bradford}, C.~M., {Clements}, D.~L., {et~al.} 2013, \nat,
   496, 329
+
+
+\bibitem[{{Sanders} {et~al.}(1988){Sanders}, {Soifer}, {Elias}, {Madore},
+  {Matthews}, {Neugebauer}, \& {Scoville}}]{Sanders88}
+{Sanders}, D.~B., {Soifer}, B.~T., {Elias}, J.~H., {et~al.} 1988, \apj, 325, 74
 
 \bibitem[{{Scott} {et~al.}(2011){Scott}, {Lupu}, {Aguirre}, {Auld}, {Aussel},
   {Baker}, {Beelen}, {Bock}, {Bradford}, {Brisbin}, {Burgarella}, {Carpenter},
