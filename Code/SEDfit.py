@@ -396,6 +396,7 @@ start_Hz = 1e10
 end_Hz = Avg_cont_freq + epsilon
 x_syn_extend = np.linspace(start_Hz, end_Hz)
 syn_extend_mJy = lobeSyn(x_syn_extend, *theta_best)
+print "extrapolated flux density at 104 GHz: %.2f" % (lobeSyn(104.e9, *theta_best))
 ax.plot(GHz2um(x_syn_extend * Hz2GHz),
         syn_extend_mJy, 'b-', linewidth=2.5, alpha=0.5)
 

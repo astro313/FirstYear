@@ -142,6 +142,13 @@ def markers_cross(sp, ra, dec, layer=None, ec='yellow', fc='none', mk='+', s=500
     ra: float
     dec: float
     layer: str
+    ec: str
+        edgecolor
+    fc: str
+        facecolor
+    mk: str
+        symbol
+
     """
     sp.show_markers(ra, dec, layer=layer, edgecolor=ec, facecolor=fc, marker=mk, s=s, alpha=a, linewidth=lw)
 

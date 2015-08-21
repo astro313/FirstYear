@@ -1,23 +1,23 @@
-freq_CO32 = 345.651     # GHz
-dl = 19052          # Mpc at 2.221
+freq_CO32 = 345.7959899     # GHz
+dl = 18052          # Mpc at 2.221
 z = 2.221
-I_line = 10.7
-del_I = 1.345   # sigma of CO(3-2) line intensity Jy km/s
+I_line = 12.598
+del_I = 2.010   # sigma of CO(3-2) line intensity Jy km/s
 mu = 10.1298
 del_mu = 1.38
 alpha = 0.8
 rkpc = 0.105907102426 * 8.406
 del_kpc = 0.03309 * 8.406
-vel = 541.65
-del_vel = 31.9
+vel = 559.423   # FWHM
+del_vel = 52.3674
 LIR = 88.52e12    # before lensing correction, from mbb
 LFIR = 53.330e12
 del_FIR_noMu = 1.14e12
 del_IR_noMu = 2.62e12
 M_dust = 50.47e+8  # before lensing correction, from mbb
 sig_Mdust_noMu = 20.42e8
-M_dyn = 7.35e10
-Mgas = 2.326e10    # with lensing correction
+M_dyn = 7.48e10
+Mgas = 2.28e10    # with lensing correction
 
 #####################
 #####################

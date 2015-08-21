@@ -73,17 +73,17 @@ fvla.show_grayscale(stretch='log', vmin=vla_min, vmax=vla_max, vmid=-0.001)
 
 flin = aplpy.FITSFigure(label['lin'][0], \
         figure=fig_line, subplot=[x0,row_a,width,dy])
-flin.show_colorscale(cmap=mpl.cm.jet, vmin=min_line, vmax=max_line, vmid=-25, stretch='log')
+flin.show_colorscale(cmap=mpl.cm.jet, vmin=min_line, vmax=max_line, vmid=-2500, stretch='log')
 fSMA = aplpy.FITSFigure(label['SMA'][0], figure=fig_line, subplot=[x0+width+2*x_gap, row_a, width, dy])
 fSMA.show_grayscale(stretch='log', vmin=SMA_min, vmax=SMA_max, vmid=-0.1)
 
 ########################################
 # Contours
 ########################################
-fcont.show_contour(label['cont'][0], colors='black', levels=sigma_contour_cont(sigma_cont), linewidths=1.5, layer='fg')
+fcont.show_contour(label['cont'][0], colors='black', alpha=0.8, levels=sigma_contour_cont(sigma_cont), linewidths=1.8, layer='fg')
 fvla.show_contour(label['VLA'][0], colors="lime", levels=sigma_contour_array(sigma_9ghz), linewidths=2, layer='fg')
 fvla.show_contour(label['cont'][0], colors='red', levels=sigma_contour_cont(sigma_cont), linewidths=2, layer='fg_cont')
-flin.show_contour(label['lin'][0], colors="white", levels=sigma_contour_CARMA(sigma_line), linewidths=2, layer='mol')
+flin.show_contour(label['lin'][0], colors="white", alpha=0.8, levels=sigma_contour_CARMA(sigma_line), linewidths=1.8, layer='mol')
 fSMA.show_contour(label['SMA'][0], colors="lime", levels=sigma_contour_CARMA(sigma_SMA), linewidths=1.8, layer='bf_cont')
 fSMA.show_contour(label['lin'][0], colors="red", levels=sigma_contour_CARMA(sigma_line), linewidths=2, layer='mol')
 
@@ -133,7 +133,7 @@ fSMA.axis_labels.hide()
 ########################################
 markers_cross(fvla, ra_cross, dec_cross, layer='marker_set_1')
 markers_cross(fcont, ra_cross, dec_cross, layer='marker_set_1')
-markers_cross(flin, ra_cross, dec_cross, layer='marker_set_1')
+markers_cross(flin, ra_cross, dec_cross, ec='black', layer='marker_set_1', s=500)
 markers_cross(fSMA, ra_cross, dec_cross, layer='marker_set_1')
 
 ########################################
@@ -179,11 +179,13 @@ if __name__ == '__main__':
     if saveFig == True:
         outfile = 'ContPanel'
         outfile_line = 'LinePanel'
-        os.system('rm -rf ' + outfile + '.png' + ' ' + outfile + '.pdf')
-        os.system('rm -rf ' + outfile_line + '.png' + ' ' + outfile_line + '.pdf')
-        fig_line.savefig('../Figure/'+outfile_line+'.pdf', dpi=600)
+        os.system('rm -rf ' + outfile + '.png' + ' ' + outfile + '.eps' + ' ' +outfile + '.pdf')
+        os.system('rm -rf ' + outfile_line + '.png' + ' ' + outfile_line + '.eps' + ' ' + outfile_line + '.pdf')
+        fig_line.savefig('../Figure/'+outfile_line+'.pdf')
+        fig_line.savefig('../Figure/'+outfile_line+'.eps')
         fig_line.savefig('../Figure/'+outfile_line+'.png', dpi=300)
-        fig.savefig('../Figure/'+outfile+'.pdf', dpi=600)
+        fig.savefig('../Figure/'+outfile+'.pdf')
+        fig.savefig('../Figure/'+outfile+'.eps')
         fig.savefig('../Figure/'+outfile+'.png', dpi=300)
     else:
         plt.show()

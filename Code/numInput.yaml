@@ -13,10 +13,10 @@ z: 2.221
 mu: 10.1298
 
 Gas:
-    FWHM_line: 541.65   # km/s
-    I_line: 10.7    # Jy km/s
+    FWHM_line: 559.423   # km/s
+    I_line: 12.598   # Jy km/s
     line: CO(3-2)
-    freq_rest: 345.651e+9 # Hz
+    freq_rest: 345.7959899e+9 # Hz
     R_ul: 1.0          # Riechers 2013 QSO host
     alphaCO: 0.8
 
