@@ -503,11 +503,20 @@ def triplot(chain, color=True, weights=None, interpolate=False, smooth=True,
 
     for i in range(len(parameters)):
         # for j in len(parameters[np.where(i <= parameters)]:
+
         for j in range(len(parameters)):
+
             ii = i
             jj = len(parameters) - j - 1
+#            print "jj %d: " %(jj)
 
-            xmajorLocator = MaxNLocator(nbins=4, prune='both')
+            if (jj == len(parameters) - 1) and (ii == jj):
+#                 print ii
+#                 print jj
+                # the following line added to make the xtick labels of lambda_0 (1+z) to show clearly
+                xmajorLocator = MaxNLocator(nbins=3, prune='both')
+            else:
+                xmajorLocator = MaxNLocator(nbins=4, prune='both')
             ymajorLocator = MaxNLocator(nbins=4, prune='both')
 
             if j <= len(parameters) - i - 1:
@@ -780,9 +789,9 @@ if __name__ == '__main__':
     chi2 = BestFit()
 
     chainPlot, inj_best = makeChainTriPlot()
-    triplotLabel = ['T/(1+z)', r'$\beta$', r'$\alpha$', r'$f_{\rm norm}$', r'$\lambda_0$']
+    triplotLabel = [r'$T/(1+z)$', r'$\beta$', r'$\alpha$', r'$f_{\rm norm}$', r'$\lambda_0 (1+z)$']
     if res._opthin == True:
-        triplotLabel.remove(r'$\lambda_0$')
+        triplotLabel.remove(r'$\lambda_0 (1+z)$')
     if res._noalpha == True:
         triplotLabel.remove(r'$\alpha$')
 #    triplot(chainPlot, title=(filename.replace('.h5', ' ') + 'Parameters'),            labels=triplotLabel, inj=inj_best, saveFig=save_op)
