@@ -103,10 +103,10 @@ Avg_cont_freq = 104.21e9
 Core_3c220dot3_Jy = np.array([0.8e-3, 0.17e-3])     # Jy
 Core_3c220dot3_Hz = np.array([9.e9, 4.86e9])    # Hz
 
-# Our Data: [peak, integrated, difference]
-Point_Continuum_Jy = np.array([4.93e-3, 7.53e-3, 2.60e-3])
+# Our Data: [peak, integrated, integrated-fit]
+Point_Continuum_Jy = np.array([4.93e-3, 7.53e-3, 2.29e-3])
 Point_Cont_Hz = np.array([1.042e11, 1.042e11, 1.02e11])     # Hz
-Point_error_Jy = np.array([0.31e-3, 1.42e-3, 1.45e-3])    # Jy
+Point_error_Jy = np.array([0.31e-3, 1.42e-3, 0.])    # Jy
 
 
 ########################################
@@ -352,6 +352,10 @@ ax_top.set_xlabel(r'$\nu_{\rm obs}$ [GHz]', size=16, fontweight='bold')
 ax_top.set_viewlim_mode("transform")
 ax_top.axis["right"].toggle(ticklabels=False)
 
+ax.set_xscale('log')
+ax.set_yscale('log')
+ax_top.set_xscale('log')
+ax_top.set_yscale('log')
 
 ############################################
 # Plot foreground galaxy data and fit
@@ -374,15 +378,18 @@ ax.errorbar(GHz2um(Radio_Hz[6:] * Hz2GHz),
             Radio_error[6:] * Jy2mJy,
             fmt='.k', ecolor='darkgray', label='Previous Data', ms=11, capsize=8, elinewidth=4, capthick=1.5) # mJy
 
-ax.errorbar(GHz2um(Point_Cont_Hz * Hz2GHz),
-            Point_Continuum_Jy * Jy2mJy, Point_error_Jy * Jy2mJy,
+ax.errorbar(GHz2um(Point_Cont_Hz[:-1] * Hz2GHz),
+            Point_Continuum_Jy[:-1] * Jy2mJy, Point_error_Jy[:-1] * Jy2mJy,
             fmt='.r', ecolor='darkgrey', label='New continuum data', ms=13, capsize=8, elinewidth=4, capthick=1.5)
+
+# new upper core limit
+ax.errorbar(GHz2um(Point_Cont_Hz[-1] * Hz2GHz),
+            Point_Continuum_Jy[-1] * Jy2mJy, fmt='rv', ms=11, uplims=True)
 
 ax.plot(GHz2um(Core_3c220dot3_Hz[0] * Hz2GHz), Core_3c220dot3_Jy[0] * Jy2mJy,
         'or',
         label='3C220.3 Core', ms=11)
 ax.errorbar(GHz2um(Core_3c220dot3_Hz[1] * Hz2GHz),
-            Core_3c220dot3_Jy[1] * Jy2mJy,
             Core_3c220dot3_Jy[1] * Jy2mJy,
             uplims=True,
             fmt='rv',  ms=11)   # label='upper limit on core')
@@ -426,10 +433,6 @@ led = plt.legend(loc='best', fontsize=15, numpoints=1,
 led.get_frame().set_alpha(0) # this will make the box totally transparent
 led.get_frame().set_edgecolor('white') # this will make the edges of the border white to match the background instead
 
-ax.set_xscale('log')
-ax.set_yscale('log')
-ax_top.set_xscale('log')
-ax_top.set_yscale('log')
 #ax.set_rasterized(True)
 
 ############################################
@@ -440,7 +443,7 @@ response = raw_input('Save fig?: (y/n)')
 if response.lower() in ['y', 'yes']:
     filename = '3C220_3_FullSED'
     savefigure(filename)
-    fig.savefig('../Figure/' + filename + '2.pdf')
+    fig.savefig('../Figure/' + filename + 'TicksXaxis.eps')
 elif response.lower() in ['n', 'no']:
     plt.show()
 else:
