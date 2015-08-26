@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from FgContIm import *
 
+
+font = {'family': 'Arial',
+        'weight': 'normal'}
+mpl.rc('font', **font)
+
 path = '../FinalData/'
 Plotpath = '../Figure/'
 label = dict.fromkeys(['VLA', 'cont', 'lin', 'SMA'])
@@ -29,7 +34,7 @@ sigma_SMA           = 0.000836951
 vla_min             = -0.000270099
 vla_max             = 0.00960869
 max_cont            = 4.796309E-03
-min_cont            = -2.038660E-03
+min_cont            = -0.02 # -2.038660E-03
 max_line            = 8.93562
 min_line            = -8.836704
 SMA_min             = -0.00210908
@@ -64,7 +69,7 @@ dy                  = 0.90
 
 fcont = aplpy.FITSFigure(label['cont'][0], \
         figure=fig, subplot=[x0,row_a,width,dy])
-fcont.show_colorscale(cmap=mpl.cm.jet, stretch='log', vmin=min_cont, vmax=max_cont, vmid=-100000)   # vmid= min_cont-0.0001 ~ orange; min_cont-0.0000001 ~ red
+fcont.show_colorscale(cmap=mpl.cm.jet, stretch='log', vmin=min_cont, vmax=max_cont, vmid=-10000000)   # vmid= min_cont-0.0001 ~ orange; min_cont-0.0000001 ~ red
 
 fvla = aplpy.FITSFigure(label['VLA'][0], \
         figure=fig, subplot=[x0+width+2*x_gap, row_a, width, dy])
@@ -73,17 +78,18 @@ fvla.show_grayscale(stretch='log', vmin=vla_min, vmax=vla_max, vmid=-0.001)
 
 flin = aplpy.FITSFigure(label['lin'][0], \
         figure=fig_line, subplot=[x0,row_a,width,dy])
-flin.show_colorscale(cmap=mpl.cm.jet, vmin=min_line, vmax=max_line, vmid=-2500, stretch='log')
+flin.show_colorscale(cmap=mpl.cm.jet, vmin=min_line, vmax=max_line, vmid=-10, stretch='log')
+
 fSMA = aplpy.FITSFigure(label['SMA'][0], figure=fig_line, subplot=[x0+width+2*x_gap, row_a, width, dy])
 fSMA.show_grayscale(stretch='log', vmin=SMA_min, vmax=SMA_max, vmid=-0.1)
 
 ########################################
 # Contours
 ########################################
-fcont.show_contour(label['cont'][0], colors='black', alpha=0.8, levels=sigma_contour_cont(sigma_cont), linewidths=1.8, layer='fg')
-fvla.show_contour(label['VLA'][0], colors="lime", levels=sigma_contour_array(sigma_9ghz), linewidths=2, layer='fg')
+fcont.show_contour(label['cont'][0], colors='white', alpha=1, levels=sigma_contour_cont(sigma_cont), linewidths=1.8)#, layer='fg')
+fvla.show_contour(label['VLA'][0], colors="lime", levels=sigma_contour_array(sigma_9ghz), linewidths=2)#, layer='fg')
 fvla.show_contour(label['cont'][0], colors='red', levels=sigma_contour_cont(sigma_cont), linewidths=2, layer='fg_cont')
-flin.show_contour(label['lin'][0], colors="white", alpha=0.8, levels=sigma_contour_CARMA(sigma_line), linewidths=1.8, layer='mol')
+flin.show_contour(label['lin'][0], colors="white", alpha=1, levels=sigma_contour_CARMA(sigma_line), linewidths=1.8, layer='mol')
 fSMA.show_contour(label['SMA'][0], colors="lime", levels=sigma_contour_CARMA(sigma_SMA), linewidths=1.8, layer='bf_cont')
 fSMA.show_contour(label['lin'][0], colors="red", levels=sigma_contour_CARMA(sigma_line), linewidths=2, layer='mol')
 
@@ -131,19 +137,19 @@ fSMA.axis_labels.hide()
 ########################################
 # markers
 ########################################
-markers_cross(fvla, ra_cross, dec_cross, layer='marker_set_1')
-markers_cross(fcont, ra_cross, dec_cross, layer='marker_set_1')
-markers_cross(flin, ra_cross, dec_cross, ec='black', layer='marker_set_1', s=500)
-markers_cross(fSMA, ra_cross, dec_cross, layer='marker_set_1')
+markers_cross(fvla, ra_cross, dec_cross)# , layer='marker_set_1')
+markers_cross(fcont, ra_cross, dec_cross, ec='black') #), layer='marker_set_1')
+markers_cross(flin, ra_cross, dec_cross, ec='black')#, layer='marker_set_1', s=500)
+markers_cross(fSMA, ra_cross, dec_cross)#, layer='marker_set_1')
 
 ########################################
 # Labels
 ########################################
 put_label(fvla, 0.40, 0.93, 'VLA 9GHz, CARMA 104GHz', 'titleBand')
 put_label(fvla, 0.17, 0.87, '3C220.3', 'titleObj')
-put_label(fcont, 0.31, 0.90, 'CARMA 104GHz', 'titleBand', c='black', w=
-'heavy')
-put_label(fcont, 0.2625, 0.85, '3C220.3', 'titleObj', c='black', w='extra bold')
+put_label(fcont, 0.31, 0.90, 'CARMA 104GHz', 'titleBand', c='black')#, w=
+#'heavy')
+put_label(fcont, 0.2625, 0.85, '3C220.3', 'titleObj', c='black')#, w='extra bold')
 put_label(flin, 0.31, 0.93, 'CARMA CO(3-2)', 'titleBand', c='black')
 put_label(flin, 0.31, 0.87, 'SMM J0939+8315', 'titleObj', c='black')
 put_label(fSMA, 0.40, 0.935, 'SMA 1 mm, CARMA CO(3-2)', 'titleBand')
@@ -151,6 +157,7 @@ put_label(fSMA, 0.2625, 0.85, 'SMM J0939+8315', 'titleObj')
 
 labsize = 'xx-large'
 labc = 'white'
+
 # put_label(fvla, 0.80, 0.925, '(a)', 'ref', c=labc, s=labsize)
 # put_label(fcont, 0.80, 0.925, '(b)', 'ref', c=labc, s=labsize)
 # put_label(flin, 0.80, 0.925, '(c)', 'ref', c=labc, s=labsize)
@@ -164,7 +171,7 @@ labc = 'white'
 # cbflin.set_label('mJy')
 # fig.canvas.draw()
 # fig_line.canvas.draw()
-# plt.show()
+
 
 if __name__ == '__main__':
     """

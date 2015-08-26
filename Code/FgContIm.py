@@ -70,10 +70,11 @@ def sigma_contour_lowSNR(sigma):
 def standard_plot_setup(sp, ra_center, dec_center, size, tc='black'):
     sp.set_frame_color('black')
     sp.frame.set_linewidth(1)
-    sp.set_system_latex(True)
+#     sp.set_system_latex(True)
+#    sp.set_labels_latex(True)
     sp.recenter(x=ra_center, y=dec_center, radius=size)   # width = blah, height = blah     # Scaling and panning
 
-    sp.tick_labels.set_font(size='large', weight='bold')      # size='10'
+    sp.tick_labels.set_font(size='large', weight='bold')
     sp.tick_labels.set_style('colons')
     sp.tick_labels.set_xformat('hh:mm:ss')
     sp.tick_labels.set_yformat('dd:mm:ss')
@@ -83,11 +84,11 @@ def standard_plot_setup(sp, ra_center, dec_center, size, tc='black'):
     sp.ticks.set_minor_frequency(4)
     # sp.ticks.set_xspacing(45*15/3600.)        # deg
 
-    sp.axis_labels.set_font(size='large', weight='bold')      # (size='12')
+    sp.axis_labels.set_font(size='large', weight='bold')
     sp.axis_labels.set_xtext('Right Ascension (J2000)')
     sp.axis_labels.set_ytext('Declination (J2000)')
     sp.axis_labels.set_xpad(3)
-    sp.axis_labels.set_ypad(-40)
+    sp.axis_labels.set_ypad(-35)
     sp.axis_labels.set_xposition('bottom')
 
 
