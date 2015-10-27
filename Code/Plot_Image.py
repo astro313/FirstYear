@@ -44,7 +44,7 @@ VLA_ra              = 1.448437499980E+02
 VLA_dec             = 8.325666666846E+01
 sizep               = 0.0025
 sizePcont_noise     = 0.020
-sizePLine           = 0.012
+sizePLine           = 0.02 #0.012
 ra_center           = 144.84933
 dec_center          = 83.257175
 
@@ -61,6 +61,20 @@ width               = 0.35
 x_gap               = 0.05
 x0                  = 0.10
 dy                  = 0.90
+
+
+# positions for crosses, centering on SMA peaks
+RA1  = 144.845625      # 09:39:22.950
+Dec1 = 83.2575472222222  # +83:15.27.17
+
+
+RA2  = 144.850916666  # 09:39:24.220
+Dec2 = 83.2575047   # +83:15:27.017
+
+
+RA3  = 144.853454166      # 09:39:24.829
+Dec3 = 83.257044         # +83:15.25.36
+
 
 
 ########################################
@@ -141,6 +155,14 @@ markers_cross(fvla, ra_cross, dec_cross)# , layer='marker_set_1')
 markers_cross(fcont, ra_cross, dec_cross, ec='black') #), layer='marker_set_1')
 markers_cross(flin, ra_cross, dec_cross, ec='black')#, layer='marker_set_1', s=500)
 markers_cross(fSMA, ra_cross, dec_cross)#, layer='marker_set_1')
+
+########################################
+# markers to satisfy referee
+########################################
+markers_cross(fvla, RA1, Dec1, ec='cyan')
+markers_cross(fvla, RA2, Dec2, ec='cyan')
+markers_cross(fvla, RA3, Dec3, ec='cyan')
+
 
 ########################################
 # Labels
