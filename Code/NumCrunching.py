@@ -341,6 +341,7 @@ class prettyGalaxies:
             half light radius ["], major axis of line (resolved)
         """
         r_kpc = cosmo.kpc_proper_per_arcmin(self.z).value * (self.R_halflight/60.)
+        print(" Half light radius: {:.2f} kpc").format(r_kpc)
         self.M_dyn = 2.8e5 * (self.FWHM_Line) ** 2 * r_kpc
         return self.M_dyn
 
