@@ -1,24 +1,24 @@
-We thank the referee for providing constructive comments to improve this manuscipt. We have addressed all the concerns raised by the referee and details can be found in the revised version. A brief description of how we have incoprated the changes can be found below. 
+We thank the referee for providing constructive comments to improve this manuscipt. We have addressed all the concerns raised by the referee and details can be found in the revised version, please see attached. A brief description on how we incoprated the changes can be found below. 
+=====================
 
 Major comments:
-
 - There is already a lensing model in H14 (a paper the authors refer to numerous times) and it is unclear why they redid the lensing model (they use the same SMA data as H14 but a different code). If the derived model is significantly different from H14 then this should be highlighted otherwise the lens modeling section isn't necessary in this paper.
 > We moved the lens mass and consistent results into table 1 and its caption, and removed details of the lens model / shortened the section. However, we retained this section in this paper as we provide the best-fit parameters that were not reported in Haas14 and since we use the inferred half-light radius later in the analysis.
 
 - section 4.3 is way too wordy and can be cut down to a few paragraphs and a table summarizing these key values (already given in Table 4). These are all standard calculations and you can refer to CW14 for the equations rather than repeating them here.
-> we have removed standard equations.
-> combined SFE and SFR into one section, and trimmed a few sentences in ths section.
+> We removed standard equations from the manuscript, combined the sections reporting SFE and SFR into one, and trimmed a few sentences.
 
 - You should also summarize the evidence for the AGN in this SMG (maybe when you mention this in the intro) so the reader doesn't have to read H14.
-> We have restructured the intro, writing explicitly the evidence of AGN. 
-> 
+> We rephrased the introduction to show more clearly the evidence of an AGN.
+
 
 - [a further concern/question about Table 4 is whether all the same assumptions such as excitation, alpha_co, etc. were made for the other SMGs otherwise the comparisons are meaningless]
-> We added notes to these assumptions in the caption below Tab. 4.
+> We added notes in the caption below Table 4 to recap the assumptions used in deriving these quantities.
 =============================
 
 - The SMG is thought to harbor a luminous AGN. In that case, the LIR will certainly have a contribution from the AGN that should be accounted for otherwise the SFR will be overestimated: see e.g. Coppin+2010, Kirkpatrick+2012, Magdis+2013, Kirkpatrick+2014. Please correct LIR for the AGN emission prior to estimating SFR and include an AGN component in the SED fitting. 
 >In our analysis, we fit SED models to the rest-frame FIR, which has been found to have AGN negligible contributions to IR luminosities - Pope+08 report that AGN contributions to the bolometric IR luminosity is at most 30%. Since we do not have MIR data (for just the background SMG, as postive K blueward of dust peak), we didn't fit an AGN component. Including an additional component, and thus free parameters to the SED model will be over-fitted due to the limited amount of data at hand. Instead our SED model includes a power-law to the blue side of the dust peak, which accounts for the MIR excess and allows us to estimate the IR luminosity (Kirkpatrick+15, Riechers+13, Johnson+13, Casey+12). 
+
 or should I change it to FIR --> SFR
 > In our analysis, we fit SED models to the rest-frame FIR, which has been found to have negligible AGN contribution to rest-frame FIR (≥ 60µm; Carilli+05, Netzer+07, Mullaney+11, Harrison+15). We derived the SFR and other corresponding properties using the L_FIR, (45-122.5), which SF-driven dust emission.
 > --> then change SFR using L_FIR instead of L_IR
@@ -31,7 +31,14 @@ or should I change it to FIR --> SFR
 - the discussion/conclusions should focus on what is new from this paper and not what is already presented in H14. E.g. the last sentence about this SMG transitioning from starburst to QSO phase. How is that conclusion made or strengthened with this new data?
 > SFR and massive gas reservoir, coupled with the low depletion time of gas --> its short phase in the proposed evolutionary link  
 
-Minor comments:
+
+
+# Minor comments:
+- the depletion time seems short compared to other SMGs which are ~100Myr although maybe it is consistent with other SMGs with AGN in them.
+> Taken into account one of the comments listed above, we added literature reference to Table 4, and the depletion time scale is consistent with other SMGs.
+> Greve05: 40-100 Myr
+
+============================
 **DONE**
 - section headings in 3 are strange. Remove the words "New results" since this is obvious and a requirement for publication. Also remove subheading or second line in heading 3.2.
 > we have removed "New results" in the subject headings
@@ -101,12 +108,6 @@ Daisy: @DR, should I calculate a dynamical mass using Median from Tacconi+06 as 
 - appendix: "no evidence of correlation" do the authors mean "covariance" here?
 > We used the word "correlation" to indicate that regardless of the variation found in dust mass due to a different prior imposed on the emissivity, the IR luminosity is insensivtive to such changes in dust mass. Both the dust mass and IR lumonisty are inferred from the posterior probability distribution of the SED model, and are not parameters in the model / loss function. For these reasons, we do not mean the covariance here.
 
-=================================
-
-
-- the depletion time seems short compared to other SMGs which are ~100Myr although maybe it is consistent with other SMGs with AGN in them.
-> Taken into account one of the comments listed above, we added literature reference to Table 4, and the depletion time scale is consistent with other SMGs.
-> Greve05: 40-100 Myr
 
 
 
