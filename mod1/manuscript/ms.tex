@@ -1,4 +1,4 @@
-\documentclass[iop]{emulateapj}
+\documentclass[iop, revtex4]{emulateapj}
 \usepackage[breaklinks,colorlinks,urlcolor=blue,citecolor=blue,linkcolor=blue]{hyperref}
 \newcommand{\vdag}{(v)^\dagger}
 \newcommand{\myemail}{tleung@astro.cornell.edu}
@@ -372,7 +372,6 @@ For the physical size of dust-emitting regions, \citet{Simpson15a} recently repo
  }
 
 \section{Discussion And Conclusions}
-\input{table_compareSMG}
 We present the detection of \CO line emission toward SMM\,J0939+8315, a strongly-lensed SMG that is hosting a type-2 quasar, refining the redshift
 to $z$\,=\,2.2212\,$\pm$\,0.0010. The underlying continuum is detected at $\sim$\,9$\sigma$ significance, where the flux density is likely dominated by emission from the lobes and hotspots of the foreground radio galaxy 3C220.3.
 
@@ -442,6 +441,15 @@ Facilities: CARMA
 
 \bibliographystyle{apj}
 \bibliography{J0939}
+
+\clearpage
+%\begin{landscape}
+\begin{turnpage}
+\input{table_compareSMG}
+\clearpage
+%\end{landscape}
+\end{turnpage}
+
 
 %\begin{thebibliography}
 
