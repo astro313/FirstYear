@@ -19,8 +19,13 @@ sig_Mdust_noMu = 20.42e8
 M_dyn = 7.48e10
 Mgas = 2.28e10    # with lensing correction
 
-#####################
-#####################
+###############################################################
+#                           Equations
+###############################################################
+
+###############################################################
+#                           L'
+###############################################################
 sig_LprimeCO = (3.25e7 / freq_CO32 ** 2 * dl ** 2 / (1 + z)) * \
     ((del_I / mu) ** 2 + (del_mu / mu ** 2 * I_line) ** 2) ** (.5)
 del_LprimeCO = 3.25e7 / freq_CO32 ** 2 * dl ** 2 / \
@@ -32,6 +37,9 @@ del_LprimeCO_noMu = 3.25e7 / freq_CO32 ** 2 * dl ** 2 / (1 + z) * (del_I)
 LprimCO_noMu = 3.25e7 / freq_CO32 ** 2 * dl ** 2 / (1 + z) * I_line
 #print str(LprimCO_noMu/1.e10) + '+/-' + str(sig_LprimeCO_noMu / 1.e10)
 
+###############################################################
+#                           M gas
+###############################################################
 sig_Mgas = alpha * sig_LprimeCO
 del_Mgas = alpha * del_LprimeCO
 
@@ -39,19 +47,38 @@ Mgas_noMu = alpha * LprimCO_noMu
 sig_Mgas_noMu = alpha * sig_LprimeCO_noMu
 del_Mgas_noMu = alpha * del_LprimeCO_noMu
 
+
+###############################################################
 # With lensing correction, M_dust
+###############################################################
 sig_Mdust = (
     (M_dust / mu ** 2 * del_mu) ** 2 + (sig_Mdust_noMu / mu) ** 2) ** (.5)
 del_Mdust = M_dust / mu ** 2 * del_mu + sig_Mdust_noMu / mu
 
+###############################################################
 # with lensing correciton, LIR
+###############################################################
 sig_LIR = ((del_IR_noMu / mu) ** 2 + (LIR / mu ** 2 * del_mu) ** 2) ** (0.5)
 del_LIR = del_IR_noMu / mu + LIR / mu ** 2 * del_mu
 
+###############################################################
+# With lensing corretion, L_FIR
+###############################################################
+sig_LFIR = ((del_FIR_noMu / mu) ** 2 + (LFIR / mu ** 2 * del_mu) ** 2) ** (0.5)
+del_LFIR = del_FIR_noMu / mu + LFIR / mu ** 2 * del_mu
+
+
+###############################################################
+#                Dynamical Mass
+###############################################################
 sig_Mdyn = 2.8e5 * \
     ((2. * vel * del_vel * rkpc) ** 2 + (vel ** 2 * del_kpc) ** 2) ** (.5)
 del_Mdyn = 2.8e5 * (2. * vel * del_vel * rkpc + vel ** 2 * del_kpc)
 
+
+###############################################################
+#                    SFR
+###############################################################
 sig_SFR = 1.e-10 * \
     ((LIR / mu ** 2 * del_mu) ** 2 + (del_IR_noMu / mu) ** 2) ** (.5)
 del_SFR = 1.e-10 * (LIR / mu ** 2 * del_mu + del_IR_noMu / mu)
@@ -60,15 +87,35 @@ sig_SFR_FIR = 1.e-10 * \
     ((LFIR / mu ** 2 * del_mu) ** 2 + (del_FIR_noMu / mu) ** 2) ** (.5)
 del_SFR_FIR = 1.e-10 * (LFIR / mu ** 2 * del_mu + del_FIR_noMu / mu)
 
+# SFR without mu, L_IR
 SFR_noMu = 1.e-10 * LIR
 sig_SFR_noMu = 1.e-10 * (del_IR_noMu / mu)
 del_SFR_noMu = 1.e-10 * (del_IR_noMu / mu)
 
+# SFR without mu, L_FIR
+SFR_noMu_FIR = 1.e-10 * LFIR
+sig_SFR_noMu_FIR = 1.e-10 * (del_FIR_noMu / mu)
+del_SFR_noMu_FIR = 1.e-10 * (del_FIR_noMu / mu)
+
+###############################################################
+#                    Depletion time
+###############################################################
+# using LIR
 sig_tauDepl = ((sig_Mgas_noMu / SFR_noMu) ** 2 +
                (Mgas_noMu / SFR_noMu ** 2 * sig_SFR_noMu) ** 2) ** (.5)
 del_tauDepl = (del_Mgas_noMu / SFR_noMu) + \
     (Mgas_noMu / SFR_noMu ** 2 * del_SFR_noMu)
 
+# Using LFIR
+sig_tauDepl_FIR = ((sig_Mgas_noMu / SFR_noMu_FIR) ** 2 +
+               (Mgas_noMu / SFR_noMu_FIR ** 2 * sig_SFR_noMu_FIR) ** 2) ** (.5)
+del_tauDepl_FIR = (del_Mgas_noMu / SFR_noMu_FIR) + \
+    (Mgas_noMu / SFR_noMu_FIR ** 2 * del_SFR_noMu_FIR)
+
+###############################################################
+#                   SFE
+###############################################################
+# LIR
 sig_SFE = ((del_IR_noMu / LprimCO_noMu) ** 2 +
            (sig_LprimeCO_noMu / LprimCO_noMu ** 2 * LIR) ** 2) ** (.5)
 # print str(LprimCO_noMu/1.e10)+'+/-'+str(sig_LprimeCO_noMu/1.e10)
@@ -76,10 +123,25 @@ sig_SFE = ((del_IR_noMu / LprimCO_noMu) ** 2 +
 del_SFE = del_IR_noMu / LprimCO_noMu + \
     del_LprimeCO_noMu / LprimCO_noMu ** 2 * LIR
 
+
+# LFIR
+sig_SFE_FIR = ((del_FIR_noMu / LprimCO_noMu) ** 2 +
+           (sig_LprimeCO_noMu / LprimCO_noMu ** 2 * LFIR) ** 2) ** (.5)
+# print str(LprimCO_noMu/1.e10)+'+/-'+str(sig_LprimeCO_noMu/1.e10)
+
+del_SFE_FIR = del_FIR_noMu / LprimCO_noMu + \
+    del_LprimeCO_noMu / LprimCO_noMu ** 2 * LFIR
+
+###############################################################
+#                    gas-to-dust ratio
+###############################################################
 sig_fgasdust = ((Mgas_noMu / M_dust ** 2 * sig_Mdust_noMu)
                 ** 2 + (sig_Mgas_noMu / M_dust) ** 2) ** (.5)
 del_fgasdust = Mgas_noMu / M_dust ** 2 * sig_Mdust_noMu + del_Mgas_noMu / M_dust
 
+###############################################################
+#                   gas-to-dyn ratio
+###############################################################
 sig_fgasdyn = (
     (sig_Mgas / M_dyn) ** 2 + (Mgas / M_dyn ** 2 * sig_Mdyn) ** 2) ** (.5)
 del_fgasdyn = del_Mgas / M_dyn + Mgas / M_dyn ** 2 * del_Mdyn
@@ -89,10 +151,12 @@ print "delta Mgas: ", sig_Mgas / 1.e10
 print "delta_Mdyn: ", sig_Mdyn / 1.e10
 print "delta Mdust with lensing corretion: ", sig_Mdust / 1.e8
 print "Delta LIR with lensing corretion: ", sig_LIR / 1.e12
+print "Delta LFIR with lensing corretion: ", sig_LFIR / 1.e12
 print "delta SFR: ", sig_SFR
 print "delta SFR_FIR: ", sig_SFR_FIR
 print "delta_Tau: ", sig_tauDepl / 1.e6
-print "delta_SFE: ", sig_SFE
+print "delta_Tau_FIR: ", sig_tauDepl_FIR / 1.e6
+print "delta_SFE_FIR: ", sig_SFE_FIR
 print "delta f gas dust: ", sig_fgasdust
 print "delta f gas dyn: ", sig_fgasdyn
 
