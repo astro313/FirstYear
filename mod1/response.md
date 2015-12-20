@@ -12,7 +12,7 @@ We thank the referee for providing constructive and thoughtful comments to impro
 
 3:
 - section 4.3 is way too wordy and can be cut down to a few paragraphs and a table summarizing these key values (already given in Table 4). These are all standard calculations and you can refer to CW14 for the equations rather than repeating them here.
-> We removed standard equations from the manuscript, combined the sections reporting SFE and SFR, SFRSD into one, and trimmed a few sentences.
+> We removed standard equations from the manuscript, and combined the sections reporting SFE, SFR, and SFRSD into one. We also shortened the section.
 
 4:
 - You should also summarize the evidence for the AGN in this SMG (maybe when you mention this in the intro) so the reader doesn't have to read H14.
@@ -22,28 +22,27 @@ We thank the referee for providing constructive and thoughtful comments to impro
 - [a further concern/question about Table 4 is whether all the same assumptions such as excitation, alpha_co, etc. were made for the other SMGs otherwise the comparisons are meaningless]
 > We added notes in the caption below Table 4 to recap assumptions used in deriving these quantities.
 
-## 6 (NEED TO WORK ON):
+6:
 - Section 5: why do the authors cherry-pick these 2 SMGs to make comparisons? there are many other sources that could be chosen with a range of properties. A comparison to these 2 SMGs is not useful at all given the diversity in this population (e.g. the sentence "This demonstrates the large ..." is not true when comparing only 3 objects). I suggest comparing to the general properties observed for SMGs (as summarized in CW14 or Casey+14) which will be more useful in placing this object in the context of the SMG population. 
 
-> We picked out two gravitaitonally lensed SMGs to show the ranges of SMGs properties, of which intrinsically sit at faint ends of the luminosity distribution, and thus would not have been studied in sensitivity-limited samples. 
-We have added a compilation of SMG and type-2 QSOs properties to the Table, where SMGs properties are derived from Sharon+15 on a sample of SMGs with both CO(3-2) and CO(1-0) line measurements. Hence the SMG properties are free of assumption on the excitation conditions. Please see tablenote and comments for details. We have incoporated a comparison to these values in our conclusion. Please see conclusion section for other changes.
+> We picked out two gravitaitonally lensed SMGs to show the ranges of SMGs properties, of which intrinsically sit at faint ends of the luminosity distribution, and thus would not have been studied in sensitivity-limited samples. In addition, these are among the SMGs which are best-studied to date and their properties are deriving using similar approach in this paper. Hence, a comparison with these object will have relatively lower uncertainties. We have added a compilation of SMG and type-2 QSOs properties to the Table. Please see tablenote and comments for details. We have incoporated a comparison to these values in our conclusion. Please see conclusion section for other changes.
 
-## 7 (NEED TO WORK ON):
+## 7
 - the discussion/conclusions should focus on what is new from this paper and not what is already presented in H14. E.g. the last sentence about this SMG transitioning from starburst to QSO phase. How is that conclusion made or strengthened with this new data?
 
-> We have updated the conclusions.
+> We updated the conclusions.
 
 
 
 # Minor comments
 1:
 - the depletion time seems short compared to other SMGs which are ~100Myr although maybe it is consistent with other SMGs with AGN in them.
-> Greve+05 report a range of depletion time τ = 40-100 Myr for SMGs. 
+> Greve+05 report a range of depletion time τ = 40-100 Myr for SMGs, please see also Table 4. 
 
 
 2:
 - section headings in 3 are strange. Remove the words "New results" since this is obvious and a requirement for publication. Also remove subheading or second line in heading 3.2.
-> We have removed "New results" in the subject headings.
+> We removed "New results" in the subject headings.
 
 3:
 - the left panels on Fig 1 and 2 should show the same region (have the same RA/DEC axes). It is also tough to tell by eye if the VLA9GHz and SMA emission is coincident. Perhaps these can be overlayed on Fig 1.
@@ -95,21 +94,8 @@ Based on our observations, we find no evidence of gas inflow in SMMJ0939.
 
 13:
 dynamical mass calculation: can you estimate how much higher this would be given observations showing the different radii between the molecular and dust emission in SMGs. How different are the radii?
->The half-light radius of dust emitting region is ~ 1.2 kpc based on a recent study by Simpson+15, who collected ALMA 870 µm data over 52 SMGs. Tacconi+06 report a median FWHM size of 4.1 ±1.6 kpc based on CO measurements. Furthermore, Ivison+11 found evidence of extended ground state CO emittiong region of ~7 kpc. Please see the revised manuscipt. 
- 
-**@DR, should I calculate a dynamical mass using Median from Tacconi+06 as well? I get Mdyn ~ 36.8e10 Msun. Should I include these sizes in the paper? or just feed this to the referee.?**
+>The half-light radius of dust emitting region is ~ 1.2 kpc based on a recent study by Simpson+15, who collected ALMA 870 µm data over 52 SMGs. Tacconi+06 report a median FWHM size of 4.1 ±1.6 kpc based on high-J CO measurements. Given the small number statistics on resolved CO(1-0) emission in QSOs, where Riechers+11 find no evidence of extent cold gas emission, we did not include an additional estimate of the dynamical mass assuming some physical size from recent observaitons (still limited) in the paper. However, we have noted these phyiscal sizes in the text, which allows readers to scale the dynamical mass correspondingly should they wish to do so. Please see the revised manuscipt. 
 
 14:
 - appendix: "no evidence of correlation" do the authors mean "covariance" here?
 > We used the word "correlation" to indicate that regardless of the variation found in dust mass due to a different prior imposed on the emissivity, the IR luminosity is insensivtive to such changes in dust mass. Both the dust mass and IR lumonisty are inferred from the best-fit SED model, and are not parameters in the model (and the loss function). For these reasons, we do not mean the covariance here.
-
-
-
-
-
-
-
-
-
-
-
