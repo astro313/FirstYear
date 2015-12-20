@@ -24,7 +24,7 @@
 \newcommand\tni{\,\tablenotemark{i}}
 \newcommand\tnj{\,\tablenotemark{j}}
 \newcommand\tnk{\,\tablenotemark{k}}
-
+\newcommand\tnl{\,\tablenotemark{l}}
 
 \slugcomment{Submitted to the ApJ}
 \usepackage{amsmath}
@@ -283,7 +283,7 @@ between observed-frame 70\,\micron\,$-$\,500\,\micron, and the interferometric d
 available software {\sc mbb\_emcee}\footnote{\url{https://github.com/aconley/mbb\_emcee}} to perform the SED fitting; the code uses an affine-invariant Markov chain Monte
 Carlo (MCMC) approach, and further details of the code are given by \citet{Riechers13a} and \citet{Dowell14a}. \par
 The
-functional form of the fit comprises a single-temperature, modified blackbody function joined to a $S_{\lambda} \propto \lambda^\alpha
+functional form of the fit comprises a single-temperature, modified blackbody function joined to a $B_{\lambda} \propto \lambda^\alpha
 $ power law on the blue
 side of the SED.
 We fit both optically thick and optically thin models. In the optically thick case, the wavelength $
@@ -291,12 +291,12 @@ We fit both optically thick and optically thin models. In the optically thick ca
 depth $\tau_{\nu} =$ ($\nu$/$\nu_0$)$^\beta$ reaches unity. Thus, the functional form of the modified blackbody
 in the optically thick regime is as follows:
 \begin{equation}
-\rm S_{\lambda} \propto \frac{(1-exp^{-(\frac{\lambda_0 (1+z)}{\lambda})^{\beta}})(\frac{c}{\lambda})^3}
+\rm B_{\lambda} \propto \frac{(1-exp^{-(\frac{\lambda_0 (1+z)}{\lambda})^{\beta}})(\frac{c}{\lambda})^3}
 {exp^{\frac{hc}{\lambda\rm{kT/(1+z)} } }-1}
 \end{equation}
 and in the optically thin regime, the functional form reduces to:
 \begin{equation}
-\rm S_{\lambda} \propto \frac{(\frac{c}{\lambda})^{\beta+3}}{exp^{\frac{hc}{\lambda\rm{kT/(1+z)}}}-1}
+\rm B_{\lambda} \propto \frac{(\frac{c}{\lambda})^{\beta+3}}{exp^{\frac{hc}{\lambda\rm{kT/(1+z)}}}-1}
 \end{equation}
 where $T$ is the rest-frame cold dust temperature, $\beta$ is the dust emissivity index 
 , and $\alpha$ is the mid-infrared power law spectral index. The overall fit is normalized using the observed-frame 500
@@ -384,14 +384,16 @@ in galaxy formation and evolution \citep[\eg ][]{Dickinson03a}.
 
 {\bf We
 compare our findings for SMM\,J0939 
-with a sample of SMGs with both \CO and \rot{1}{0} line measurements as well as 
+with a sample of SMGs presented by \citet{Bothwell13a} as well as 
  two other exceptionally submm-bright,}
 strongly-lensed SMGs
-found at similar redshifts --- HLSW-01 and the cosmic Eyelash, both of which have been studied in great detail.
- The properties
-of these galaxies are listed in Table~\ref{tab:comapreSMG}. While the cosmic Eyelash has the least amount of molecular gas, as well as
+found at similar redshifts --- HLSW-01 and the cosmic Eyelash, both of which are well-studied. The properties
+of these galaxies are listed in Table~\ref{tab:comapreSMG}. 
+BLAH comparison with Bothwell13a sample. 
+
+While the cosmic Eyelash has the least amount of molecular gas, as well as
 the
-longest gas depletion timescale (\ie is the most long-lived), the overall gas and dust properties of SMM\,J0939 fall between those of HLSW-01 and the
+longest gas depletion timescale, the overall gas and dust properties of SMM\,J0939 fall between those of HLSW-01 and the
 cosmic
 Eyelash. Such distinction is likely a result of our selection bias: while these sources appear similarly bright at 250 \micron, the lensing magnification
 varies by a factor of $\sim$\,3. In particular, with the cosmic Eyelash having the highest lensing magnification among the
@@ -402,10 +404,10 @@ at 250\,\micron, while its CO line and IR luminosities are lower than those of m
 %This demonstrates BLAH BLAH
 %the large variations in gas mass, dust mass, and star forming activity within the population at $z$\,$\sim$\,2$-$3, which is discernible with the aid of gravitational lensing.}
 While lensing can probe sources
-of various intrinsic properties, we find that SMM\,J0939 is representative of the SMG population, with its intrinsic CO line luminosity, IR luminosity, gas mass,
-dust mass, SFR, SFE, depletion timescale, and gas mass fraction comparable to those found in ``typical" SMGs studied to date
-\citep[\eg ][]{Greve05a,Tacconi08a}. 
-{\bf Since previous studies lack \rot{1}{0} measurements, extrapolations and assumptions are required in deriving these properties (\eg gas mass, depletion timescale). Comparing the properties of the gas reservoir in SMM\,J0939 against those derived based on a sample of SMGs with \rot{1}{0}, we find that SMM\,J0939 is BLAH, GET uncertainties from Chelsea.
+of various intrinsic properties, we find that 
+SMM\,J0939 is BLAH BLAH representative of the SMG population, with its intrinsic CO line luminosity, IR luminosity, gas mass,
+dust mass, SFR, SFE, depletion timescale, and gas mass fraction comparable to those found in ``typical" SMGs studied to data (see Table~\ref{tab:compareSMG}.
+{\bf Since previous studies lack \rot{1}{0} measurements, extrapolations and assumptions are required in deriving these properties (\eg gas mass, depletion timescale). Comparing the properties of the gas reservoir in SMM\,J0939 against those derived based on a sample of SMGs with \rot{1}{0}, we find that SMM\,J0939 is BLAH.
 }
 
 

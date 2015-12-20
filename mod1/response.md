@@ -22,13 +22,15 @@ We thank the referee for providing constructive and thoughtful comments to impro
 - [a further concern/question about Table 4 is whether all the same assumptions such as excitation, alpha_co, etc. were made for the other SMGs otherwise the comparisons are meaningless]
 > We added notes in the caption below Table 4 to recap assumptions used in deriving these quantities.
 
-6:
+## 6 (NEED TO WORK ON):
 - Section 5: why do the authors cherry-pick these 2 SMGs to make comparisons? there are many other sources that could be chosen with a range of properties. A comparison to these 2 SMGs is not useful at all given the diversity in this population (e.g. the sentence "This demonstrates the large ..." is not true when comparing only 3 objects). I suggest comparing to the general properties observed for SMGs (as summarized in CW14 or Casey+14) which will be more useful in placing this object in the context of the SMG population. 
+
 > We picked out two gravitaitonally lensed SMGs to show the ranges of SMGs properties, of which intrinsically sit at faint ends of the luminosity distribution, and thus would not have been studied in sensitivity-limited samples. 
 We have added a compilation of SMG and type-2 QSOs properties to the Table, where SMGs properties are derived from Sharon+15 on a sample of SMGs with both CO(3-2) and CO(1-0) line measurements. Hence the SMG properties are free of assumption on the excitation conditions. Please see tablenote and comments for details. We have incoporated a comparison to these values in our conclusion. Please see conclusion section for other changes.
 
-7:
+## 7 (NEED TO WORK ON):
 - the discussion/conclusions should focus on what is new from this paper and not what is already presented in H14. E.g. the last sentence about this SMG transitioning from starburst to QSO phase. How is that conclusion made or strengthened with this new data?
+
 > We have updated the conclusions.
 
 
@@ -41,11 +43,11 @@ We have added a compilation of SMG and type-2 QSOs properties to the Table, wher
 
 2:
 - section headings in 3 are strange. Remove the words "New results" since this is obvious and a requirement for publication. Also remove subheading or second line in heading 3.2.
-> We have removed "New results" in the subject headings
+> We have removed "New results" in the subject headings.
 
 3:
 - the left panels on Fig 1 and 2 should show the same region (have the same RA/DEC axes). It is also tough to tell by eye if the VLA9GHz and SMA emission is coincident. Perhaps these can be overlayed on Fig 1.
-> We marked the locations of the peak emission from the SMA as white crosses on the right panel on figure 1 
+> We marked the locations of the peak emission from the SMA as white crosses on the right panel on figure 1.
 
 4:
 - figure 3: orange is difficult to see. What is the SNR of the residuals in the right panel?
