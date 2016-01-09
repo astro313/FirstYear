@@ -59,7 +59,7 @@ def read_data_fromtxt(filename):
     """
     import astropy.io.ascii     # for .txt format
     data = astropy.io.ascii.read(filename, comment='^#')
-    if len(filename) == 0:
+    if len(data) == 0:
         errstr = "No data read from %s" % filename
         raise IOError(errstr)
     return data
@@ -113,9 +113,9 @@ Point_error_Jy = np.array([0.31e-3, 1.42e-3, 0.])    # Jy
 # Read in Data
 ########################################
 SMG_data = read_data_fromtxt(SMGfilename)
-SMGwavelg_micron, SMG_mJy, SMG_error_mJy = ([dat[0] for dat in SMG_data],
-                                            [dat[1] for dat in SMG_data],
-                                            [dat[2] for dat in SMG_data])
+SMGwavelg_micron, SMG_mJy, SMG_error_mJy = ([dat[0] for row in SMG_data],
+                                            [dat[1] for row in SMG_data],
+                                            [dat[2] for row in SMG_data])
 
 # np.asarray converts input to array
 freq_Hz, SMGflux_SI, SMGerr_SI = \
@@ -124,9 +124,9 @@ freq_Hz, SMGflux_SI, SMGerr_SI = \
                                 np.asarray(SMG_error_mJy))
 
 Radio_data = read_data_fromtxt(RadioFilename)
-Radio_Hz, Radio_Jy, Radio_error = ([dat[0] for dat in Radio_data],
-                                   [dat[2] for dat in Radio_data],
-                                   [dat[3] for dat in Radio_data])   # Jy
+Radio_Hz, Radio_Jy, Radio_error = ([dat[0] for row in Radio_data],
+                                   [dat[2] for row in Radio_data],
+                                   [dat[3] for row in Radio_data])   # Jy
 
 Radio_Hz, Radio_Jy, Radio_error = (np.asarray(Radio_Hz),
                                    np.asarray(Radio_Jy),
