@@ -1,0 +1,63 @@
+
+Daisy's Q:
+
+- Mdyn fine to leave as is. would be too speculative otherwise.
+
+ - didn't add comparison of L_FIR from Bothwell+13 and SED fitting in
+   literature. Reason: reported values (Tan+13, R+14) for GN20 are
+   L_IR, and I don't want to draw any additional claims based on other
+   scaling (e.g. Carilli,Walter+13, scaling by 1.3 between IR and
+   FIR). Also I don't want to digress too much in the conclusion by
+   commenting this and that on other's work (at least not in this
+   particular paper). -- huh??
+
+--------------
+
+abstract last sentence: re-write
+
+intro: pioneering works: add smail+97, hughes+98, barger+98
+
+ "where this companion galaxy is identified" --> re-write
+
+ remove "previous"
+
+ suggested --> suggest
+
+
+fig 1/2 right: zoom out 10%-15%
+
+fig 2 left stretch not optimal?
+
+fig 3 number labels too small
+
+
+sect. 4.1: not understandable without introducing params/assumptions
+
+why not SPIRE etc in Tab 2 for completeness?
+
+sect. 4.2: fit model --> models (since deriving best fits from model*S*)
+
+sect 4.3.3: clean up end, txt needs straightening out
+
+--- rather comapre dust sizes of smm0939 to S15, B13, 15 directly?
+
+sect 5:
+
+- state gas mass!
+
+- say that B13 SMGs are 850um-selected & typ unlensed or only weakly
+  magnified
+
+- low end of Mgas among SMGs - state possibility of lower CO ex? then
+  again, spot on w/ QSO2s
+
+- invert logic of last sentence: first what it is, second what we
+  interpret it to be
+
+thank referee in acknowledgments
+
+tab 4: state what thermalized excitation means
+
+throughout: LR15 --> LR16
+
+also: spell-check reply to referee!!
