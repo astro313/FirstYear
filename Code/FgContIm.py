@@ -88,7 +88,7 @@ def standard_plot_setup(sp, ra_center, dec_center, size, tc='black'):
     sp.axis_labels.set_xtext('Right Ascension (J2000)')
     sp.axis_labels.set_ytext('Declination (J2000)')
     sp.axis_labels.set_xpad(3)
-    sp.axis_labels.set_ypad(-35)
+    sp.axis_labels.set_ypad(-25)
     sp.axis_labels.set_xposition('bottom')
 
 
