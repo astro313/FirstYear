@@ -1,16 +1,27 @@
 \begin{deluxetable}{rlrcc}[tbpH]
 \tabletypesize{\scriptsize}
 \tablecolumns{5}
-\tablecaption{Continuum data of 3C220.3}
+\tablecaption{Continuum data of the lensing galaxy 3C220.3 and background SMG SMM\,J0939}
 \tablehead{
-\multicolumn{2}{c}{Frequency} &
+\multicolumn{2}{c}{Wavelength} &
 \multicolumn{2}{c}{Flux Density} &
-\colhead{Reference} \vspace{0.05in}
+\colhead{Instrument} \vspace{0.05in}
 \\  \cline{1-5} \vspace{-0.05in} \\
-\multicolumn{5}{c}{Integrated (Core \& Lobes)}
+\multicolumn{5}{c}{SMM\,J0939}
 }
 \startdata
-    104.2 & GHz & 7.39 $\pm$ 1.42\tna        & mJy & LR15 \\
+
+70   & $\micron$ & 29.5 $\pm$ 5            & mJy & PACS      \\
+100  & $\micron$ & 102 $\pm$ 7             & mJy & PACS     \\
+160  & $\micron$ & 289 $\pm$ 9             & mJy & SPIRE   \\
+250  & $\micron$ & \phn440 $\pm$ 15        & mJy & SPIRE    \\
+350  & $\micron$ & \phn403 $\pm$ 20        & mJy & SPIRE   \\
+500  & $\micron$ & \phn268 $\pm$ 30        & mJy & SPIRE   \\
+1000 & $\micron$ & \phn\phn51 $\pm$ 14\tna & mJy & SMA     \vspace{0.05in} \\ \hline
+ \cline{1-5} \vspace{-0.08in} \\
+\multicolumn{2}{c}{Frequency} & \multicolumn{2}{c}{Flux Density} & \colhead{Reference} \vspace{-0.05in} \\
+\cutinhead{3C220.3 Integrated (Core \& Lobes)}
+    104.2 & GHz & 7.39 $\pm$ 1.42\tnb        & mJy & LR16 \\
 %    104.2 & GHz & 4.91 $\pm$ 0.54\tna        & mJy & This work \\
     10.7  & GHz & 270 $\pm$ 30            & mJy & KP73       \\
     10.7  & GHz & 253 $\pm$ 28            & mJy & L80       \\
@@ -37,13 +48,15 @@
     38    & MHz & 40.2 $\pm$ 6.30         & Jy  & K69       \\
     37.8  & MHz & 60.7 $\pm$ 6.07         & Jy  & H95       \\
     17.8  & MHz & 64.9 $\pm$ 6.49         & Jy  & H95			\\
-\cutinhead{Core Only}
-    104.2 & GHz & $<$ 2.29 		      & mJy & LR15 \\
+\cutinhead{3C220.3 Core Only}
+    104.2 & GHz & $<$ 2.29 		      & mJy & LR16 \\
     9.0   & GHz & 0.80  $\pm$ 0.06    & mJy & H14       \\
     4.86  & GHz & $<$ 0.17            & mJy & M06       \\
 \enddata
 \label{tab:SEDdataRadio}
-\tablenotetext{a}{Integrated flux density. Peak flux density of the continuum emission is 4.93 $\pm$ 0.31 mJy beam\pmOne}
+\tablecomments{Photometric data of SMM\,J0939 are from \citet{Haas14}}
+\tablenotetext{a}{Errors include calibration uncertainties.}
+\tablenotetext{b}{Integrated flux density. Peak flux density of the continuum emission is 4.93 $\pm$ 0.31 mJy beam\pmOne}
 %\tablenotetext{b}{Core only}
 \tablenotetext{$\dagger$}{www.astron.nl/wow/testcode.php?survey=1}
 %\tablecomments{References.~}
@@ -56,7 +69,7 @@ H14 = \citet{Haas14};
 K69 = \citet{r11-14-18-22-25-32};
 KP73 = \citet{r9};
 L80 = \citet{r10-13-15-19-20-26-29-31};
-LR15 = this work;
+LR16 = this work;
 M06 = \citet{Mullin06a};
 P66 = \citet{r17-21};
 WENSS = \citet{r23-24}$^\dagger$

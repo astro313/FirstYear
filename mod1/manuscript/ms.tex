@@ -1,5 +1,33 @@
 \documentclass[iop, revtex4]{emulateapj}
-\usepackage[breaklinks,colorlinks,urlcolor=blue,citecolor=blue,linkcolor=blue]{hyperref}
+\usepackage[breaklinks,colorlinks,citecolor=blue,linkcolor=blue]{hyperref}
+\usepackage{amsmath}
+
+\usepackage{etoolbox}
+
+\makeatletter
+
+% Patch case where name and year are separated by aysep
+\patchcmd{\NAT@citex}
+  {\@citea\NAT@hyper@{%
+     \NAT@nmfmt{\NAT@nm}%
+     \hyper@natlinkbreak{\NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb}%
+     \NAT@date}}
+  {\@citea\NAT@nmfmt{\NAT@nm}%
+   \NAT@aysep\NAT@spacechar\NAT@hyper@{\NAT@date}}{}{}
+
+% Patch case where name and year are separated by opening bracket
+\patchcmd{\NAT@citex}
+  {\@citea\NAT@hyper@{%
+     \NAT@nmfmt{\NAT@nm}%
+     \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}%
+       {\@citeb\@extra@b@citeb}%
+     \NAT@date}}
+  {\@citea\NAT@nmfmt{\NAT@nm}%
+   \NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi\NAT@hyper@{\NAT@date}}
+  {}{}
+
+\makeatother
+
 \newcommand{\vdag}{(v)^\dagger}
 \newcommand{\myemail}{tleung@astro.cornell.edu}
 \newcommand{\Msun}{\mbox{$M_{\odot}$}}
@@ -26,13 +54,15 @@
 \newcommand\tnk{\,\tablenotemark{k}}
 \newcommand\tnl{\,\tablenotemark{l}}
 
-\slugcomment{Submitted to the ApJ, Revised version December 20, 2015}
-\usepackage{amsmath}
+\slugcomment{Submitted to the ApJ}
+\input{changelog.tex}       % git revision hash, new command
+
 \shorttitle{Study of a strongly-lensed type-2 quasar host SMG at $z$\,=\,2.221}
 \shortauthors{Leung \& Riechers}
 
 \begin{document}
-\title{A Massive Molecular Gas Reservoir in the $z$\,=\,2.221 Type-2 Quasar Host Galaxy SMM\,J0939+8315 lensed by the Radio Galaxy 3C220.3}
+{\tiny  \RevisionInfo}        % place it here
+\title{A Massive Molecular Gas Reservoir in the $z$\,=\,2.221 Type-2 Qruasar Host Galaxy SMM\,J0939+8315 lensed by the Radio Galaxy 3C220.3}
 \author{T. K. Daisy Leung and Dominik A. Riechers}
 \affil{Department of Astronomy, Space Sciences Building, Cornell University, Ithaca, NY 14853, USA; \myemail}
 
@@ -42,17 +72,18 @@ the Combined Array for Research in Millimeter-wave Astronomy.
 SMM\,J0939+8315 hosts a type-2 quasar, and is gravitationally lensed by the radio galaxy 3C220.3 {\bf and its companion galaxy} at $z$ = 0.685.
 The 104~GHz continuum emission underlying the CO line is detected toward 3C220.3 with an integrated flux density of $S_\textrm{cont}$ = 7.4\,$\pm$\,1.4 mJy.
 Using the \CO line intensity of $I_\textrm{CO(3-2)}$ = (12.6\,$\pm$\,2.0)\,Jy\,km\,s\pmOne, we derive
- a lensing- and excitation-corrected CO line luminosity of \Lp = (3.4\,$\pm$\,0.7)\,$\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$)\,\LpU\ for the SMG, where $\mu_\textrm{L}$ is the lensing magnification factor inferred from our lens modeling performed on the 1\,mm continuum emission.
+ a lensing- and excitation-corrected CO line luminosity of \Lp = (3.4\,$\pm$\,0.7)\,$\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$)\,\LpU\ for the SMG, where $\mu_\textrm{L}$ is the lensing magnification factor inferred from our lens modeling.
+ % performed on the 1\,mm continuum emission.
  This translates to a molecular gas mass of $M_\textrm{gas}$ = (2.7\,$\pm$\,0.6)\,$\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$)\,\Msun.
 Fitting spectral energy distribution models to the (sub)-millimeter data of this SMG yields a dust temperature of $T_\textrm{dust}$ =
 63.1$^{+1.1}_{-1.3}$\,K, a dust mass of $M_\textrm{dust}$ = (5.2\,$\pm$\,2.1)\,$\times$\,10$^8$\,(10.1/$\mu_\textrm{L}$)\,\Msun, and a total infrared luminosity of
 $L_\textrm{IR}$ = (9.1\,$\pm$\,1.2)\,$\times$10$^{12}$\,(10.1/$\mu_\textrm{L}$)\,\Lsun.
-Our comparative study
-of the gas mass, dust mass, star formation rate, and surface densities in SMM
-J0939+8315
-and other high-redshift SMGs and type-2 quasars 
-{\bf shows that it is consistent with the properties of both populations. Together with the presence of its obscured quasar, massive molecular gas reservoir, on-going intensive star-formation and the short gas depletion timescale suggests that
-SMM\,J0939+8315 may be transitioning from its star-bursting phase to the unobscured quasar phase. }
+{\bf 
+We find that the properties of the interstellar medium of
+ SMM J0939+8315 overlap with both SMGs and type-2 quasars. Hence, SMM J0939+8315 may be transitioning from its star-bursting phase to the unobscured quasar phase in the 
+evolutionary link model, according in which this SMG represents an intermediate stage of present-day galaxies
+at an earlier epoch. 
+ }
 \end{abstract}
 \keywords{cosmology: observations --- galaxies: evolution --- galaxies: high-redshift ---  galaxies: starburst --- submillimeter: galaxies}
 
@@ -65,8 +96,8 @@ galaxy assembly, with a tail out to $z>$ 6 \citep{Riechers13a}.
 Previous works %following this discovery
 have shown that SMGs
  are extremely luminous in the infrared
- wavelengths (L$_\textrm{IR} \sim$ 10$^{12}$ \Lsun) with high star formation rates (SFR) \citep[$\gtrsim $ 500 \Msun yr\pmOne; see \eg reviews by][]{Blain02a, Lagache05a,Casey14a}.  
-{\bf Following the pioneering works in the discovery of this population}, considerable amounts of effort have been invested into 
+ wavelengths (L$_\textrm{IR} \sim$ 10$^{12}$ \Lsun) with high star formation rates \citep[SFR $\gtrsim$\,500\,\Msun yr\pmOne; see \eg reviews by][]{Blain02a, Lagache05a,Casey14a}.  
+{\bf Following the pioneering works in the discovery of this population \citep{Barger98a,Smail97a,Hughes98a}}, considerable amounts of effort have been invested into 
 obtaining large samples of SMGs by carrying out
   large sky surveys with (sub)-mm facilities such as the {\it Herschel Space Observatory} \citep[\eg H-ATLAS, SPT, HerMES; ][]{Eales10a,Carlstrom11a,Oliver12a}.  
   }
@@ -77,15 +108,15 @@ obtaining large samples of SMGs by carrying out
 
 Many recent detailed studies have been carried out on SMGs that are gravitationally lensed,
  as lensing amplifies the intrinsic fluxes of these sources, making them the brightest unveiled in large sky surveys \citep{Negrello10a,Vieira10a,Oliver12a}, and making follow-up studies considerably less time consuming.
-A particularly interesting and peculiar lensing system was discovered serendipitously in a study carried out with the {\it Herschel Space Telescope}, in which
+A particularly interesting and peculiar lensing system was discovered serendipitously in a study carried out with {\it Herschel}, in which
 a type-2 quasar host SMG --- SMM\,J0939+8315 (hereafter SMM\,J0939) is being lensed by the double-lobed Fanaroff-Riley
-Class II \citep*[FR-II; ][]{Fanaroff74} radio galaxy 3C220.3 and its
-companion galaxy B at $z$\,=\,0.685{\bf, where this companion galaxy is identified by \citeauthor{Haas14} (2014; hereafter H14) via observations with the Keck II Observatory and the {\it Hubble Space Telescope}.}
+Class II \citep*[FR-II; ][]{Fanaroff74} radio galaxy 3C220.3 {\bf at $z$\,=\,0.685, which has a
+companion galaxy B as seen in Keck 2$\micron$ and the {\it Hubble Space Telescope} 702nm images \citep[hereafter H14]{Haas14}}.
 SMM\,J0939 is currently one of the brightest known lensed
 SMGs, with a lensing-magnified flux density of $S_\textrm{250\micron}$\,=\,440\,$\pm$\,15 mJy.
-{\bf Previous detections of C~{\scriptsize\sc IV}~1459\AA\
+{\bf Detections of C~{\scriptsize\sc IV}~1459\AA\
  and He~{\scriptsize\sc II}~1640\AA\ line emission toward SMM\,J0939
- placed the redshift of this galaxy at $z$\,=\,2.221. Based on the line fluxes and spectral line widths of these AGN lines, H14 suggested the presence of an active galactic nucleus (AGN) in the form of a type-2 quasar in this SMG.}
+ placed the redshift of this galaxy at $z$\,=\,2.221. Based on the line fluxes and spectral line widths of these AGN lines, H14 suggest the presence of an active galactic nucleus (AGN) in the form of a type-2 quasar in this SMG.}
  
 In this paper, we present the detection of \CO line emission toward the background SMG obtained with the Combined
 Array for Research in Millimeter Astronomy (CARMA), which confirms and refines the redshift, and permits a study of the physical conditions in the ISM of SMM\,J0939 in great detail. We report the detection of the continuum emission underlying the CO line and place constraints on the spectral energy distribution (SED) of the foreground FR-II galaxy at millimeter (mm) wavelengths ($\sim$\,104 GHz). Based on the magnification factor derived from our lens model, we infer various intrinsic properties of SMM\,J0939. We 
@@ -172,11 +203,12 @@ solid black line shows a Gaussian fit to the \CO line profile, where the velocit
 \section{Analysis}
 \subsection{Lens Modelling} \label{sec:Lens}
 To study the intrinsic properties of the background galaxy, we determine the magnification factor {\bf and the half-light radius of the dust region} by performing
-lens modeling on the SMA 1\,mm continuum data presented by H14 of this system. Lens modeling is carried out in the visibility
-({\it uv-}) plane using an updated version\footnote{commit: 7aee6276} of the publicly available software {\sc uvmcmcfit}\footnote{\url{https://github.com/sbussmann/uvmcmcfit}}, details of the parametric lens model can be found in \citet{Bussmann15a}. 
-%In the code, the surface mass densities of both
-%lenses are represented by singular isothermal ellipsoid (SIE) profiles, and the source is assumed to have an
-%elliptical Gaussian profile. 
+lens modeling on the SMA 1\,mm continuum data presented by H14 of this system. 
+Lens modeling is carried out in the visibility
+({\it uv-}) plane using an updated version the publicly available software {\sc uvmcmcfit} \citep{uvmcmcfit15a},
+details of the parametric lens model can be found in \citet{Bussmann15a}. 
+{\bf The surface mass densities of the two lensing galaxies, 3C220.3 and its companion galaxy B as mentioned in Section~\ref{sec:intro}, are described by singular isothermal ellipsoid profiles, and the source is assumed to have an
+elliptical Gaussian profile. }
 
 %We fix the phase center to coordinates ($\alpha$,\,$\delta$)\,\,(J2000) = (9$^{\rm h}$39$^{\rm m}$23\fs54,\,\,83\degr15\arcmin26\farcs10), where the
 %angular offsets of the lenses and source are referenced to this position. The primary lens (3C220.3) is
@@ -218,12 +250,9 @@ The resulting best-fit model as shown in Figure\,\,\ref{fig:lens} shows no signi
 image, and the knots (lensed emission) in the observed SMA data are well-reassembled with the best-fit model.
 {\bf  Our best-fit model yields a magnification
 factor of $\mu_\textrm{L}$ = 10.13\,$\pm$\,1.38
-%, this is consistent the value reported by H14 within the errors. 
 and a half-light radius of 0\farcs11 $\pm$ 0\farcs03, corresponding to a spatial extent of $\sim$0.9 kpc.} 
 All best-fit
 parameters are listed in Table~\ref{tab:lensParam}. 
-%The Einstein radii associated with the best-fit model for the two lenses are $\theta_{E}$ = 1\farcs22\,$\pm$\,0\farcs01 (8.75 kpc at $z$\,=\,0.685) and $\theta_{E}$ = 0\farcs75\,$\pm$\,0\farcs02 (5.34\,\,kpc at $z$\,=\,0.685), and
-%the corresponding masses within the Einstein radii are $M(\theta$\,\,$<$\,\,$\theta_\textrm{E})$\,=\,(4.86\,$\pm$\,0.08)\,$\times$\,10$^{11}$\,\,\Msun\ and $M(\theta$\,\,$<$\,\,$\theta_\textrm{E})$\,=\,(1.82\,$\pm$\,0.07)\,$\times$\,10$^{11}$\,\,\Msun, respectively.
 \input{table_lensParams}
 
 \subsection{SED Fitting} \label{sec:SED}
@@ -306,15 +335,21 @@ $\micron$ flux density, hence this becomes an additional parameter in the fit. F
 $\beta$. For the optically thick model, we impose an additional upper limit of 3000\,\micron\ on $\lambda_0 (1+z)$.
 
 \input{table_mbb}
-The best-fit values in both regimes are listed in Table \ref{tab:mbb}, and the correlation plots are available in the Appendix. The best-fit solution of an optically thin
-model corresponds to $\chi^2$ = 5.31 with 3 degrees of freedom, whereas that of an optically thick model
+The best-fit values in both regimes are listed in Table \ref{tab:mbb}, and the correlation plots are available in the Appendix. The best-fit solution of optically thin
+models corresponds to $\chi^2$ = 5.31 with 3 degrees of freedom, whereas that of optically thick models
 corresponds to $\chi^2$ = 2.25 with 2 degrees of freedom, suggesting a better fit than in the optically thin
 case. In the subsequent analysis, we employ the inferred values from the optically thick model.
-The best-fit solution yields a FIR luminosity (rest-frame 42.5$-$122.5\micron) of $L_\textrm{FIR}$ = 53.3$^{+1.1}_{-1.1}$\,$\times$\,10$^{12}$\,\Lsun, and a total infrared (IR; rest-frame 8$-$1000 \micron) luminosity of $L_\textrm{IR}$ = 88.5$^{+2.6}_{-2.6}$\,$\times$\,10$
-^{12}$\,\Lsun. Assuming a dust absorption coefficient of $\kappa_{\nu}$ = 2.64\,\,m$^2$\,\,kg\pmOne\ at 125.0\,\,$
+The best-fit solution yields a far-infrared luminosity (rest-frame 42.5$-$122.5\micron) of $L_\textrm{FIR}$ = 53.3$^{+1.1}_{-1.1}$\,$\times$\,10$^{12}$\,\Lsun, and a total infrared (IR; rest-frame 8$-$1000 \micron) luminosity of $L_\textrm{IR}$ = 88.5$^{+2.6}_{-2.6}$\,$\times$\,10$
+^{12}$\,\Lsun
+\footnote{
+Owning to the positive K-correction blue-ward of the dust peak, in which 
+the foreground radio galaxy contributes a non-negligible amount to the MIR luminosity, we do not fit an AGN component.
+Instead, we adopt a power-law to account for the MIR excess, which allows us to estimate the IR
+luminosity \citep{Casey12a, Riechers13a, Kirkpatrick15a}. }. 
+Assuming a dust absorption coefficient of $\kappa_{\nu}$ = 2.64\,\,m$^2$\,\,kg\pmOne\ at 125.0\,\,$
 \micron$ \citep{Dunne03a}, we find a dust mass of $M_\textrm{dust}$ = 50.5$^{20.4}_{-20.2}\times$10$^8$\,\,\Msun{\bf ;} the uncertainties do not include those in the dust absorption coefficient ($\kappa_{\nu}$). These properties are derived based on the SED fitting to the photometric data, \ie prior
-to lensing correction.{\bf We note that the dust mass is weakly constrained owing to the dearth of data in the {\bf rest-frame} FIR waveband. As such, we investigate how the dust mass would be affected by fitting an additional optically thick model with an upper limit of 
- $\beta$ adjusted from 2.2 to 3.0. While the difference in each best-fit parameter between this scenario and the previous model (an upper limit of $\beta$ = 2.2) is within 3\%, we find that the dust mass inferred from this best-fit SED model is boosted by a factor of $\sim$\,2.}
+to lensing correction.{\bf We note that the dust mass is weakly constrained owing to the dearth of data in the {\bf rest-frame} FIR waveband. As such, we investigate how the dust mass would be affected by fitting additional optically thick models with an upper limit of 
+ $\beta$ adjusted from 2.2 to 3.0. While the difference in each best-fit parameter between this scenario and the previous models (with an upper limit of $\beta$ = 2.2) is within 3\%, we find that the dust mass inferred from this best-fit SED model is boosted by a factor of $\sim$\,2.}
 \subsection{Physical Properties of the ISM in SMM\,J0939}
 
 \subsubsection{Molecular Gas Mass} \label{sec:gas}
@@ -324,22 +359,28 @@ While the ground state CO transition line traces the cold molecular gas in the I
  \citep{Carilli13a}. Consequently, assumptions on the CO excitation conditions are required to derive the molecular gas mass using the $M$(H$_\textrm{2}$)-to-$L^{\prime}_\textrm{CO}$
  conversion factor ($\alpha_\mathrm{CO}$) when extrapolating from higher-$J$ CO lines. \par
 {\bf Recent observations} in high-redshift quasar hosts suggest that the ratio
-   is $R_\textrm{31}$\,$\sim$\,1 \citep{Riechers06a, Riechers11a}. In the case of high-redshift type-2 quasars, \citet{Riechers11a} report a brightness temperature ratio of $R_\textrm{31}$ = 1.00\,$\pm$\,0.10 for IRAS F10214+4724 (hereafter F10214), which is currently the only known type-2 quasar with both \CO and CO($J$\,=\,1\,\rarr\,0) line measurements. \par
-{\bf Here, we derive the molecular gas mass
+   is $R_\textrm{31}$\,$\sim$\,1 \citep{Riechers06a, Riechers11a}. In the case of high-redshift type-2 quasars, \citet{Riechers11a} report a brightness temperature ratio of $R_\textrm{31}$ = 1.00\,$\pm$\,0.10 for IRAS F10214+4724 (hereafter F10214), which is currently the only known type-2 quasar with both \CO and CO($J$\,=\,1\,\rarr\,0) line measurements. 
+Here, we derive the molecular gas mass
 assuming thermalized excitation of CO, as SMM\,J0939 is
-postulated to be hosting a type-2 quasar (H14).}
+postulated to be hosting a type-2 quasar (H14). \par
 We calculate the CO($J$\,=\,1\rarr\,0) line luminosity using a standard relation
-\citep[\eg][]{Solomon05a}. This corresponds to \Lp = (3.42\,$\pm$\,0.71)\,$\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$) \LpU; hence the inferred total molecular gas mass is $M_\textrm{gas}$ = (2.74\,$\pm$\,0.57)\,$\times$\,\,10$^{10}$\,\Msun\, after correcting for lensing magnification. We assumed a conversion factor of $\alpha_\textrm{CO}$ = 0.8\,\,\Msun\,(\LpU)\pmOne\ based on empirical relations from local ULIRGs, which is typically
+\citep[\eg][]{Solomon05a}
+and assuming a conversion factor of $\alpha_\textrm{CO}$\,= 0.8\,\Msun\,(\LpU)\pmOne\ based on empirical relations from local ULIRGs, which is typically
 adopted for SMGs \citep[\eg][]{Tacconi06a,Tacconi08a,Bothwell13a}.
-This results in a gas-to-dust
+This corresponds to \Lp = (3.42\,$\pm$\,0.71)\,$\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$) \LpU; hence the inferred total molecular gas mass is $M_\textrm{gas}$ = (2.74\,$\pm$\,0.57)\,$\times$\,\,10$^{10}$\,\Msun\, after correcting for lensing magnification. This results in a gas-to-dust
 ratio of $f_\textrm{gas-dust}$\,=\,$M_\textrm{gas}/M_\textrm{dust}$\,=\,55\,$\pm$\,24. 
 This is in good agreement  with the
 values found in other SMGs \citep{Coppin08a,Micha10a,Riechers11c}.
 
 \subsubsection{{\bf Star Formation Rate \& Star Formation Efficiency}}
-{\bf We derive the SFR using the lensing-corrected FIR luminosity assuming 
-that the dominant heating source of cold-dust is young and massive stars and ignoring a contribution from the
-dust-enshrouded AGN.}
+{\bf 
+We derive the SFR using the lensing-corrected far-infrared luminosity
+assuming 
+that the dominant heating source of cold-dust is young and massive stars, and 
+that a contribution from the
+dust-enshrouded AGN is negligible.
+This assumption stems from the results of recent studies using various approaches, such as spectral decomposition techniques and correlation between far-infrared luminosity and other tracers of star-formation, suggesting that far-infrared emission is originated from star-formation in host galaxies, even in the most energetic QSOs \citep[\eg][]{Netzer07a, Mullaney11a, Harrison15a}.
+} 
 Using the \citet{Kennicutt98a} relation and {\bf adopting} a \citet{Chabrier03a}
 stellar initial mass (IMF) function, {\bf we find a
 SFR$_\textrm{FIR}$\,=\,526\,$\pm$\,73 $M_
@@ -350,9 +391,9 @@ This corresponds to {\bf $\tau_\textrm{depl}$\,=\,52\,$\pm$\,8 Myr}, which is in
 
 The SFR per unit mass of molecular gas is commonly taken as a
 measure of the star formation efficiency. 
-{\bf We compute this ratio using the {\bf FIR}
-and CO luminosities {\bf ($L_\textrm{FIR}$/\Lp)}. The derived SFE is therefore independent of the magnification factor, the CO luminosity to gas mass conversion factor ($\alpha_\textrm{CO}$), and the
-IMF. }This, however, assumes that differential lensing between the {\bf CO and FIR} emission is negligible.
+{\bf We compute this ratio using the far-infrared
+and CO luminosities. The derived SFE is therefore independent of the magnification factor, the CO luminosity to gas mass conversion factor ($\alpha_\textrm{CO}$), and the
+IMF. }This, however, assumes that differential lensing between the CO and  {\bf far-infrared} emission is negligible.
 The resulting ratio is {\bf SFE$_\textrm{FIR}$\,=\,154\,$\pm$\,25\,\,\Lsun\,(\LpU)$^{-1}$}, this is comparable
 to those found in ``typical" SMGs \citep{Greve05a,Tacconi06a,Riechers11c}.
 
@@ -365,20 +406,24 @@ surface density and the molecular gas surface density: $\Sigma_\textrm{SF}$ = 9.
 galaxies
 out to $z$\,$\sim$\,2.5, and assuming a Chabrier IMF \citep{B07a}.
 
-\subsubsection{Dynamical Mass}
-Based on our \CO line measurement, we estimate the dynamical mass of SMM\,J0939 assuming that the molecular gas is virialized. With this assumption, we use an isotropic virial estimator \citep[\eg][]{Engel10a}, with the FWHM of the \CO line profile and the half-light radius from our lens model for $R_\textrm{eff}$, assuming that the dust emission traces the same emitting region as the CO. 
-We find a dynamical mass of $M_\textrm{dyn}$ = (7.84\,$\pm$\,2.84)\,$\times$\,10$^{10}$\,\Msun, and a gas-to-dynamical mass fraction of $f_\textrm{gas-to-dyn}$ = 0.35\,$\pm$\,0.14, consistent with those of other SMGs \citep{Tacconi06a}.  We note that a derived dynamical mass based on this assumption is likely to be biased towards low values, as the CO-emitting region {\bf that traces the cool gas} can be spatially more extended than the dust emitting region due to the low dust optical depth at larger radii. %\citep[\eg][]{Tacconi06a, Riechers11c,Riechers11d,Ivison11a}. 
-{\bf This has been supported by recent observations. In particular, \citet{Tacconi06a} report a median FWHM size of 4.1\,$\pm$\,1.6 kpc based on \CO line measurements of their sample, whereas studies with spatially resolved \rot{1}{0} observations have additionally demonstrated that the cool gas regions are even more extended (R$_{\rm eff} \sim$ 7 kpc;  \citealt{Ivison11a}, see also \citealt{Riechers11c, Hodge13a}). 
-For the physical size of dust-emitting regions, \citet{Simpson15a} recently report a spatial extent with radius of 1.2 kpc in a sample of 52 SMGs.
-% Adopting a physical size of 4.1 kpc, we find a dynamical mass of 3.7\,$\times$\,10$^{11}$\,\Msun.
- }
+\subsubsection{Physical Size and Dynamical Mass}
+{\bf 
+Our lens model infer a half-light radius of $r_s$\,$\sim$\,1\,kpc for the dust-emitting region in SMM\,J0939. This is comparable to those found in the 
+samples of SMGs with high resolution imaging. In particular, \citet{Simpson15a} report a radial extent of 1.2 kpc in a sample un-lensed SMGs with $S_{\rm 850}$ = 8$-$16 mJy, a similar size has also been reported by  \citet{Bussmann13a} of 1.5 kpc in a sample of {\it Herschel}$-$selected lensed SMGs with $S_{500} >$ 100 mJy. }
+
+We estimate the dynamical mass of SMM\,J0939 using our \CO line measurement and assuming that the molecular gas is virialized. With this assumption, we use an isotropic virial estimator \citep[\eg][]{Engel10a}, with the FWHM of the \CO line profile and the half-light radius from our lens model for $R_\textrm{eff}$, assuming that the dust emission traces the same emitting region as the CO. 
+We find a dynamical mass of $M_\textrm{dyn}$ = (7.84\,$\pm$\,2.84)\,$\times$\,10$^{10}$\,\Msun, and a gas-to-dynamical mass fraction of $f_\textrm{gas-to-dyn}$ = 0.35\,$\pm$\,0.14, consistent with those of other SMGs \citep{Tacconi06a}.  We note that a derived dynamical mass based on this assumption is likely to be biased towards low values, as the CO-emitting region can be spatially more extended than the dust emitting region due to the low dust optical depth at larger radii. 
+{\bf This is supported by recent studies, in which a range of CO source size ranging from $\sim$4$-$20 kpc has been found \citep{Tacconi06a, Ivison11a, Riechers11c, Hodge13a}}. 
 
 \section{Discussion And Conclusions}
 We present the detection of \CO line emission toward SMM\,J0939+8315, a strongly-lensed SMG that is hosting a type-2 quasar, refining the redshift
 to $z$\,=\,2.2212\,$\pm$\,0.0010. The underlying continuum is detected at $\sim$\,9$\sigma$ significance, where the flux density is likely dominated by emission from the lobes and hotspots of the foreground radio galaxy 3C220.3.
 
 The detection of CO in SMM\,J0939
-implies a CO luminosity of \Lp\ = (3.4\,$\pm$\,0.7)\,$\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$) \LpU, suggesting the presence of a massive
+implies a CO luminosity of \Lp\ = (3.4\,$\pm$\,0.7)\,$\times$\,10$^{10}$\,(10.1/$\mu_\textrm{L}$) \LpU, {\bf corresponding to a gas mass of 
+$M_{\rm gas}$\,=\,(2.7$\pm$0.6\,$\times$\,10$^{10}$(10.1/$\mu_\textrm{L}$ $\Msun$).
+This }
+suggests the presence of a massive
 molecular gas reservoir that fuels the star formation activity taking place at a rate of {\bf $\sim$\,526 \Msun~yr\pmOne}. If the star forming activity continues at the current rate, the gas reservoir will be depleted within {\bf $\lesssim$~52 Myr,}
 which is consistent with the short timescales found in other SMGs \citep{Greve05a}. The derived intrinsic properties of SMM\,J0939 are evident of ongoing rapid star formation; this is in good agreement with the current conjecture that SMGs are a 
 population of high-redshift galaxies that build up the bulk of stellar mass in present-day galaxies, thus play an important role
@@ -386,32 +431,32 @@ in galaxy formation and evolution \citep[\eg ][]{Dickinson03a}.
 
 {\bf We
 compare our findings for SMM\,J0939 
-with a sample of SMGs \citep[][hereafter B13]{Bothwell13a}, where their properties are listed in Table~\ref{tab:compareSMG}. This clearly demonstrates that SMM\,J0939 has properties similar
-to other SMGs studied to date except for its gas mass, which is slightly lower than the median found in the B13 sample. 
-This is unsurprising given that SMM\,J0939 is lensed with a magnification factor of $\sim$10, placing it on the fainter end of the CO line luminosity distribution when compared to un-lensed SMGs. 
+with a sample of SMGs which are selected at 850~$\micron$ and are typically unlensed or only weakly magnified \citep[][hereafter B13]{Bothwell13a}. 
+Their properties are listed in Table~\ref{tab:compareSMG}, which clearly demonstrates that SMM\,J0939 has properties similar
+to other SMGs studied to date.
 We note that the gas properties (CO luminosity and gas mass) of the SMGs in the B13 sample are derived based on the excitation condition found via CO spectral line energy distribution (SLED) modelling, which the authors find it to be very similar to that of the cosmic Eyelash. 
-Given that the gas properties in the B13 sample are based on unresolved emission of various higher-$J$ CO transitions, we additionally compare SMM\,J0939 to two other exceptionally submm-bright,
+Given that the gas properties in their sample are based on unresolved emission of various higher-$J$ CO transitions, we additionally compare SMM\,J0939 to two other exceptionally submm-bright,
 strongly-lensed SMGs
-found at similar redshifts --- HLSW-01 and the cosmic Eyelash, both of which are well-studied and their properties are derived using similar approach we employed in this paper.}
+found at similar redshifts --- HLSW-01 and the cosmic Eyelash, both of which are well-studied and their properties are derived using similar approach employed in this paper.}
 
 {\bf As shown in Table~\ref{tab:compareSMG},} while the cosmic Eyelash has the least amount of molecular gas, as well as
 the
 longest gas depletion timescale, the overall gas and dust properties of SMM\,J0939 fall between those of HLSW-01 and the
 cosmic
-Eyelash. Such distinction is likely a result of our selection bias: while these sources appear similarly bright at 250 \micron, the lensing magnification
+Eyelash. Such distinction is likely a result of our selection bias: while these sources appear similarly bright at 250~\micron, the lensing magnification
 varies by a factor of $\sim$\,3. In particular, with the cosmic Eyelash having the highest lensing magnification among the
 three, this
 intrinsically fainter, and less gas-rich SMG appears notably bright
 at 250\,\micron, while its CO line and IR luminosities are lower than those of most SMGs studied to date.
 While lensing can probe sources
 of various intrinsic properties, we find that 
-SMM\,J0939 is consistent with the ``typical" SMG population, with its intrinsic CO line luminosity, IR luminosity, gas mass,
-dust mass, SFR, SFE, depletion timescale, and gas mass fraction comparable to those found in ``typical" SMGs studied to data.
+SMM\,J0939 is consistent with the ``typical" SMG population, with its intrinsic CO line luminosity, IR luminosity, 
+dust mass, SFR, SFE, depletion timescale, and gas mass fraction comparable to those found in ``typical" SMGs studied to date.
 
 {\bf Since SMM\,J0939 also hosts a type-2 quasar, we compare its properties}
 against those of eight CO-detected obscured AGNs at $z$ = 1.6\,$-$\,2.8 \citep[][and references
 therein]{Polletta11a}. 
-Among these obscured type-2 quasars, F10214 has the lowest molecular gas mass as well as SFR. The fact that the gas mass of F10214 in their compilation was derived using \CO line emission \citep{Solomon05a} has a minor effect on the resulting low gas mass; \citet{Riechers11a} report
+Among these obscured quasars, F10214 has the lowest molecular gas mass as well as SFR. The fact that the gas mass of F10214 in their compilation was derived using \CO line emission \citep{Solomon05a} has a minor effect on the resulting low gas mass; \citet{Riechers11a} report
 a similarly low gas mass derived using their CO($J$\,=\,1\,\rarr\,0) line emission.
 With F10214 being the most strongly-lensed high-redshift type-2 quasar \citep[$\mu_{\textrm L}$ = 17; ][]{Solomon05a}\footnote{Note that \citet{Deane13a} suggest a magnification factor of $\mu_{\textrm L}$ = 6\,$\pm$\,1.5 for the CO emission in F10214.}, its exceptionally low molecular gas mass and SFR is evident that this source lies on the low end of the CO and IR luminosity distributions of the population.
 In contrast to what was found for F10214, we find that the properties
@@ -423,11 +468,22 @@ In contrast to what was found for F10214, we find that the properties
 factor of $\sim$\,1.5, but is nevertheless consistent within the measurement uncertainties. 
 
 
-{\bf Our findings therefore suggest that SMM\,J0939 {\bf may be} transitioning from its short, star-bursting phase to the unobscured quasar phase in the proposed evolutionary link model \citep[\eg][]{Sanders88,Coppin08a,Simpson12a} given the presence of its obscured QSO and a massive gas reservoir with an immense SFR, coupled with the low depletion timescale of gas. }
+{\bf 
+We note that the gas mass in SMM\,J0939 is slightly lower than the median in the B13 sample, which might be indicative of a 
+lower gas excitation than we have assumed. Yet, we find that the amount of gas in SMM\,J0939 is consistent with other type-2 quasars. 
+As such, given the presence of an obscured quasar and the overlap of properties 
+with both populations,
+%, in which SMM\,J0939 harbors a massive gas reservoir with an immense star formation rate and low depletion timescale of gas, 
+a physical interpretation might be that SMM\,J0939 is transitioning from its short, star-bursting phase to the unobscured quasar phase in the proposed evolutionary link model \citep[\eg][]{Sanders88,Coppin08a,Simpson12a}. 
+Further investigate on the gas excitation with spatially resolved \rot[CO]{1}{0} line measurements will provide a 
+more constraining representation of the amount of cold gas present in SMM\,J0939, as well as the impact of differential lensing, which will enable a better understanding of the two galaxy populations at high-redshifts.
+}
+
 % --> its short phase in the proposed evolutionary link  
 %fits in the proposed evolutionary paradigm \citep[\eg][]{Sanders88,Coppin08a,Simpson12a}, in which it 
 
 \begin{acknowledgments}
+We thank the referee for providing constructive comments to improve this manuscript.
 We thank Shane Bussmann for providing the code {\sc uvmcmcfit} for lens modeling, sharing the SMA and VLA data, and for helpful discussions; Alex Conley for providing the code {\sc mbb\_emcee} for SED fitting. 
 Support for CARMA construction was derived from the
 Gordon and Betty Moore Foundation, the Kenneth T. and Eileen
@@ -443,7 +499,10 @@ consortium universities.
 Facilities: CARMA
 \end{acknowledgments}
 
-%
+
+%\bibliographystyle{apj}
+%\bibliography{J0939}
+
 \begin{thebibliography}{}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
@@ -451,6 +510,11 @@ Facilities: CARMA
   {Waggett}, {Warner}, \& {Wilson}}]{r2728}
 {Baldwin}, J.~E., {Boysen}, R.~C., {Hales}, S.~E.~G., {et~al.} 1985, \mnras,
   217, 717
+
+\bibitem[{{Barger} {et~al.}(1998){Barger}, {Cowie}, {Sanders}, {Fulton},
+  {Taniguchi}, {Sato}, {Kawara}, \& {Okuda}}]{Barger98a}
+{Barger}, A.~J., {Cowie}, L.~L., {Sanders}, D.~B., {et~al.} 1998, \nat, 394,
+  248
 
 \bibitem[{{Begelman} {et~al.}(1984){Begelman}, {Blandford}, \&
   {Rees}}]{Begelman84a}
@@ -474,6 +538,18 @@ Facilities: CARMA
   {Daddi}, {Renzini}, {Erb}, {Shapley}, \& {Steidel}}]{B07a}
 {Bouch{\'e}}, N., {Cresci}, G., {Davies}, R., {et~al.} 2007, \apj, 671, 303
 
+\bibitem[{{Bussmann} {et~al.}(2013){Bussmann}, {P{\'e}rez-Fournon}, {Amber},
+  {Calanog}, {Gurwell}, {Dannerbauer}, {De Bernardis}, {Fu}, {Harris}, {Krips},
+  {Lapi}, {Maiolino}, {Omont}, {Riechers}, {Wardlow}, {Baker}, {Birkinshaw},
+  {Bock}, {Bourne}, {Clements}, {Cooray}, {De Zotti}, {Dunne}, {Dye}, {Eales},
+  {Farrah}, {Gavazzi}, {Gonz{\'a}lez Nuevo}, {Hopwood}, {Ibar}, {Ivison},
+  {Laporte}, {Maddox}, {Mart{\'{\i}}nez-Navajas}, {Michalowski}, {Negrello},
+  {Oliver}, {Roseboom}, {Scott}, {Serjeant}, {Smith}, {Smith}, {Streblyanska},
+  {Valiante}, {van der Werf}, {Verma}, {Vieira}, {Wang}, \&
+  {Wilner}}]{Bussmann13a}
+{Bussmann}, R.~S., {P{\'e}rez-Fournon}, I., {Amber}, S., {et~al.} 2013, \apj,
+  779, 25
+
 \bibitem[{{Bussmann} {et~al.}(2015){Bussmann}, {Riechers}, {Fialkov},
   {Scudder}, {Hayward}, {Cowley}, {Bock}, {Calanog}, {Chapman}, {Cooray}, {De
   Bernardis}, {Farrah}, {Fu}, {Gavazzi}, {Hopwood}, {Ivison}, {Jarvis},
@@ -481,6 +557,11 @@ Facilities: CARMA
   {Scott}, {Smith}, {Vieira}, {Wang}, \& {Wardlow}}]{Bussmann15a}
 {Bussmann}, R.~S., {Riechers}, D., {Fialkov}, A., {et~al.} 2015, ArXiv
   e-prints, arXiv:1504.05256
+
+\bibitem[{Bussmann {et~al.}(2015)Bussmann, Leung, \& Conley}]{uvmcmcfit15a}
+Bussmann, S., Leung, T. K.~D., \& Conley, A. 2015, uvmcmcfit,
+  doi:10.5281/zenodo.27357
+
 
 \bibitem[{{Carilli} \& {Walter}(2013)}]{Carilli13a}
 {Carilli}, C.~L., \& {Walter}, F. 2013, \araa, 51, 105
@@ -673,10 +754,16 @@ Facilities: CARMA
   {Riechers}}]{Hodge13a}
 {Hodge}, J.~A., {Carilli}, C.~L., {Walter}, F., {Daddi}, E., \& {Riechers}, D.
   2013, \apj, 776, 22
-
+ 
 \bibitem[{{Hodge} {et~al.}(2015){Hodge}, {Riechers}, {Decarli}, {Walter},
   {Carilli}, {Daddi}, \& {Dannerbauer}}]{Hodge15a}
 {Hodge}, J.~A., {Riechers}, D., {Decarli}, R., {et~al.} 2015, \apjl, 798, L18
+
+\bibitem[{{Hughes} {et~al.}(1998){Hughes}, {Serjeant}, {Dunlop},
+  {Rowan-Robinson}, {Blain}, {Mann}, {Ivison}, {Peacock}, {Efstathiou}, {Gear},
+  {Oliver}, {Lawrence}, {Longair}, {Goldschmidt}, \& {Jenness}}]{Hughes98a}
+{Hughes}, D.~H., {Serjeant}, S., {Dunlop}, J., {et~al.} 1998, \nat, 394, 241
+
 
 \bibitem[{{Ivison} {et~al.}(2011){Ivison}, {Papadopoulos}, {Smail}, {Greve},
   {Thomson}, {Xilouris}, \& {Chapman}}]{Ivison11a}
@@ -706,6 +793,11 @@ Facilities: CARMA
 \bibitem[{{Kennicutt}(1998)}]{Kennicutt98a}
 {Kennicutt}, Jr., R.~C. 1998, \araa, 36, 189
 
+\bibitem[{{Kirkpatrick} {et~al.}(2015){Kirkpatrick}, {Pope}, {Sajina},
+  {Roebuck}, {Yan}, {Armus}, {D{\'{\i}}az-Santos}, \&
+  {Stierwalt}}]{Kirkpatrick15a}
+{Kirkpatrick}, A., {Pope}, A., {Sajina}, A., {et~al.} 2015, \apj, 814, 9
+
 \bibitem[{{Lagache} {et~al.}(2005){Lagache}, {Puget}, \& {Dole}}]{Lagache05a}
 {Lagache}, G., {Puget}, J.-L., \& {Dole}, H. 2005, \araa, 43, 727
 
@@ -720,6 +812,11 @@ Facilities: CARMA
 \bibitem[{{Micha{\l}owski} {et~al.}(2010){Micha{\l}owski}, {Watson}, \&
   {Hjorth}}]{Micha10a}
 {Micha{\l}owski}, M.~J., {Watson}, D., \& {Hjorth}, J. 2010, \apj, 712, 942
+
+\bibitem[{{Mullaney} {et~al.}(2011){Mullaney}, {Alexander}, {Goulding}, \&
+  {Hickox}}]{Mullaney11a}
+{Mullaney}, J.~R., {Alexander}, D.~M., {Goulding}, A.~D., \& {Hickox}, R.~C.
+  2011, \mnras, 414, 1082
 
 \bibitem[{{Mullin} {et~al.}(2006){Mullin}, {Hardcastle}, \&
   {Riley}}]{Mullin06a}
@@ -744,6 +841,11 @@ Facilities: CARMA
 \bibitem[{{Neri} {et~al.}(2003){Neri}, {Genzel}, {Ivison}, {Bertoldi}, {Blain},
   {Chapman}, {Cox}, {Greve}, {Omont}, \& {Frayer}}]{Neri03a}
 {Neri}, R., {Genzel}, R., {Ivison}, R.~J., {et~al.} 2003, \apjl, 597, L113
+
+\bibitem[{{Netzer} {et~al.}(2007){Netzer}, {Lutz}, {Schweitzer}, {Contursi},
+  {Sturm}, {Tacconi}, {Veilleux}, {Kim}, {Rupke}, {Baker}, {Dasyra},
+  {Mazzarella}, \& {Lord}}]{Netzer07a}
+{Netzer}, H., {Lutz}, D., {Schweitzer}, M., {et~al.} 2007, \apj, 666, 806
 
 \bibitem[{{Oliver} {et~al.}(2012){Oliver}, {Bock}, {Altieri}, {Amblard},
   {Arumugam}, {Aussel}, {Babbedge}, {Beelen}, {B{\'e}thermin}, {Blain},
@@ -831,11 +933,15 @@ Facilities: CARMA
 \bibitem[{{Sanders} {et~al.}(1988){Sanders}, {Soifer}, {Elias}, {Madore},
   {Matthews}, {Neugebauer}, \& {Scoville}}]{Sanders88}
 {Sanders}, D.~B., {Soifer}, B.~T., {Elias}, J.~H., {et~al.} 1988, \apj, 325, 74
-
-\bibitem[{{Scoville}(2013)}]{Scoville13a}
-{Scoville}, N.~Z. 2013, {Evolution of star formation and gas}, ed.
-  J.~{Falc{\'o}n-Barroso} \& J.~H. {Knapen}, 491
-
+  
+\bibitem[{{Simpson} {et~al.}(2012){Simpson}, {Smail}, {Swinbank}, {Alexander},
+  {Auld}, {Baes}, {Bonfield}, {Clements}, {Cooray}, {Coppin}, {Danielson},
+  {Dariush}, {Dunne}, {de Zotti}, {Harrison}, {Hopwood}, {Hoyos}, {Ibar},
+  {Ivison}, {Jarvis}, {Lapi}, {Maddox}, {Page}, {Riechers}, {Valiante}, \& {van
+  der Werf}}]{Simpson12a}
+{Simpson}, J.~M., {Smail}, I., {Swinbank}, A.~M., {et~al.} 2012, \mnras, 426,
+  3201
+  
 \bibitem[{{Simpson} {et~al.}(2012){Simpson}, {Smail}, {Swinbank}, {Alexander},
   {Auld}, {Baes}, {Bonfield}, {Clements}, {Cooray}, {Coppin}, {Danielson},
   {Dariush}, {Dunne}, {de Zotti}, {Harrison}, {Hopwood}, {Hoyos}, {Ibar},
@@ -850,6 +956,9 @@ Facilities: CARMA
   {Ma}, {Meijerink}, {Micha{\l}owski}, {Mortlock}, {Scott}, {Simpson},
   {Spaans}, {Thomson}, {van Kampen}, \& {van der Werf}}]{Simpson15a}
 ---. 2015, \apj, 799, 81
+
+\bibitem[{{Smail} {et~al.}(1997){Smail}, {Ivison}, \& {Blain}}]{Smail97a}
+{Smail}, I., {Ivison}, R.~J., \& {Blain}, A.~W. 1997, \apjl, 490, L5
 
 \bibitem[{{Smol{\v c}i{\'c}} \& {Riechers}(2011)}]{Smolcic11a}
 {Smol{\v c}i{\'c}}, V., \& {Riechers}, D.~A. 2011, \apj, 730, 64
@@ -911,7 +1020,7 @@ We perform SED fitting to the (sub)-mm data of SMM\,J0939 using {\sc mbb\_emcee}
 We show in Figure~\ref{fig:sedlikelihood} the resulting correlation plots of each pair of parameters (off-diagonals) as well as the marginalized PDFs of each parameter (diagonals) for the fitted optically thick and optically thin models.
 The parameter values corresponding to the most likely solution are denoted as black crosses in the joint probability distribution plots, and vertical lines in the marginalized PDF plots. \par
 
-The PDFs of the parameters in the optically thin model are shown in the right panel of Figure~\ref{fig:sedlikelihood}, the dust emissivity index ($\beta$) is highly anti-correlated with the observed-frame dust temperature ($T/(1+z)$), and the marginalized PDFs of all parameters are well-approximated by Gaussians --- the best-fit solution is prominent.
+The PDFs of the parameters in the optically thin models are shown in the right panel of Figure~\ref{fig:sedlikelihood}, the dust emissivity index ($\beta$) is highly anti-correlated with the observed-frame dust temperature ($T/(1+z)$), and the marginalized PDFs of all parameters are well-approximated by Gaussians --- the best-fit solution is prominent.
 We note that the best-fit emissivity in this model is unusually low among high-redshift galaxies ($\beta$ = 0.7$^{+0.2}_{-0.3}$, cf. 1$-$2.5; \eg \citealt[][and references therein]{Casey12a}). While this directly affects the slope of the Rayleigh-Jeans tail of the modified blackbody function, such low emissivity has insignificant impact on the inferred IR luminosity.
 Despite the factor of $\sim$\,2 difference
 in dust mass
@@ -931,8 +1040,8 @@ In our analysis, we employ the best-fit parameters and the corresponding inferre
 \hspace{-1cm}
 \includegraphics[width=0.55\textwidth]{f8.pdf}
 \hspace{-1.1cm}
-\caption{Correlation plots from the fitted SEDs, using an optically thick
-model (left), and an optically thin model (right). Marginalized posterior probability
+\caption{Correlation plots from the fitted SEDs, using optically thick
+models (left), and optically thin models (right). Marginalized posterior probability
 distributions of each
 parameter are plotted along the diagonals, where the solid black vertical lines indicate the set of parameter values that maximizes the likelihood. The joint PDFs between parameters are plotted as 2D histograms on the off-diagonals, where the black crosses denote the
 locations of the most likely solution in the parameter space. The solid, dashed, and dotted lines correspond to 1$\sigma$, 2$\sigma$, and $3\sigma$, respectively. 

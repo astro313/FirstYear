@@ -1,41 +1,40 @@
-\begin{deluxetable}{l l r}[tbpH]
+\begin{deluxetable}{c l l r}[tbpH]
 \tabletypesize{\scriptsize}
-\tablecolumns{3}
+\tablecolumns{4}
 \tablewidth{0pc}
 \tablecaption{Lens modeling results}
 \tablehead{
-\multicolumn{2}{c}{Parameters} &
+\multicolumn{3}{c}{Parameters} &
 \colhead{Best-Fit Values} \vspace{0.05in}
-\\ \cline{1-3} \vspace{-0.05in} \\
+\\ \cline{1-4} \vspace{-0.05in} \\
 % \tableline
-\multicolumn{3}{c}{Lens 0}
+\multicolumn{4}{c}{Lens 0}
 }
 \startdata
-%\cutinhead{Lens 0}
-$\Delta \alpha_{\rm lens0}$      & (\arcsec)   & 0.403 $\pm$ 0.026     \\
-$\Delta \delta_{\rm lens0}$      & (\arcsec)   & -0.181 $\pm$ 0.027    \\
-$q_{\rm lens0}$ \tna &             & 0.446 $\pm$ 0.063     \\
-$\phi_{\rm lens0}$                & (deg)       & 31.56 $\pm$ 4.15\phn  \\
-$\theta_{\rm E0}$                & (\arcsec)   & 1.218 $\pm$ 0.010     \\
-\cutinhead{Lens 1\tnb} 
-$\Delta \alpha_{\rm lens1}$       & (\arcsec)   & -0.804 $\pm$ 0.034    \\
-$\Delta \delta_{\rm lens1}$       & (\arcsec)   & -1.243 $\pm$ 0.017    \\
-$q_{\rm lens1}$ \tna &             & 0.608 $\pm$ 0.138     \\
-$\phi_{\rm lens1}$                & (deg)       & 14.2 $\pm$ 15.7\phn      \\
-$\theta_{\rm E1}$                & (\arcsec)   & 0.745 $\pm$ 0.015     \\
+  %\cutinhead{Lens 0}
+Offset in RA        & $\Delta \alpha_{\rm lens0}$ & (\arcsec)   & 0.403 $\pm$ 0.026     \\
+Offset in Dec        & $\Delta \delta_{\rm lens0}$ & (\arcsec)   & -0.181 $\pm$ 0.027    \\
+Axial Ratio          & $q_{\rm lens0}$             &             & 0.446 $\pm$ 0.063     \\
+Position angle       & $\phi_{\rm lens0}$          & (deg)       & 31.56 $\pm$ 4.15\phn  \\
+Einstein radius      & $\theta_{\rm E0}$           & (\arcsec)   & 1.218 $\pm$ 0.010     \\
+\cutinhead{Lens 1\tna}
+Offset in RA         & $\Delta \alpha_{\rm lens1}$ & (\arcsec)   & -0.804 $\pm$ 0.034    \\
+Offset in Dec        & $\Delta \delta_{\rm lens1}$ & (\arcsec)   & -1.243 $\pm$ 0.017    \\
+Axial ratio          & $q_{\rm lens1}$             &             & 0.608 $\pm$ 0.138     \\
+Position angle       & $\phi_{\rm lens1}$          & (deg)       & 14.2 $\pm$ 15.7\phn      \\
+Einstein radius      & $\theta_{\rm E1}$           & (\arcsec)   & 0.745 $\pm$ 0.015     \\
 \cutinhead{Source}
-$\Delta \alpha_{\rm s}$           & (\arcsec)   &  -0.163 $\pm$  0.035   \\
-$\Delta \delta_{\rm s}$           & (\arcsec)   & -0.193 $\pm$  0.048   \\
-$q_{\rm s}$ \tablenotemark{a}     &             & 0.424 $\pm$ 0.237     \\
-$\phi_{\rm s}$                    & (deg)       & 174.34 $\pm$ 8.89\phn \\
-$r_{\rm s}$\tablenotemark{c}              & ($\arcsec$) & 0.106 $\pm$   0.033   \\
-$\mu_\textrm{L}$                             &             & 10.13 $\pm$ 1.38\phn
+Offset in RA         & $\Delta \alpha_{\rm s}$     & (\arcsec)   & -0.163 $\pm$  0.035   \\
+Offset in Dec        & $\Delta \delta_{\rm s}$     & (\arcsec)   & -0.193 $\pm$  0.048   \\
+Axial ratio          & $q_{\rm s}$                 &             & 0.424 $\pm$ 0.237     \\
+Position angle       & $\phi_{\rm s}$              & (deg)       & 174.34 $\pm$ 8.89\phn \\
+Effective radius    & $r_{\rm s}$             & ($\arcsec$) & 0.106 $\pm$   0.033   \\
+Magnification factor & $\mu_\textrm{L}$            &             & 10.13 $\pm$ 1.38\phn
 \enddata
 % 0.377 & -0.209 & 0.446 & 33.22 & 1.223 & -0.788 & -1.26 & 0.5289 & 9.55 & 0.733 & 9.74
 \label{tab:lensParam}
-\tablenotetext{a}{Axial ratio}
-\tablenotetext{b}{Companion galaxy B}
-\tablenotetext{c}{Effective Radius}
+\tablenotetext{a}{Companion galaxy B}
+%\tablenotetext{b}{Effective Radius}
 % \tablenotetext{c}{}
 \tablecomments{The angular offsets listed above are with respect to $\alpha$\,=\, 9$^{\rm h}$39$^{\rm m}$23\fs54, $\delta$\,=\,83\degr15\arcmin26\farcs10 (J2000). The corresponding masses within the Einstein radii are $M(\theta$\,\,$<$\,\,$\theta_\textrm{E})$\,=\,(4.86\,$\pm$\,0.08)\,$\times$\,10$^{11}$\,\,\Msun\ and $M(\theta$\,\,$<$\,\,$\theta_\textrm{E})$\,=\,(1.82\,$\pm$\,0.07)\,$\times$\,10$^{11}$\,\,\Msun, respectively.}
 \end{deluxetable}

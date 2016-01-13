@@ -1,7 +1,7 @@
 We thank the referee for providing constructive and thoughtful
-comments to improve the manuscipt. We have addressed all the concerns
+comments to improve the manuscript. We have addressed all the concerns
 raised by the referee and details can be found in the revised version
--- please see attached. A brief description on how we incoprated the
+-- please see attached. A brief description on how we incorporated the
 changes can be found below.
 
 
@@ -27,9 +27,6 @@ changes can be found below.
   parameters. This includes the important inferred half-light radius,
   which is used later in the analysis.
 
--- we need to say explicitly what the different parameters are in this
-   paper - without that it is not possible to understand.
-
 2:
 - The SMG is thought to harbor a luminous AGN. In that case, the LIR
   will certainly have a contribution from the AGN that should be
@@ -42,7 +39,7 @@ changes can be found below.
   been found to have negligible AGN contribution to rest-frame FIR (≥
   60µm; Carilli+05, Netzer+07, Mullaney+11, Harrison+15). Since we do
   not have MIR measurements solely from the background SMG and due to
-  the postive K corretion blueward of dust peak, the forground radio
+  the positive K correction blue-ward of dust peak, the foreground radio
   galaxy contributes a non-negligible amount to the MIR luminosity, we
   therefore didn't fit an AGN component. Including an additional
   component, and thus free parameters to the SED model will be
@@ -52,8 +49,6 @@ changes can be found below.
   luminosity (Kirkpatrick+15, Riechers+13, Johnson+13, Casey+12). We
   derived the SFR and other corresponding properties using the L_FIR,
   (45-122.5), which is mostly due to SF-driven dust emission.
-
--- briefly discuss this in the text.
 
 3:
 - section 4.3 is way too wordy and can be cut down to a few paragraphs
@@ -100,7 +95,7 @@ changes can be found below.
   a comparison with these object will have relatively lower
   uncertainties. We have added a compilation of SMG and type-2 QSOs
   properties to the Table. Please see the table notes and comments for
-  details. We have incoporated a comparison to these sample-averaged
+  details. We have incorporated a comparison to these sample-averaged
   values in our conclusion as well.
 
 -- need to re-write this. we would have seen at least two of these in
@@ -143,7 +138,7 @@ changes can be found below.
 3:
 - the left panels on Fig 1 and 2 should show the same region (have the
   same RA/DEC axes). It is also tough to tell by eye if the VLA9GHz
-  and SMA emission is coincident. Perhaps these can be overlayed on
+  and SMA emission is coincident. Perhaps these can be overlaid on
   Fig 1.
 
 > We adjusted the panel sizes as suggested, and marked the locations
@@ -199,7 +194,6 @@ changes can be found below.
 
 > We restructured the paragraph and added earlier discoveries.
 
--- probably wants smail+97,hughes+98,barger+98 or so here
 
 10:
 - the fact that the lensing system has two components isn't presented
@@ -207,10 +201,7 @@ changes can be found below.
   authors meant when they mentioned companion B. Please make this
   clearer so the reader does not have to read H14
 
-> We added a sentence to elaborate on this, please see the revised
-  manuscript.
-
--- say where - intro
+> We added a sentence to the introduction section to elaborate on this, please see the revised manuscript.
 
 11:
 - last few paras of paper: what does "breaking up its dust cocoon"
@@ -235,7 +226,7 @@ changes can be found below.
   getting new gas?
 
 >The derived depletion timescale is derived the based on the
- definition of the quantity τ = Mgas/SFR, which descibes the time it
+ definition of the quantity τ = Mgas/SFR, which describes the time it
  would take for a galaxy to use up the available molecular gas
  reservoir given the current star formation rate, assuming no
  replenishment of gas (Carilli & Walter 2013). Hence, this quantity
@@ -257,7 +248,7 @@ changes can be found below.
  from recent observations (still limited) in the paper. However, we
  have noted these physical sizes in the text, which allows readers to
  scale the dynamical mass correspondingly should they wish to do
- so. Please see the revised manuscipt.
+ so. Please see the revised manuscript.
 
 14:
 - appendix: "no evidence of correlation" do the authors mean
@@ -265,8 +256,9 @@ changes can be found below.
 
 > We used the word "correlation" to indicate that regardless of the
   variation found in dust mass due to a different prior imposed on the
-  emissivity, the IR luminosity is insensivtive to such changes in
-  dust mass. Both the dust mass and IR lumonisty are inferred from the
+  emissivity, the IR luminosity is insensitive to such changes in
+  dust mass. Both the dust mass and IR luminosity are inferred from the
   best-fit SED model, and are not parameters in the model (and the
   loss function). For these reasons, we do not mean the covariance
   here.
+
