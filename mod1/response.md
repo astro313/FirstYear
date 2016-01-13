@@ -97,7 +97,7 @@ changes can be found below.
   are not as well-constrained for the broader population. Thus, we
   decided to also keep this comparison in the paper.
 
-## 7
+7.
 - the discussion/conclusions should focus on what is new from this
   paper and not what is already presented in H14. E.g. the last
   sentence about this SMG transitioning from starburst to QSO
@@ -132,7 +132,7 @@ changes can be found below.
   Fig 1.
 
 > We adjusted the panel sizes as suggested, and marked the locations
-  of the peak emission from the SMA as white crosses on the right
+  of the peak emission from the SMA as blue crosses on the right
   panel in Figure 1.
 
 4:
