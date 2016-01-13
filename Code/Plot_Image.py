@@ -42,10 +42,9 @@ SMA_max             = 0.00634805
 
 VLA_ra              = 1.448437499980E+02
 VLA_dec             = 8.325666666846E+01
-sizep               = 0.0025
 sizePcont_noise     = 0.020
 sizePLine           = 0.02 #0.012
-sizevla             = 0.0035
+sizevla             = 0.0029
 ra_center           = 144.84933
 dec_center          = 83.257175
 
@@ -93,7 +92,7 @@ fvla.show_grayscale(stretch='log', vmin=vla_min, vmax=vla_max, vmid=-0.001)
 
 flin = aplpy.FITSFigure(label['lin'][0], \
         figure=fig_line, subplot=[x0,row_a,width,dy])
-flin.show_colorscale(cmap=mpl.cm.jet, vmin=min_line, vmax=max_line-1, vmid=-15, stretch='log')
+flin.show_colorscale(cmap=mpl.cm.jet, vmin=min_line+1, vmax=max_line-1, vmid=-115, stretch='log')
 
 fSMA = aplpy.FITSFigure(label['SMA'][0], figure=fig_line, subplot=[x0+width+2*x_gap, row_a, width, dy])
 fSMA.show_grayscale(stretch='log', vmin=SMA_min, vmax=SMA_max, vmid=-0.1)
@@ -142,7 +141,7 @@ setup_scalebar(fSMA, lg_20kpc_bg, str('20kpc'))
 standard_plot_setup(fcont, ra_center, dec_center, sizePcont_noise) #, tc='white')
 standard_plot_setup(fvla, ra_center, dec_center, sizevla, tc='white')
 standard_plot_setup(flin, ra_center, dec_center, sizePLine)
-standard_plot_setup(fSMA, ra_center, dec_center, sizep, tc='white')
+standard_plot_setup(fSMA, ra_center, dec_center, sizevla, tc='white')
 # fcont.tick_labels.hide()
 fvla.axis_labels.hide()
 # flin.tick_labels.hide()

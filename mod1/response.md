@@ -86,26 +86,12 @@ changes can be found below.
   SMGs (as summarized in CW14 or Casey+14) which will be more useful
   in placing this object in the context of the SMG population.
 
-> We picked out two apparently similarly bright gravitationally lensed
-  SMGs to show the ranges of SMGs properties, of which intrinsically
-  sit at faint ends of the luminosity distribution, and thus would not
-  have been studied in sensitivity-limited samples. In addition, these
-  are among the SMGs which are best-studied to date and their
-  properties are deriving using similar approach in this paper. Hence,
-  a comparison with these object will have relatively lower
-  uncertainties. We have added a compilation of SMG and type-2 QSOs
-  properties to the Table. Please see the table notes and comments for
-  details. We have incorporated a comparison to these sample-averaged
-  values in our conclusion as well.
-
--- need to re-write this. we would have seen at least two of these in
-   unlensed samples. just comparing since these are the most
-   well-known ones that similarly stick out from their submm fluxes
-   (>400mJy).
-   
-   - differential lensing and ratios 
-   - if source is intrinsically fainter 
-   - write how we address issue raised --> reasons why we kept
+> We took into account this comment by adding a compilation of SMG and type-2 
+> QSOs properties to Table 4. Please see the table notes and comments for
+  details. We have therefore included a comparison to these sample-averaged
+  values in our conclusion. 
+  We initially picked out two well-studied and apparently similarly bright (submillimeter fluxes >400 mJy)gravitationally lensed
+  SMGs, to be able to investigate a broader range of physical properties - some of which are not well-constrained for the broader population. Thus, we decided to also keep this comparison in the paper.
 
 ## 7
 - the discussion/conclusions should focus on what is new from this
