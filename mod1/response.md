@@ -16,13 +16,13 @@ changes can be found below.
 
 > Most parameters obtained in our new analysis with our new lensing
   code are indeed consistent with the earlier model reported by H14,
-  such that the results are only slightly improved. However, H14 did
+  such that the results are only modestly improved. However, H14 did
   not report the full range of best-fit parameters and uncertainties
   in their analysis, such that our results are significantly more
   detailed. To take this comment into account, we thus significantly
   shortened the text in this section by removing details on the lens
   modeling approach (and including a reference to the literature
-  instead), and we have moved the lens mass and consistent results
+  instead), and we have moved the lens masses and consistent results
   into Table 1 - which is used to briefly summarize the full range of
   parameters. This includes the important inferred half-light radius,
   which is used later in the analysis.
@@ -39,16 +39,17 @@ changes can be found below.
   been found to have negligible AGN contribution to rest-frame FIR (≥
   60µm; Carilli+05, Netzer+07, Mullaney+11, Harrison+15). Since we do
   not have MIR measurements solely from the background SMG and due to
-  the positive K correction blue-ward of dust peak, the foreground radio
-  galaxy contributes a non-negligible amount to the MIR luminosity, we
-  therefore didn't fit an AGN component. Including an additional
-  component, and thus free parameters to the SED model will be
-  over-fitted due to the limited amount of data at hand. Instead our
-  SED model includes a power-law to the blue side of the dust peak,
-  which accounts for the MIR excess and allows us to estimate the IR
-  luminosity (Kirkpatrick+15, Riechers+13, Johnson+13, Casey+12). We
-  derived the SFR and other corresponding properties using the L_FIR,
-  (45-122.5), which is mostly due to SF-driven dust emission.
+  the positive K correction blue-ward of dust peak, the foreground
+  radio galaxy contributes a non-negligible amount to the MIR
+  luminosity, we therefore didn't fit an AGN component. Including an
+  additional component, and thus free parameters to the SED model will
+  be over-fitted due to the limited amount of data at hand. Instead
+  our SED model includes a power-law to the blue side of the dust
+  peak, which accounts for the MIR excess and allows us to estimate
+  the IR luminosity (Kirkpatrick+15, Riechers+13, Johnson+13,
+  Casey+12). We derived the SFR and other corresponding properties
+  using only L_FIR, (45-122.5µm), which is mostly due to SF-driven
+  dust emission.
 
 3:
 - section 4.3 is way too wordy and can be cut down to a few paragraphs
@@ -58,7 +59,7 @@ changes can be found below.
 
 > We removed standard equations from the manuscript, and combined the
   sections reporting SFE, SFR, and SFRSD into one. We also shortened
-  the section.
+  the section, as suggested.
 
 4:
 - You should also summarize the evidence for the AGN in this SMG
@@ -66,7 +67,7 @@ changes can be found below.
   have to read H14.
 
 > We rephrased the introduction to show more clearly the evidence of
-  an AGN.
+  an AGN, as suggested.
 
 5:
 - [a further concern/question about Table 4 is whether all the same
@@ -74,7 +75,7 @@ changes can be found below.
   other SMGs otherwise the comparisons are meaningless]
 
 > We added notes in the caption of Table 4 to recap all assumptions
-  used in deriving these quantities.
+  used in deriving these quantities, as suggested.
 
 6:
 - Section 5: why do the authors cherry-pick these 2 SMGs to make
@@ -86,12 +87,15 @@ changes can be found below.
   SMGs (as summarized in CW14 or Casey+14) which will be more useful
   in placing this object in the context of the SMG population.
 
-> We took into account this comment by adding a compilation of SMG and type-2 
-> QSOs properties to Table 4. Please see the table notes and comments for
-  details. We have therefore included a comparison to these sample-averaged
-  values in our conclusion. 
-  We initially picked out two well-studied and apparently similarly bright (submillimeter fluxes >400 mJy)gravitationally lensed
-  SMGs, to be able to investigate a broader range of physical properties - some of which are not well-constrained for the broader population. Thus, we decided to also keep this comparison in the paper.
+> We took into account this comment by adding a compilation of SMG and
+  type-2 QSOs properties to Table 4. Please see the table notes and
+  comments for details. We have therefore included a comparison to
+  these sample-averaged values in our conclusion.  We initially picked
+  out two well-studied and apparently similarly bright (submillimeter
+  fluxes >400 mJy) gravitationally lensed SMGs, to be able to
+  investigate a broader range of physical properties - some of which
+  are not as well-constrained for the broader population. Thus, we
+  decided to also keep this comparison in the paper.
 
 ## 7
 - the discussion/conclusions should focus on what is new from this
@@ -100,7 +104,7 @@ changes can be found below.
   phase. How is that conclusion made or strengthened with this new
   data?
 
-> We updated the conclusions.
+> We updated the conclusions accordingly.
 
 
 
@@ -119,7 +123,7 @@ changes can be found below.
   since this is obvious and a requirement for publication. Also remove
   subheading or second line in heading 3.2.
 
-> We removed "New results" in the subject headings.
+> We removed "New results" in the subject headings, as suggested.
 
 3:
 - the left panels on Fig 1 and 2 should show the same region (have the
@@ -137,7 +141,7 @@ changes can be found below.
 
 > We modified our caption to state that the quoted contour levels are
   the same for both panels in the figure. We changed the critical line
-  color to green for better readability.
+  color to green for better readability, as suggested.
 
 5:
 - figure 4: again colors (red, orange) are hard to distinguish on a
@@ -178,7 +182,8 @@ changes can be found below.
   distribution, luminosities, SFRs, Mgas, etc) prior to Herschel even
   launching.
 
-> We restructured the paragraph and added earlier discoveries.
+> We restructured the paragraph and added earlier discoveries, as
+  suggested.
 
 
 10:
@@ -187,7 +192,8 @@ changes can be found below.
   authors meant when they mentioned companion B. Please make this
   clearer so the reader does not have to read H14
 
-> We added a sentence to the introduction section to elaborate on this, please see the revised manuscript.
+> We added a sentence to the introduction section to elaborate on
+  this, as suggested; please see the revised manuscript.
 
 11:
 - last few paras of paper: what does "breaking up its dust cocoon"
